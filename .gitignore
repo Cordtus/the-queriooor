@@ -1,0 +1,14 @@
+node_modules/
+
+# Claude Code / Serena internals
+.claude/
+.serena/
+CLAUDE.md
+PROJECT_BLUEPRINT.md
+
+# Output files from find-address-txs.js
+*-txs-*.json
+
+# OS
+.DS_Store
+Thumbs.db

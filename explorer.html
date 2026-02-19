@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmos Event Explorer</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+	--bg: #0e1117;
+	--surface: #161b22;
+	--surface2: #1c2333;
+	--border: #30363d;
+	--border-focus: #58a6ff;
+	--text: #e6edf3;
+	--text-muted: #8b949e;
+	--accent: #58a6ff;
+	--accent-dim: #1f6feb;
+	--success: #3fb950;
+	--error: #f85149;
+	--warn: #d29922;
+	--radius: 6px;
+	--mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+	background: var(--bg);
+	color: var(--text);
+	line-height: 1.5;
+	min-height: 100vh;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 24px 20px;
+}
+
+header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 24px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid var(--border);
+}
+
+header h1 {
+	font-size: 20px;
+	font-weight: 600;
+}
+
+header .tag {
+	font-size: 11px;
+	padding: 2px 8px;
+	border-radius: 12px;
+	background: var(--accent-dim);
+	color: var(--text);
+	font-weight: 500;
+}
+
+/* -- Panels -- */
+.panel {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 16px;
+	margin-bottom: 16px;
+}
+
+.panel-title {
+	font-size: 13px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	color: var(--text-muted);
+	margin-bottom: 12px;
+}
+
+/* -- Form elements -- */
+label {
+	display: block;
+	font-size: 12px;
+	font-weight: 500;
+	color: var(--text-muted);
+	margin-bottom: 4px;
+}
+
+select, input[type="text"], input[type="number"] {
+	width: 100%;
+	padding: 6px 10px;
+	font-size: 13px;
+	font-family: var(--mono);
+	background: var(--surface2);
+	color: var(--text);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	outline: none;
+	transition: border-color 0.15s;
+}
+
+select:focus, input:focus {
+	border-color: var(--border-focus);
+}
+
+select { cursor: pointer; }
+
+.row {
+	display: flex;
+	gap: 10px;
+	align-items: flex-end;
+}
+
+.row > * { flex: 1; min-width: 0; }
+
+/* -- Endpoint bar -- */
+.endpoint-bar {
+	display: flex;
+	gap: 10px;
+	align-items: flex-end;
+}
+
+.endpoint-bar .preset { flex: 0 0 220px; }
+.endpoint-bar .url { flex: 1; }
+.endpoint-bar .status-dot {
+	flex: 0 0 auto;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--border);
+	margin-bottom: 10px;
+	transition: background 0.3s;
+}
+.endpoint-bar .status-dot.ok { background: var(--success); }
+.endpoint-bar .status-dot.err { background: var(--error); }
+
+/* -- Conditions -- */
+.condition-row {
+	display: flex;
+	gap: 8px;
+	align-items: flex-end;
+	margin-bottom: 8px;
+	animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; transform: translateY(-4px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+.condition-row .event-type { flex: 0 0 200px; }
+.condition-row .attribute { flex: 0 0 190px; }
+.condition-row .value { flex: 1; }
+.condition-row .remove-btn {
+	flex: 0 0 32px;
+	height: 32px;
+	background: transparent;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	color: var(--text-muted);
+	font-size: 16px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.15s;
+}
+
+.condition-row .remove-btn:hover {
+	border-color: var(--error);
+	color: var(--error);
+}
+
+.and-label {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 600;
+	color: var(--warn);
+	background: rgba(210, 153, 34, 0.15);
+	padding: 1px 6px;
+	border-radius: 3px;
+	margin-bottom: 8px;
+}
+
+/* -- Buttons -- */
+.btn-row {
+	display: flex;
+	gap: 8px;
+	margin-top: 12px;
+	flex-wrap: wrap;
+}
+
+button {
+	padding: 7px 14px;
+	font-size: 13px;
+	font-weight: 500;
+	border-radius: var(--radius);
+	cursor: pointer;
+	border: 1px solid var(--border);
+	background: var(--surface2);
+	color: var(--text);
+	transition: all 0.15s;
+}
+
+button:hover { border-color: var(--text-muted); }
+button:active { transform: scale(0.98); }
+
+.btn-primary {
+	background: var(--accent-dim);
+	border-color: var(--accent-dim);
+	color: #fff;
+	font-weight: 600;
+}
+
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+.btn-primary:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.btn-sm {
+	padding: 4px 10px;
+	font-size: 12px;
+}
+
+/* -- Query preview -- */
+.query-preview {
+	font-family: var(--mono);
+	font-size: 12px;
+	padding: 8px 12px;
+	background: var(--bg);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	color: var(--text-muted);
+	word-break: break-all;
+	margin-top: 12px;
+	display: none;
+}
+
+.query-preview.visible { display: block; }
+
+.query-preview .qkey { color: var(--accent); }
+.query-preview .qval { color: var(--success); }
+.query-preview .qop { color: var(--warn); font-weight: 600; }
+
+/* -- Search options row -- */
+.search-options {
+	display: flex;
+	gap: 12px;
+	align-items: flex-end;
+	flex-wrap: wrap;
+}
+
+.search-options > div { flex: 0 0 auto; }
+.search-options select, .search-options input { width: auto; min-width: 80px; }
+
+/* -- Status bar -- */
+.status-bar {
+	font-size: 13px;
+	color: var(--text-muted);
+	padding: 10px 0;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.spinner {
+	width: 16px;
+	height: 16px;
+	border: 2px solid var(--border);
+	border-top-color: var(--accent);
+	border-radius: 50%;
+	animation: spin 0.6s linear infinite;
+	display: none;
+}
+
+.spinner.active { display: block; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* -- Results table -- */
+.results-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.results-count {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.results-count span { color: var(--accent); }
+
+.pagination {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13px;
+}
+
+.pagination button { padding: 4px 10px; }
+
+.tx-card {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	margin-bottom: 6px;
+	overflow: hidden;
+	transition: border-color 0.15s;
+}
+
+.tx-card:hover { border-color: var(--text-muted); }
+
+.tx-summary {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 14px;
+	cursor: pointer;
+	font-size: 13px;
+	user-select: none;
+}
+
+.tx-summary:hover { background: var(--surface2); }
+
+.tx-summary .idx {
+	flex: 0 0 36px;
+	color: var(--text-muted);
+	font-family: var(--mono);
+	font-size: 12px;
+	text-align: right;
+}
+
+.tx-summary .height {
+	flex: 0 0 100px;
+	font-family: var(--mono);
+	font-size: 12px;
+}
+
+.tx-summary .hash {
+	flex: 1;
+	font-family: var(--mono);
+	font-size: 12px;
+	color: var(--accent);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tx-summary .status-badge {
+	flex: 0 0 auto;
+	font-size: 11px;
+	padding: 1px 6px;
+	border-radius: 3px;
+	font-weight: 600;
+}
+
+.tx-summary .status-badge.ok {
+	background: rgba(63, 185, 80, 0.15);
+	color: var(--success);
+}
+
+.tx-summary .status-badge.fail {
+	background: rgba(248, 81, 73, 0.15);
+	color: var(--error);
+}
+
+.tx-summary .expand-icon {
+	flex: 0 0 20px;
+	color: var(--text-muted);
+	text-align: center;
+	transition: transform 0.15s;
+	font-size: 12px;
+}
+
+.tx-card.expanded .expand-icon { transform: rotate(90deg); }
+
+.tx-detail {
+	display: none;
+	padding: 0 14px 14px;
+	border-top: 1px solid var(--border);
+}
+
+.tx-card.expanded .tx-detail { display: block; }
+
+.event-block {
+	margin-top: 10px;
+}
+
+.event-type-label {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--warn);
+	margin-bottom: 4px;
+	font-family: var(--mono);
+}
+
+.attr-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 12px;
+	font-family: var(--mono);
+}
+
+.attr-table td {
+	padding: 2px 8px;
+	border-bottom: 1px solid var(--bg);
+	vertical-align: top;
+}
+
+.attr-table td:first-child {
+	color: var(--text-muted);
+	white-space: nowrap;
+	width: 200px;
+}
+
+.attr-table td:last-child {
+	word-break: break-all;
+}
+
+.gas-info {
+	font-size: 12px;
+	color: var(--text-muted);
+	font-family: var(--mono);
+	margin-top: 8px;
+}
+
+/* -- Presets -- */
+.presets {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+	margin-bottom: 12px;
+}
+
+.presets button {
+	font-size: 11px;
+	padding: 3px 8px;
+	border-radius: 3px;
+}
+
+/* -- Responsive -- */
+@media (max-width: 768px) {
+	.condition-row { flex-wrap: wrap; }
+	.condition-row .event-type,
+	.condition-row .attribute { flex: 1 1 45%; }
+	.condition-row .value { flex: 1 1 100%; }
+	.endpoint-bar { flex-wrap: wrap; }
+	.endpoint-bar .preset { flex: 1 1 100%; }
+	.tx-summary { flex-wrap: wrap; }
+	.tx-summary .hash { flex: 1 1 100%; order: 10; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+	<header>
+		<h1>Cosmos Event Explorer</h1>
+		<span class="tag">RPC tx_search</span>
+	</header>
+
+	<!-- Endpoint -->
+	<div class="panel">
+		<div class="panel-title">RPC Endpoint</div>
+		<div class="endpoint-bar">
+			<div class="preset">
+				<label for="endpointPreset">Preset</label>
+				<select id="endpointPreset"></select>
+			</div>
+			<div class="url">
+				<label for="rpcUrl">URL</label>
+				<input type="text" id="rpcUrl" placeholder="https://rpc.archive.osmosis.zone">
+			</div>
+			<div class="status-dot" id="endpointStatus" title="Endpoint status"></div>
+		</div>
+	</div>
+
+	<!-- Query Builder -->
+	<div class="panel">
+		<div class="panel-title">Query Builder</div>
+
+		<div class="presets">
+			<button onclick="applyPreset('ibcReceive')">IBC Receives by Address</button>
+			<button onclick="applyPreset('transfersTo')">Transfers to Address</button>
+			<button onclick="applyPreset('transfersFrom')">Transfers from Address</button>
+			<button onclick="applyPreset('ibcChannel')">IBC Channel Activity</button>
+			<button onclick="applyPreset('swaps')">Token Swaps</button>
+			<button onclick="applyPreset('delegation')">Delegations</button>
+		</div>
+
+		<div id="conditions"></div>
+
+		<div class="btn-row">
+			<button onclick="addCondition()" class="btn-sm">+ Add Condition</button>
+		</div>
+
+		<div class="query-preview" id="queryPreview"></div>
+
+		<div style="margin-top: 14px;">
+			<div class="search-options">
+				<div>
+					<label for="perPage">Per Page</label>
+					<select id="perPage">
+						<option value="10">10</option>
+						<option value="25">25</option>
+						<option value="50">50</option>
+						<option value="100" selected>100</option>
+					</select>
+				</div>
+				<div>
+					<label for="orderBy">Order</label>
+					<select id="orderBy">
+						<option value="desc">Newest first</option>
+						<option value="asc">Oldest first</option>
+					</select>
+				</div>
+				<div>
+					<label>&nbsp;</label>
+					<button class="btn-primary" id="searchBtn" onclick="doSearch(1)">Search</button>
+				</div>
+				<div>
+					<label>&nbsp;</label>
+					<button onclick="clearAll()">Clear</button>
+				</div>
+				<div>
+					<label>&nbsp;</label>
+					<button onclick="exportResults()">Export JSON</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Status -->
+	<div class="status-bar" id="statusBar">
+		<div class="spinner" id="spinner"></div>
+		<span id="statusText">Ready</span>
+	</div>
+
+	<!-- Results -->
+	<div id="resultsArea" style="display:none;">
+		<div class="results-header">
+			<div class="results-count">
+				<span id="totalCount">0</span> transactions found
+			</div>
+			<div class="pagination" id="pagination"></div>
+		</div>
+		<div id="txList"></div>
+	</div>
+</div>
+
+<script>
+// -- Event catalog (mirrors rpc-event-query.js) --
+const EVENT_CATALOG = {
+	message: {
+		label: 'Message',
+		attributes: {
+			action: 'Message type (e.g. /cosmos.bank.v1beta1.MsgSend)',
+			module: 'Module name (bank, staking, ibc_client, etc.)',
+			sender: 'Transaction signer address',
+		},
+	},
+	transfer: {
+		label: 'Transfer',
+		attributes: {
+			recipient: 'Receiving address',
+			sender: 'Sending address',
+			amount: 'Amount with denom (e.g. 1000uosmo)',
+		},
+	},
+	coin_spent: {
+		label: 'Coin Spent',
+		attributes: {
+			spender: 'Address that spent coins',
+			amount: 'Amount spent',
+		},
+	},
+	coin_received: {
+		label: 'Coin Received',
+		attributes: {
+			receiver: 'Address that received coins',
+			amount: 'Amount received',
+		},
+	},
+	tx: {
+		label: 'Transaction',
+		attributes: {
+			acc_seq: 'Account/sequence (addr/seq)',
+			fee: 'Fee amount',
+		},
+	},
+	recv_packet: {
+		label: 'IBC Recv Packet',
+		attributes: {
+			packet_src_channel: 'Source channel (e.g. channel-2)',
+			packet_dst_channel: 'Destination channel (e.g. channel-129)',
+			packet_src_port: 'Source port (usually transfer)',
+			packet_dst_port: 'Destination port (usually transfer)',
+			packet_sequence: 'Packet sequence number',
+			packet_connection: 'Connection ID',
+			connection_id: 'Connection ID (alias)',
+		},
+	},
+	send_packet: {
+		label: 'IBC Send Packet',
+		attributes: {
+			packet_src_channel: 'Source channel',
+			packet_dst_channel: 'Destination channel',
+			packet_src_port: 'Source port',
+			packet_dst_port: 'Destination port',
+			packet_sequence: 'Packet sequence number',
+			packet_connection: 'Connection ID',
+		},
+	},
+	acknowledge_packet: {
+		label: 'IBC Ack Packet',
+		attributes: {
+			packet_src_channel: 'Source channel',
+			packet_dst_channel: 'Destination channel',
+			packet_connection: 'Connection ID',
+			packet_sequence: 'Packet sequence number',
+		},
+	},
+	write_acknowledgement: {
+		label: 'IBC Write Ack',
+		attributes: {
+			packet_src_channel: 'Source channel',
+			packet_dst_channel: 'Destination channel',
+			packet_dst_port: 'Destination port',
+			packet_src_port: 'Source port',
+			packet_sequence: 'Packet sequence number',
+			packet_connection: 'Connection ID',
+			connection_id: 'Connection ID (alias)',
+		},
+	},
+	fungible_token_packet: {
+		label: 'IBC Fungible Token',
+		attributes: {
+			receiver: 'Receiver address',
+			sender: 'Sender address',
+			denom: 'Token denom (source chain, e.g. ugraviton)',
+			amount: 'Token amount (micro units)',
+			module: 'Module (transfer)',
+			success: 'Whether transfer succeeded (true/false)',
+		},
+	},
+	denomination_trace: {
+		label: 'IBC Denom Trace',
+		attributes: {
+			denom: 'IBC denom on destination chain',
+			trace_hash: 'Denomination trace hash',
+		},
+	},
+	update_client: {
+		label: 'IBC Update Client',
+		attributes: {
+			client_id: 'Client ID (e.g. 07-tendermint-1718)',
+			client_type: 'Client type',
+			consensus_height: 'Consensus height',
+		},
+	},
+	delegate: {
+		label: 'Delegate',
+		attributes: {
+			validator: 'Validator operator address',
+			amount: 'Delegation amount',
+		},
+	},
+	unbond: {
+		label: 'Unbond',
+		attributes: {
+			validator: 'Validator operator address',
+			amount: 'Unbonding amount',
+			completion_time: 'Unbonding completion time',
+		},
+	},
+	redelegate: {
+		label: 'Redelegate',
+		attributes: {
+			source_validator: 'Source validator',
+			destination_validator: 'Destination validator',
+			amount: 'Redelegation amount',
+		},
+	},
+	withdraw_rewards: {
+		label: 'Withdraw Rewards',
+		attributes: {
+			validator: 'Validator operator address',
+			amount: 'Reward amount',
+		},
+	},
+	proposal_vote: {
+		label: 'Governance Vote',
+		attributes: {
+			proposal_id: 'Proposal ID',
+			option: 'Vote option',
+			voter: 'Voter address',
+		},
+	},
+	token_swapped: {
+		label: 'Token Swap',
+		attributes: {
+			pool_id: 'Pool ID',
+			sender: 'Swapper address',
+			tokens_in: 'Input tokens',
+			tokens_out: 'Output tokens',
+		},
+	},
+	wasm: {
+		label: 'WASM Contract',
+		attributes: {
+			_contract_address: 'Contract address',
+			action: 'Contract action',
+			sender: 'Sender address',
+			recipient: 'Recipient address',
+			amount: 'Amount',
+			denom: 'Denom',
+		},
+	},
+};
+
+const KNOWN_ENDPOINTS = [
+	{ label: 'Osmosis Archive', url: 'https://rpc.archive.osmosis.zone' },
+	{ label: 'Osmosis (Polkachu)', url: 'https://osmosis-rpc.polkachu.com' },
+	{ label: 'Osmosis (Lavender.Five)', url: 'https://rpc.lavenderfive.com:443/osmosis' },
+	{ label: 'Cosmos Hub (Polkachu)', url: 'https://cosmos-rpc.polkachu.com' },
+	{ label: 'Cosmos Hub Archive', url: 'https://rpc-cosmoshub.ecostake.com' },
+];
+
+// -- State --
+let conditionId = 0;
+let currentPage = 1;
+let lastTotalCount = 0;
+let lastQuery = '';
+let allFetchedTxs = [];
+
+// -- Init --
+function init() {
+	const presetSel = document.getElementById('endpointPreset');
+	const opt0 = document.createElement('option');
+	opt0.value = '';
+	opt0.textContent = 'Custom';
+	presetSel.appendChild(opt0);
+
+	for (const ep of KNOWN_ENDPOINTS) {
+		const opt = document.createElement('option');
+		opt.value = ep.url;
+		opt.textContent = ep.label;
+		presetSel.appendChild(opt);
+	}
+
+	presetSel.value = KNOWN_ENDPOINTS[0].url;
+	document.getElementById('rpcUrl').value = KNOWN_ENDPOINTS[0].url;
+
+	presetSel.addEventListener('change', () => {
+		if (presetSel.value) {
+			document.getElementById('rpcUrl').value = presetSel.value;
+		}
+		checkEndpoint();
+	});
+
+	document.getElementById('rpcUrl').addEventListener('change', () => {
+		presetSel.value = '';
+		for (const ep of KNOWN_ENDPOINTS) {
+			if (ep.url === document.getElementById('rpcUrl').value.replace(/\/+$/, '')) {
+				presetSel.value = ep.url;
+			}
+		}
+		checkEndpoint();
+	});
+
+	addCondition();
+	checkEndpoint();
+
+	// Keyboard shortcut
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+			doSearch(1);
+		}
+	});
+}
+
+// -- Endpoint check --
+async function checkEndpoint() {
+	const dot = document.getElementById('endpointStatus');
+	const url = document.getElementById('rpcUrl').value.replace(/\/+$/, '');
+	dot.className = 'status-dot';
+
+	try {
+		const resp = await fetch(`${url}/status`, { signal: AbortSignal.timeout(5000) });
+		if (resp.ok) {
+			dot.classList.add('ok');
+		} else {
+			dot.classList.add('err');
+		}
+	} catch {
+		dot.classList.add('err');
+	}
+}
+
+// -- Condition management --
+function addCondition(eventType, attribute, value) {
+	const id = conditionId++;
+	const container = document.getElementById('conditions');
+
+	if (container.children.length > 0) {
+		const andDiv = document.createElement('div');
+		andDiv.className = 'and-label';
+		andDiv.id = `and-${id}`;
+		andDiv.textContent = 'AND';
+		container.appendChild(andDiv);
+	}
+
+	const row = document.createElement('div');
+	row.className = 'condition-row';
+	row.id = `cond-${id}`;
+
+	// Event type dropdown
+	const etDiv = document.createElement('div');
+	etDiv.className = 'event-type';
+	const etLabel = document.createElement('label');
+	etLabel.textContent = 'Event Type';
+	const etSelect = document.createElement('select');
+	etSelect.id = `et-${id}`;
+	etSelect.innerHTML = '<option value="">-- select --</option>';
+	for (const [key, val] of Object.entries(EVENT_CATALOG)) {
+		const opt = document.createElement('option');
+		opt.value = key;
+		opt.textContent = `${val.label} (${key})`;
+		etSelect.appendChild(opt);
+	}
+	// Also allow custom input
+	const optCustom = document.createElement('option');
+	optCustom.value = '__custom__';
+	optCustom.textContent = 'Custom...';
+	etSelect.appendChild(optCustom);
+
+	etSelect.addEventListener('change', () => {
+		updateAttributeDropdown(id);
+		updateQueryPreview();
+	});
+	etDiv.appendChild(etLabel);
+	etDiv.appendChild(etSelect);
+
+	// Custom event type input (hidden by default)
+	const etCustom = document.createElement('input');
+	etCustom.type = 'text';
+	etCustom.id = `et-custom-${id}`;
+	etCustom.placeholder = 'custom_event_type';
+	etCustom.style.display = 'none';
+	etCustom.style.marginTop = '4px';
+	etCustom.addEventListener('input', updateQueryPreview);
+	etDiv.appendChild(etCustom);
+
+	// Attribute dropdown
+	const attrDiv = document.createElement('div');
+	attrDiv.className = 'attribute';
+	const attrLabel = document.createElement('label');
+	attrLabel.textContent = 'Attribute';
+	const attrSelect = document.createElement('select');
+	attrSelect.id = `attr-${id}`;
+	attrSelect.innerHTML = '<option value="">-- select event type first --</option>';
+	attrSelect.addEventListener('change', () => {
+		updateValuePlaceholder(id);
+		updateQueryPreview();
+	});
+	attrDiv.appendChild(attrLabel);
+	attrDiv.appendChild(attrSelect);
+
+	// Custom attr input
+	const attrCustom = document.createElement('input');
+	attrCustom.type = 'text';
+	attrCustom.id = `attr-custom-${id}`;
+	attrCustom.placeholder = 'custom_attribute';
+	attrCustom.style.display = 'none';
+	attrCustom.style.marginTop = '4px';
+	attrCustom.addEventListener('input', updateQueryPreview);
+	attrDiv.appendChild(attrCustom);
+
+	// Value input
+	const valDiv = document.createElement('div');
+	valDiv.className = 'value';
+	const valLabel = document.createElement('label');
+	valLabel.textContent = 'Value';
+	const valInput = document.createElement('input');
+	valInput.type = 'text';
+	valInput.id = `val-${id}`;
+	valInput.placeholder = 'Enter value...';
+	valInput.addEventListener('input', updateQueryPreview);
+	valInput.addEventListener('keydown', (e) => {
+		if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+			doSearch(1);
+		}
+	});
+	valDiv.appendChild(valLabel);
+	valDiv.appendChild(valInput);
+
+	// Remove button
+	const removeBtn = document.createElement('button');
+	removeBtn.className = 'remove-btn';
+	removeBtn.innerHTML = '&times;';
+	removeBtn.title = 'Remove condition';
+	removeBtn.onclick = () => removeCondition(id);
+
+	row.appendChild(etDiv);
+	row.appendChild(attrDiv);
+	row.appendChild(valDiv);
+	row.appendChild(removeBtn);
+	container.appendChild(row);
+
+	// Pre-fill if arguments given
+	if (eventType) {
+		etSelect.value = eventType;
+		updateAttributeDropdown(id);
+		if (attribute) {
+			attrSelect.value = attribute;
+			updateValuePlaceholder(id);
+		}
+		if (value) valInput.value = value;
+	}
+
+	updateQueryPreview();
+}
+
+function removeCondition(id) {
+	const row = document.getElementById(`cond-${id}`);
+	const andLabel = document.getElementById(`and-${id}`);
+	if (row) row.remove();
+	if (andLabel) andLabel.remove();
+
+	// Clean up orphan AND labels
+	const container = document.getElementById('conditions');
+	if (container.firstElementChild?.classList.contains('and-label')) {
+		container.firstElementChild.remove();
+	}
+
+	updateQueryPreview();
+}
+
+function updateAttributeDropdown(id) {
+	const etSelect = document.getElementById(`et-${id}`);
+	const etCustom = document.getElementById(`et-custom-${id}`);
+	const attrSelect = document.getElementById(`attr-${id}`);
+	const attrCustom = document.getElementById(`attr-custom-${id}`);
+	const eventType = etSelect.value;
+
+	if (eventType === '__custom__') {
+		etCustom.style.display = 'block';
+		attrSelect.innerHTML = '<option value="__custom__">Custom...</option>';
+		attrSelect.value = '__custom__';
+		attrCustom.style.display = 'block';
+		return;
+	}
+
+	etCustom.style.display = 'none';
+
+	if (!eventType || !EVENT_CATALOG[eventType]) {
+		attrSelect.innerHTML = '<option value="">-- select event type first --</option>';
+		attrCustom.style.display = 'none';
+		return;
+	}
+
+	const attrs = EVENT_CATALOG[eventType].attributes;
+	attrSelect.innerHTML = '<option value="">-- select --</option>';
+	for (const [key, desc] of Object.entries(attrs)) {
+		const opt = document.createElement('option');
+		opt.value = key;
+		opt.textContent = key;
+		opt.title = desc;
+		attrSelect.appendChild(opt);
+	}
+
+	const customOpt = document.createElement('option');
+	customOpt.value = '__custom__';
+	customOpt.textContent = 'Custom...';
+	attrSelect.appendChild(customOpt);
+
+	attrCustom.style.display = 'none';
+	attrSelect.addEventListener('change', () => {
+		if (attrSelect.value === '__custom__') {
+			attrCustom.style.display = 'block';
+		} else {
+			attrCustom.style.display = 'none';
+		}
+	});
+}
+
+function updateValuePlaceholder(id) {
+	const etSelect = document.getElementById(`et-${id}`);
+	const attrSelect = document.getElementById(`attr-${id}`);
+	const valInput = document.getElementById(`val-${id}`);
+	const eventType = etSelect.value;
+	const attr = attrSelect.value;
+
+	if (eventType && eventType !== '__custom__' && EVENT_CATALOG[eventType]?.attributes[attr]) {
+		valInput.placeholder = EVENT_CATALOG[eventType].attributes[attr];
+	} else {
+		valInput.placeholder = 'Enter value...';
+	}
+}
+
+// -- Presets --
+function applyPreset(name) {
+	clearConditions();
+	switch (name) {
+		case 'ibcReceive':
+			addCondition('fungible_token_packet', 'receiver', '');
+			break;
+		case 'transfersTo':
+			addCondition('transfer', 'recipient', '');
+			break;
+		case 'transfersFrom':
+			addCondition('transfer', 'sender', '');
+			break;
+		case 'ibcChannel':
+			addCondition('recv_packet', 'packet_dst_channel', '');
+			break;
+		case 'swaps':
+			addCondition('token_swapped', 'sender', '');
+			break;
+		case 'delegation':
+			addCondition('delegate', 'validator', '');
+			break;
+	}
+}
+
+function clearConditions() {
+	document.getElementById('conditions').innerHTML = '';
+	conditionId = 0;
+	updateQueryPreview();
+}
+
+function clearAll() {
+	clearConditions();
+	addCondition();
+	document.getElementById('resultsArea').style.display = 'none';
+	document.getElementById('statusText').textContent = 'Ready';
+	allFetchedTxs = [];
+}
+
+// -- Query preview --
+function updateQueryPreview() {
+	const conditions = getConditions();
+	const preview = document.getElementById('queryPreview');
+
+	if (conditions.length === 0 || !conditions.some(c => c.eventType && c.attribute)) {
+		preview.classList.remove('visible');
+		return;
+	}
+
+	const parts = conditions
+		.filter(c => c.eventType && c.attribute)
+		.map(c => {
+			const val = c.value || '...';
+			return `<span class="qkey">${c.eventType}.${c.attribute}</span>=<span class="qval">'${val}'</span>`;
+		});
+
+	preview.innerHTML = parts.join(` <span class="qop">AND</span> `);
+	preview.classList.add('visible');
+}
+
+function getConditions() {
+	const container = document.getElementById('conditions');
+	const rows = container.querySelectorAll('.condition-row');
+	const conditions = [];
+
+	for (const row of rows) {
+		const id = row.id.replace('cond-', '');
+		const etSelect = document.getElementById(`et-${id}`);
+		const etCustom = document.getElementById(`et-custom-${id}`);
+		const attrSelect = document.getElementById(`attr-${id}`);
+		const attrCustom = document.getElementById(`attr-custom-${id}`);
+		const valInput = document.getElementById(`val-${id}`);
+
+		if (!etSelect) continue;
+
+		const eventType = etSelect.value === '__custom__' ? etCustom.value.trim() : etSelect.value;
+		const attribute = attrSelect.value === '__custom__' ? attrCustom.value.trim() : attrSelect.value;
+		const value = valInput.value.trim();
+
+		if (eventType && attribute && value) {
+			conditions.push({ eventType, attribute, value });
+		}
+	}
+
+	return conditions;
+}
+
+// -- Search --
+async function doSearch(page) {
+	const conditions = getConditions();
+	if (conditions.length === 0) {
+		setStatus('Add at least one complete condition (event type + attribute + value)', true);
+		return;
+	}
+
+	const query = conditions
+		.map(c => `${c.eventType}.${c.attribute}='${c.value}'`)
+		.join(' AND ');
+
+	const rpcUrl = document.getElementById('rpcUrl').value.replace(/\/+$/, '');
+	const perPage = parseInt(document.getElementById('perPage').value);
+	const orderBy = document.getElementById('orderBy').value;
+
+	currentPage = page;
+	lastQuery = query;
+
+	setStatus(`Searching page ${page}...`);
+	setLoading(true);
+
+	try {
+		const params = new URLSearchParams({
+			query: `"${query}"`,
+			per_page: String(perPage),
+			page: String(page),
+			order_by: `"${orderBy}"`,
+		});
+
+		const resp = await fetch(`${rpcUrl}/tx_search?${params}`);
+		if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
+
+		const data = await resp.json();
+		if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+
+		const result = data.result || {};
+		const totalCount = parseInt(result.total_count || '0', 10);
+		const txs = (result.txs || []).map(parseTxBrowser);
+
+		lastTotalCount = totalCount;
+		allFetchedTxs = txs;
+
+		renderResults(txs, totalCount, page, perPage);
+		setStatus(`Page ${page} loaded -- ${totalCount} total transactions`);
+	} catch (err) {
+		setStatus(`Error: ${err.message}`, true);
+		console.error(err);
+	} finally {
+		setLoading(false);
+	}
+}
+
+// -- Parsing --
+function decodeAttr(raw) {
+	if (!raw) return '';
+	// If it contains characters outside base64 alphabet, it's already plaintext
+	if (/[^A-Za-z0-9+/=]/.test(raw)) return raw;
+	try {
+		const decoded = atob(raw);
+		// Round-trip check: if re-encoding doesn't match, it wasn't real base64
+		if (btoa(decoded) !== raw) return raw;
+		// Strict UTF-8 validation: rejects plaintext words like "transfer" that
+		// happen to be valid base64 but decode to invalid UTF-8 byte sequences
+		const bytes = Uint8Array.from(decoded, c => c.charCodeAt(0));
+		new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+		return new TextDecoder('utf-8').decode(bytes);
+	} catch {
+		return raw;
+	}
+}
+
+function parseTxBrowser(tx) {
+	const txResult = tx.tx_result || {};
+	const events = (txResult.events || []).map(ev => {
+		const attrs = {};
+		for (const a of (ev.attributes || [])) {
+			const key = decodeAttr(a.key || '');
+			const value = a.value ? decodeAttr(a.value) : '';
+			attrs[key] = value;
+		}
+		return { type: ev.type, attributes: attrs };
+	});
+
+	return {
+		hash: tx.hash,
+		height: parseInt(tx.height, 10),
+		code: txResult.code || 0,
+		success: !txResult.code || txResult.code === 0,
+		gasWanted: txResult.gas_wanted,
+		gasUsed: txResult.gas_used,
+		events,
+		log: txResult.log || '',
+	};
+}
+
+// -- Rendering --
+function renderResults(txs, totalCount, page, perPage) {
+	const area = document.getElementById('resultsArea');
+	area.style.display = 'block';
+
+	document.getElementById('totalCount').textContent = totalCount.toLocaleString();
+
+	// Pagination
+	const totalPages = Math.ceil(totalCount / perPage);
+	const pagDiv = document.getElementById('pagination');
+	pagDiv.innerHTML = '';
+
+	if (totalPages > 1) {
+		const prevBtn = document.createElement('button');
+		prevBtn.textContent = 'Prev';
+		prevBtn.className = 'btn-sm';
+		prevBtn.disabled = page <= 1;
+		prevBtn.onclick = () => doSearch(page - 1);
+
+		const info = document.createElement('span');
+		info.textContent = `Page ${page} of ${totalPages}`;
+
+		const nextBtn = document.createElement('button');
+		nextBtn.textContent = 'Next';
+		nextBtn.className = 'btn-sm';
+		nextBtn.disabled = page >= totalPages;
+		nextBtn.onclick = () => doSearch(page + 1);
+
+		pagDiv.appendChild(prevBtn);
+		pagDiv.appendChild(info);
+		pagDiv.appendChild(nextBtn);
+	}
+
+	// Tx list
+	const list = document.getElementById('txList');
+	list.innerHTML = '';
+
+	const startIdx = (page - 1) * perPage;
+
+	txs.forEach((tx, i) => {
+		const card = document.createElement('div');
+		card.className = 'tx-card';
+
+		// Summary row
+		const summary = document.createElement('div');
+		summary.className = 'tx-summary';
+		summary.onclick = () => card.classList.toggle('expanded');
+
+		summary.innerHTML = `
+			<span class="idx">${startIdx + i + 1}</span>
+			<span class="height">${tx.height.toLocaleString()}</span>
+			<span class="hash" title="${tx.hash}">${tx.hash}</span>
+			<span class="status-badge ${tx.success ? 'ok' : 'fail'}">${tx.success ? 'OK' : 'ERR ' + tx.code}</span>
+			<span class="expand-icon">&#9654;</span>
+		`;
+
+		// Detail panel
+		const detail = document.createElement('div');
+		detail.className = 'tx-detail';
+
+		const gasInfo = document.createElement('div');
+		gasInfo.className = 'gas-info';
+		gasInfo.textContent = `Gas: ${parseInt(tx.gasUsed).toLocaleString()} used / ${parseInt(tx.gasWanted).toLocaleString()} wanted`;
+		detail.appendChild(gasInfo);
+
+		// Skip noisy internal event types for cleaner display
+		const skipTypes = new Set(['tx', 'coin_spent', 'coin_received', 'coinbase']);
+
+		for (const ev of tx.events) {
+			if (skipTypes.has(ev.type)) continue;
+
+			const block = document.createElement('div');
+			block.className = 'event-block';
+
+			const typeLabel = document.createElement('div');
+			typeLabel.className = 'event-type-label';
+			typeLabel.textContent = ev.type;
+			block.appendChild(typeLabel);
+
+			const table = document.createElement('table');
+			table.className = 'attr-table';
+
+			for (const [key, val] of Object.entries(ev.attributes)) {
+				if (key === 'msg_index') continue;
+				const tr = document.createElement('tr');
+
+				const tdKey = document.createElement('td');
+				tdKey.textContent = key;
+
+				const tdVal = document.createElement('td');
+				// Try to parse packet_data as JSON for readable display
+				if ((key === 'packet_data' || key === 'packet_ack') && val.startsWith('{')) {
+					try {
+						const parsed = JSON.parse(val);
+						tdVal.textContent = JSON.stringify(parsed, null, 2);
+						tdVal.style.whiteSpace = 'pre-wrap';
+					} catch {
+						tdVal.textContent = val;
+					}
+				} else if (key.endsWith('_hex')) {
+					// Collapse hex fields
+					tdVal.textContent = val.length > 40 ? val.slice(0, 37) + '...' : val;
+					tdVal.title = val;
+					tdVal.style.cursor = 'pointer';
+					tdVal.onclick = () => { tdVal.textContent = val; };
+				} else {
+					tdVal.textContent = val;
+				}
+
+				tr.appendChild(tdKey);
+				tr.appendChild(tdVal);
+				table.appendChild(tr);
+			}
+
+			block.appendChild(table);
+			detail.appendChild(block);
+		}
+
+		card.appendChild(summary);
+		card.appendChild(detail);
+		list.appendChild(card);
+	});
+}
+
+// -- Export --
+function exportResults() {
+	if (allFetchedTxs.length === 0) {
+		setStatus('No results to export', true);
+		return;
+	}
+
+	const blob = new Blob([JSON.stringify(allFetchedTxs, null, 2)], { type: 'application/json' });
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement('a');
+	a.href = url;
+	a.download = `cosmos-events-${Date.now()}.json`;
+	a.click();
+	URL.revokeObjectURL(url);
+}
+
+// -- UI helpers --
+function setStatus(msg, isError) {
+	const el = document.getElementById('statusText');
+	el.textContent = msg;
+	el.style.color = isError ? 'var(--error)' : 'var(--text-muted)';
+}
+
+function setLoading(on) {
+	document.getElementById('spinner').classList.toggle('active', on);
+	document.getElementById('searchBtn').disabled = on;
+}
+
+init();
+</script>
+</body>
+</html>

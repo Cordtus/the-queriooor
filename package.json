@@ -1,0 +1,20 @@
+{
+  "name": "cosmos-event-parser",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Comprehensive Cosmos blockchain event parser with receiver filtering",
+  "main": "cosmos-event-parser.js",
+  "scripts": {
+    "test": "node cosmos-event-parser.js",
+    "parse": "node parse-tx-json.js",
+    "send-test": "node send-cosmos-txs.js",
+    "explorer": "python3 -m http.server 8420 -b 127.0.0.1",
+    "rpc-query": "node rpc-event-query.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.0",
+    "@cosmjs/amino": "^0.32.2",
+    "@cosmjs/proto-signing": "^0.32.2",
+    "@cosmjs/stargate": "^0.32.2"
+  }
+}
