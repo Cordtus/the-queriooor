@@ -9,119 +9,119 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-	--bg: #0e1117;
-	--surface: #161b22;
-	--surface2: #1c2333;
-	--border: #30363d;
-	--border-focus: #58a6ff;
-	--text: #e6edf3;
-	--text-muted: #8b949e;
-	--accent: #58a6ff;
-	--accent-dim: #1f6feb;
-	--success: #3fb950;
-	--error: #f85149;
-	--warn: #d29922;
-	--radius: 6px;
-	--mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+  --bg: #0e1117;
+  --surface: #161b22;
+  --surface2: #1c2333;
+  --border: #30363d;
+  --border-focus: #58a6ff;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-dim: #1f6feb;
+  --success: #3fb950;
+  --error: #f85149;
+  --warn: #d29922;
+  --radius: 6px;
+  --mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
 }
 
 body {
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-	background: var(--bg);
-	color: var(--text);
-	line-height: 1.5;
-	min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
 }
 
 .container {
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 24px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px;
 }
 
 header {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	margin-bottom: 24px;
-	padding-bottom: 16px;
-	border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
 }
 
 header h1 {
-	font-size: 20px;
-	font-weight: 600;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 header .tag {
-	font-size: 11px;
-	padding: 2px 8px;
-	border-radius: 12px;
-	background: var(--accent-dim);
-	color: var(--text);
-	font-weight: 500;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: var(--accent-dim);
+  color: var(--text);
+  font-weight: 500;
 }
 
 /* -- Panels -- */
 .panel {
-	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	padding: 16px;
-	margin-bottom: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
 }
 
 .panel-title {
-	font-size: 13px;
-	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 0.5px;
-	color: var(--text-muted);
-	margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
 }
 
 /* -- Form elements -- */
 label {
-	display: block;
-	font-size: 12px;
-	font-weight: 500;
-	color: var(--text-muted);
-	margin-bottom: 4px;
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 4px;
 }
 
 select, input[type="text"], input[type="number"] {
-	width: 100%;
-	padding: 6px 10px;
-	font-size: 13px;
-	font-family: var(--mono);
-	background: var(--surface2);
-	color: var(--text);
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	outline: none;
-	transition: border-color 0.15s;
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-family: var(--mono);
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color 0.15s;
 }
 
 select:focus, input:focus {
-	border-color: var(--border-focus);
+  border-color: var(--border-focus);
 }
 
 select { cursor: pointer; }
 
 .row {
-	display: flex;
-	gap: 10px;
-	align-items: flex-end;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
 }
 
 .row > * { flex: 1; min-width: 0; }
 
 /* -- Endpoint bar -- */
 .endpoint-bar {
-	display: flex;
-	gap: 10px;
-	align-items: flex-end;
-	margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  margin-bottom: 10px;
 }
 
 .endpoint-bar:last-child { margin-bottom: 0; }
@@ -129,55 +129,55 @@ select { cursor: pointer; }
 .endpoint-bar .preset { flex: 0 0 220px; }
 .endpoint-bar .url { flex: 1; }
 .endpoint-bar .status-dot {
-	flex: 0 0 auto;
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-	background: var(--border);
-	margin-bottom: 10px;
-	transition: background 0.3s;
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+  margin-bottom: 10px;
+  transition: background 0.3s;
 }
 .endpoint-bar .status-dot.ok { background: var(--success); }
 .endpoint-bar .status-dot.err { background: var(--error); }
 
 .endpoint-label {
-	font-size: 11px;
-	font-weight: 600;
-	color: var(--text-muted);
-	margin-bottom: 6px;
-	text-transform: uppercase;
-	letter-spacing: 0.5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* -- Tabs -- */
 .tab-bar {
-	display: flex;
-	gap: 0;
-	border-bottom: 1px solid var(--border);
-	margin-bottom: 16px;
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
 }
 
 .tab-btn {
-	padding: 8px 16px;
-	font-size: 13px;
-	font-weight: 500;
-	background: transparent;
-	border: none;
-	border-bottom: 2px solid transparent;
-	color: var(--text-muted);
-	cursor: pointer;
-	transition: all 0.15s;
-	border-radius: 0;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  border-radius: 0;
 }
 
 .tab-btn:hover {
-	color: var(--text);
-	background: var(--surface2);
+  color: var(--text);
+  background: var(--surface2);
 }
 
 .tab-btn.active {
-	color: var(--accent);
-	border-bottom-color: var(--accent);
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 
 .tab-content { display: none; }
@@ -185,106 +185,106 @@ select { cursor: pointer; }
 
 /* -- Conditions -- */
 .condition-row {
-	display: flex;
-	gap: 8px;
-	align-items: flex-end;
-	margin-bottom: 8px;
-	animation: fadeIn 0.15s ease;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  margin-bottom: 8px;
+  animation: fadeIn 0.15s ease;
 }
 
 @keyframes fadeIn {
-	from { opacity: 0; transform: translateY(-4px); }
-	to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .condition-row .event-type { flex: 0 0 200px; }
 .condition-row .attribute { flex: 0 0 190px; }
 .condition-row .value { flex: 1; }
 .condition-row .remove-btn {
-	flex: 0 0 32px;
-	height: 32px;
-	background: transparent;
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	color: var(--text-muted);
-	font-size: 16px;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: all 0.15s;
+  flex: 0 0 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
 }
 
 .condition-row .remove-btn:hover {
-	border-color: var(--error);
-	color: var(--error);
+  border-color: var(--error);
+  color: var(--error);
 }
 
 .and-label {
-	display: inline-block;
-	font-size: 11px;
-	font-weight: 600;
-	color: var(--warn);
-	background: rgba(210, 153, 34, 0.15);
-	padding: 1px 6px;
-	border-radius: 3px;
-	margin-bottom: 8px;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--warn);
+  background: rgba(210, 153, 34, 0.15);
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin-bottom: 8px;
 }
 
 /* -- Buttons -- */
 .btn-row {
-	display: flex;
-	gap: 8px;
-	margin-top: 12px;
-	flex-wrap: wrap;
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
 }
 
 button {
-	padding: 7px 14px;
-	font-size: 13px;
-	font-weight: 500;
-	border-radius: var(--radius);
-	cursor: pointer;
-	border: 1px solid var(--border);
-	background: var(--surface2);
-	color: var(--text);
-	transition: all 0.15s;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius);
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  transition: all 0.15s;
 }
 
 button:hover { border-color: var(--text-muted); }
 button:active { transform: scale(0.98); }
 
 .btn-primary {
-	background: var(--accent-dim);
-	border-color: var(--accent-dim);
-	color: #fff;
-	font-weight: 600;
+  background: var(--accent-dim);
+  border-color: var(--accent-dim);
+  color: #fff;
+  font-weight: 600;
 }
 
 .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
 .btn-primary:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-	transform: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .btn-sm {
-	padding: 4px 10px;
-	font-size: 12px;
+  padding: 4px 10px;
+  font-size: 12px;
 }
 
 /* -- Query preview -- */
 .query-preview {
-	font-family: var(--mono);
-	font-size: 12px;
-	padding: 8px 12px;
-	background: var(--bg);
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	color: var(--text-muted);
-	word-break: break-all;
-	margin-top: 12px;
-	display: none;
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  word-break: break-all;
+  margin-top: 12px;
+  display: none;
 }
 
 .query-preview.visible { display: block; }
@@ -295,10 +295,10 @@ button:active { transform: scale(0.98); }
 
 /* -- Search options row -- */
 .search-options {
-	display: flex;
-	gap: 12px;
-	align-items: flex-end;
-	flex-wrap: wrap;
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
 }
 
 .search-options > div { flex: 0 0 auto; }
@@ -306,15 +306,15 @@ button:active { transform: scale(0.98); }
 
 /* -- Query form (RPC/REST tabs) -- */
 .query-form {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .query-form .form-row {
-	display: flex;
-	gap: 10px;
-	align-items: flex-end;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
 }
 
 .query-form .form-row > * { flex: 1; min-width: 0; }
@@ -322,32 +322,32 @@ button:active { transform: scale(0.98); }
 .query-form .form-row .query-type-select { flex: 0 0 240px; }
 
 .query-form .dynamic-fields {
-	display: flex;
-	gap: 10px;
-	align-items: flex-end;
-	flex: 1;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  flex: 1;
 }
 
 .query-form .dynamic-fields > * { flex: 1; min-width: 0; }
 
 /* -- Status bar -- */
 .status-bar {
-	font-size: 13px;
-	color: var(--text-muted);
-	padding: 10px 0;
-	display: flex;
-	align-items: center;
-	gap: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .spinner {
-	width: 16px;
-	height: 16px;
-	border: 2px solid var(--border);
-	border-top-color: var(--accent);
-	border-radius: 50%;
-	animation: spin 0.6s linear infinite;
-	display: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: none;
 }
 
 .spinner.active { display: block; }
@@ -356,209 +356,209 @@ button:active { transform: scale(0.98); }
 
 /* -- Results table -- */
 .results-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 8px;
-	flex-wrap: wrap;
-	gap: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .results-count {
-	font-size: 14px;
-	font-weight: 600;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .results-count span { color: var(--accent); }
 
 .pagination {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
 }
 
 .pagination button { padding: 4px 10px; }
 
 .tx-card {
-	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	margin-bottom: 6px;
-	overflow: hidden;
-	transition: border-color 0.15s;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 6px;
+  overflow: hidden;
+  transition: border-color 0.15s;
 }
 
 .tx-card:hover { border-color: var(--text-muted); }
 
 .tx-summary {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	padding: 10px 14px;
-	cursor: pointer;
-	font-size: 13px;
-	user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  user-select: none;
 }
 
 .tx-summary:hover { background: var(--surface2); }
 
 .tx-summary .idx {
-	flex: 0 0 36px;
-	color: var(--text-muted);
-	font-family: var(--mono);
-	font-size: 12px;
-	text-align: right;
+  flex: 0 0 36px;
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 12px;
+  text-align: right;
 }
 
 .tx-summary .height {
-	flex: 0 0 100px;
-	font-family: var(--mono);
-	font-size: 12px;
+  flex: 0 0 100px;
+  font-family: var(--mono);
+  font-size: 12px;
 }
 
 .tx-summary .hash {
-	flex: 1;
-	font-family: var(--mono);
-	font-size: 12px;
-	color: var(--accent);
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tx-summary .status-badge {
-	flex: 0 0 auto;
-	font-size: 11px;
-	padding: 1px 6px;
-	border-radius: 3px;
-	font-weight: 600;
+  flex: 0 0 auto;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 600;
 }
 
 .tx-summary .status-badge.ok {
-	background: rgba(63, 185, 80, 0.15);
-	color: var(--success);
+  background: rgba(63, 185, 80, 0.15);
+  color: var(--success);
 }
 
 .tx-summary .status-badge.fail {
-	background: rgba(248, 81, 73, 0.15);
-	color: var(--error);
+  background: rgba(248, 81, 73, 0.15);
+  color: var(--error);
 }
 
 .tx-summary .expand-icon {
-	flex: 0 0 20px;
-	color: var(--text-muted);
-	text-align: center;
-	transition: transform 0.15s;
-	font-size: 12px;
+  flex: 0 0 20px;
+  color: var(--text-muted);
+  text-align: center;
+  transition: transform 0.15s;
+  font-size: 12px;
 }
 
 .tx-card.expanded .expand-icon { transform: rotate(90deg); }
 
 .tx-detail {
-	display: none;
-	padding: 0 14px 14px;
-	border-top: 1px solid var(--border);
+  display: none;
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--border);
 }
 
 .tx-card.expanded .tx-detail { display: block; }
 
 .event-block {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 
 .event-type-label {
-	font-size: 12px;
-	font-weight: 600;
-	color: var(--warn);
-	margin-bottom: 4px;
-	font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--warn);
+  margin-bottom: 4px;
+  font-family: var(--mono);
 }
 
 .attr-table {
-	width: 100%;
-	border-collapse: collapse;
-	font-size: 12px;
-	font-family: var(--mono);
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  font-family: var(--mono);
 }
 
 .attr-table td {
-	padding: 2px 8px;
-	border-bottom: 1px solid var(--bg);
-	vertical-align: top;
+  padding: 2px 8px;
+  border-bottom: 1px solid var(--bg);
+  vertical-align: top;
 }
 
 .attr-table td:first-child {
-	color: var(--text-muted);
-	white-space: nowrap;
-	width: 200px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  width: 200px;
 }
 
 .attr-table td:last-child {
-	word-break: break-all;
+  word-break: break-all;
 }
 
 .gas-info {
-	font-size: 12px;
-	color: var(--text-muted);
-	font-family: var(--mono);
-	margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--mono);
+  margin-top: 8px;
 }
 
 /* -- KV display (status, account info, etc.) -- */
 .kv-grid {
-	display: grid;
-	grid-template-columns: auto 1fr;
-	gap: 4px 16px;
-	font-size: 13px;
-	font-family: var(--mono);
-	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	padding: 14px;
-	margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 16px;
+  font-size: 13px;
+  font-family: var(--mono);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 8px;
 }
 
 .kv-grid .kv-key {
-	color: var(--text-muted);
-	white-space: nowrap;
+  color: var(--text-muted);
+  white-space: nowrap;
 }
 
 .kv-grid .kv-val {
-	word-break: break-all;
+  word-break: break-all;
 }
 
 /* -- Data table (validators, balances, etc.) -- */
 .data-table {
-	width: 100%;
-	border-collapse: collapse;
-	font-size: 13px;
-	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	overflow: hidden;
-	margin-bottom: 8px;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 8px;
 }
 
 .data-table th {
-	text-align: left;
-	padding: 8px 12px;
-	background: var(--surface2);
-	font-size: 11px;
-	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 0.5px;
-	color: var(--text-muted);
-	border-bottom: 1px solid var(--border);
+  text-align: left;
+  padding: 8px 12px;
+  background: var(--surface2);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
 }
 
 .data-table td {
-	padding: 6px 12px;
-	border-bottom: 1px solid var(--bg);
-	font-family: var(--mono);
-	font-size: 12px;
-	vertical-align: top;
-	word-break: break-all;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--bg);
+  font-family: var(--mono);
+  font-size: 12px;
+  vertical-align: top;
+  word-break: break-all;
 }
 
 .data-table tr:last-child td { border-bottom: none; }
@@ -567,458 +567,924 @@ button:active { transform: scale(0.98); }
 
 /* -- Proposal cards -- */
 .proposal-card {
-	background: var(--surface);
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	padding: 14px;
-	margin-bottom: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 8px;
 }
 
 .proposal-card .proposal-title {
-	font-size: 14px;
-	font-weight: 600;
-	margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
 .proposal-card .proposal-id {
-	font-size: 11px;
-	color: var(--text-muted);
-	font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--mono);
 }
 
 .proposal-card .proposal-status {
-	display: inline-block;
-	font-size: 11px;
-	padding: 1px 6px;
-	border-radius: 3px;
-	font-weight: 600;
-	margin-left: 8px;
+  display: inline-block;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+  margin-left: 8px;
 }
 
 .proposal-card .proposal-desc {
-	font-size: 12px;
-	color: var(--text-muted);
-	margin-top: 6px;
-	line-height: 1.6;
-	max-height: 100px;
-	overflow-y: auto;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  line-height: 1.6;
+  max-height: 100px;
+  overflow-y: auto;
 }
 
 /* -- JSON fallback -- */
 .json-block {
-	background: var(--bg);
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	padding: 14px;
-	font-family: var(--mono);
-	font-size: 12px;
-	overflow-x: auto;
-	white-space: pre-wrap;
-	word-break: break-all;
-	max-height: 600px;
-	overflow-y: auto;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 600px;
+  overflow-y: auto;
 }
 
 /* -- Presets -- */
 .presets {
-	display: flex;
-	gap: 6px;
-	flex-wrap: wrap;
-	margin-bottom: 12px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
 }
 
 .presets button {
-	font-size: 11px;
-	padding: 3px 8px;
-	border-radius: 3px;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 3px;
 }
 
 /* -- Section title for result areas -- */
 .section-title {
-	font-size: 13px;
-	font-weight: 600;
-	color: var(--text-muted);
-	text-transform: uppercase;
-	letter-spacing: 0.5px;
-	margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
 }
+
+/* -- Preset categories -- */
+.preset-categories {
+  margin-bottom: 12px;
+}
+
+.preset-category {
+  margin-bottom: 2px;
+}
+
+.preset-category-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+
+.preset-category-header:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.preset-category-header .chevron {
+  font-size: 9px;
+  transition: transform 0.15s;
+  flex: 0 0 12px;
+}
+
+.preset-category.collapsed .chevron {
+  transform: rotate(-90deg);
+}
+
+.preset-category-buttons {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  padding: 4px 0 4px 24px;
+}
+
+.preset-category.collapsed .preset-category-buttons {
+  display: none;
+}
+
+.preset-category-buttons button {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+.preset-category-buttons button:hover {
+  border-color: var(--accent);
+}
+
+.preset-category[data-cat="cosmwasm"] .preset-category-header { color: #f0883e; }
+.preset-category[data-cat="nft"] .preset-category-header { color: #bc8cff; }
+.preset-category[data-cat="transfers"] .preset-category-header { color: var(--accent); }
+.preset-category[data-cat="staking"] .preset-category-header { color: var(--success); }
+.preset-category[data-cat="ibc"] .preset-category-header { color: #79c0ff; }
+.preset-category[data-cat="governance"] .preset-category-header { color: var(--warn); }
+.preset-category[data-cat="advanced"] .preset-category-header { color: var(--text-muted); }
+
+/* -- Height filter -- */
+.height-filter {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.height-filter > div { flex: 0 0 auto; }
+.height-filter input[type="number"] { width: 160px; }
 
 /* -- Responsive -- */
 @media (max-width: 768px) {
-	.condition-row { flex-wrap: wrap; }
-	.condition-row .event-type,
-	.condition-row .attribute { flex: 1 1 45%; }
-	.condition-row .value { flex: 1 1 100%; }
-	.endpoint-bar { flex-wrap: wrap; }
-	.endpoint-bar .preset { flex: 1 1 100%; }
-	.tx-summary { flex-wrap: wrap; }
-	.tx-summary .hash { flex: 1 1 100%; order: 10; }
-	.query-form .form-row { flex-wrap: wrap; }
-	.query-form .form-row .query-type-select { flex: 1 1 100%; }
-	.query-form .dynamic-fields { flex-wrap: wrap; }
+  .condition-row { flex-wrap: wrap; }
+  .condition-row .event-type,
+  .condition-row .attribute { flex: 1 1 45%; }
+  .condition-row .value { flex: 1 1 100%; }
+  .endpoint-bar { flex-wrap: wrap; }
+  .endpoint-bar .preset { flex: 1 1 100%; }
+  .tx-summary { flex-wrap: wrap; }
+  .tx-summary .hash { flex: 1 1 100%; order: 10; }
+  .query-form .form-row { flex-wrap: wrap; }
+  .query-form .form-row .query-type-select { flex: 1 1 100%; }
+  .query-form .dynamic-fields { flex-wrap: wrap; }
 }
 </style>
 </head>
 <body>
 
 <div class="container">
-	<header>
-		<h1>Cosmos Event Explorer</h1>
-		<span class="tag" id="headerTag">RPC tx_search</span>
-	</header>
+  <header>
+    <h1>Cosmos Event Explorer</h1>
+    <span class="tag" id="headerTag">RPC tx_search</span>
+  </header>
 
-	<!-- Endpoints -->
-	<div class="panel">
-		<div class="panel-title">Endpoints</div>
-		<div class="endpoint-label">RPC</div>
-		<div class="endpoint-bar">
-			<div class="preset">
-				<label for="endpointPreset">Preset</label>
-				<select id="endpointPreset"></select>
-			</div>
-			<div class="url">
-				<label for="rpcUrl">URL</label>
-				<input type="text" id="rpcUrl" placeholder="https://rpc.archive.osmosis.zone">
-			</div>
-			<div class="status-dot" id="endpointStatus" title="RPC endpoint status"></div>
-		</div>
-		<div class="endpoint-label" style="margin-top: 10px;">REST / LCD</div>
-		<div class="endpoint-bar">
-			<div class="preset">
-				<label for="lcdPreset">Preset</label>
-				<select id="lcdPreset"></select>
-			</div>
-			<div class="url">
-				<label for="lcdUrl">URL</label>
-				<input type="text" id="lcdUrl" placeholder="https://lcd.osmosis.zone">
-			</div>
-			<div class="status-dot" id="lcdStatus" title="LCD endpoint status"></div>
-		</div>
-	</div>
+  <!-- Endpoints -->
+  <div class="panel">
+    <div class="panel-title">Endpoints</div>
+    <div class="endpoint-label">RPC</div>
+    <div class="endpoint-bar">
+      <div class="preset">
+        <label for="endpointPreset">Preset</label>
+        <select id="endpointPreset"></select>
+      </div>
+      <div class="url">
+        <label for="rpcUrl">URL</label>
+        <input type="text" id="rpcUrl" placeholder="https://rpc.archive.osmosis.zone">
+      </div>
+      <div class="status-dot" id="endpointStatus" title="RPC endpoint status"></div>
+    </div>
+    <div class="endpoint-label" style="margin-top: 10px;">REST / LCD</div>
+    <div class="endpoint-bar">
+      <div class="preset">
+        <label for="lcdPreset">Preset</label>
+        <select id="lcdPreset"></select>
+      </div>
+      <div class="url">
+        <label for="lcdUrl">URL</label>
+        <input type="text" id="lcdUrl" placeholder="https://lcd.osmosis.zone">
+      </div>
+      <div class="status-dot" id="lcdStatus" title="LCD endpoint status"></div>
+    </div>
+  </div>
 
-	<!-- Query Builder (tabbed) -->
-	<div class="panel">
-		<div class="tab-bar">
-			<button class="tab-btn active" data-tab="event-search" onclick="switchTab('event-search')">Event Search</button>
-			<button class="tab-btn" data-tab="rpc-queries" onclick="switchTab('rpc-queries')">RPC Queries</button>
-			<button class="tab-btn" data-tab="rest-queries" onclick="switchTab('rest-queries')">REST Queries</button>
-		</div>
+  <!-- Query Builder (tabbed) -->
+  <div class="panel">
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="event-search" onclick="switchTab('event-search')">Event Search</button>
+      <button class="tab-btn" data-tab="rpc-queries" onclick="switchTab('rpc-queries')">RPC Queries</button>
+      <button class="tab-btn" data-tab="rest-queries" onclick="switchTab('rest-queries')">REST Queries</button>
+    </div>
 
-		<!-- Tab: Event Search (existing tx_search) -->
-		<div class="tab-content active" id="tab-event-search">
-			<div class="presets">
-				<button onclick="applyPreset('ibcReceive')">IBC Receives by Address</button>
-				<button onclick="applyPreset('transfersTo')">Transfers to Address</button>
-				<button onclick="applyPreset('transfersFrom')">Transfers from Address</button>
-				<button onclick="applyPreset('ibcChannel')">IBC Channel Activity</button>
-				<button onclick="applyPreset('swaps')">Token Swaps</button>
-				<button onclick="applyPreset('delegation')">Delegations</button>
-			</div>
+    <!-- Tab: Event Search (existing tx_search) -->
+    <div class="tab-content active" id="tab-event-search">
+      <div class="preset-categories" id="presetCategories"></div>
 
-			<div id="conditions"></div>
+      <div id="conditions"></div>
 
-			<div class="btn-row">
-				<button onclick="addCondition()" class="btn-sm">+ Add Condition</button>
-			</div>
+      <div class="btn-row">
+        <button onclick="addCondition()" class="btn-sm">+ Add Condition</button>
+      </div>
 
-			<div class="query-preview" id="queryPreview"></div>
+      <div class="query-preview" id="queryPreview"></div>
 
-			<div style="margin-top: 14px;">
-				<div class="search-options">
-					<div>
-						<label for="perPage">Per Page</label>
-						<select id="perPage">
-							<option value="10">10</option>
-							<option value="25">25</option>
-							<option value="50">50</option>
-							<option value="100" selected>100</option>
-						</select>
-					</div>
-					<div>
-						<label for="orderBy">Order</label>
-						<select id="orderBy">
-							<option value="desc">Newest first</option>
-							<option value="asc">Oldest first</option>
-						</select>
-					</div>
-					<div>
-						<label>&nbsp;</label>
-						<button class="btn-primary" id="searchBtn" onclick="doSearch(1)">Search</button>
-					</div>
-					<div>
-						<label>&nbsp;</label>
-						<button onclick="clearAll()">Clear</button>
-					</div>
-					<div>
-						<label>&nbsp;</label>
-						<button onclick="exportResults()">Export JSON</button>
-					</div>
-				</div>
-			</div>
-		</div>
+      <div style="margin-top: 14px;">
+        <div class="search-options">
+          <div>
+            <label for="perPage">Per Page</label>
+            <select id="perPage">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100" selected>100</option>
+            </select>
+          </div>
+          <div>
+            <label for="orderBy">Order</label>
+            <select id="orderBy">
+              <option value="desc">Newest first</option>
+              <option value="asc">Oldest first</option>
+            </select>
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button class="btn-primary" id="searchBtn" onclick="doSearch(1)">Search</button>
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button onclick="clearAll()">Clear</button>
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button onclick="exportResults()">Export JSON</button>
+          </div>
+        </div>
+      </div>
+      <div class="height-filter">
+        <div>
+          <label for="afterHeight">After Height</label>
+          <input type="number" id="afterHeight" placeholder="e.g. 15000000">
+        </div>
+        <div>
+          <label for="beforeHeight">Before Height</label>
+          <input type="number" id="beforeHeight" placeholder="e.g. 16000000">
+        </div>
+      </div>
+    </div>
 
-		<!-- Tab: RPC Queries -->
-		<div class="tab-content" id="tab-rpc-queries">
-			<div class="query-form">
-				<div class="form-row">
-					<div class="query-type-select">
-						<label for="rpcQueryType">Query Type</label>
-						<select id="rpcQueryType" onchange="updateRpcForm()">
-							<option value="status">Node Status</option>
-							<option value="block">Block by Height</option>
-							<option value="block_results">Block Results / Events</option>
-							<option value="validators">Validator Set</option>
-						</select>
-					</div>
-					<div class="dynamic-fields" id="rpcFields"></div>
-					<div style="flex: 0 0 auto;">
-						<label>&nbsp;</label>
-						<button class="btn-primary" id="rpcSearchBtn" onclick="doRpcQuery()">Query</button>
-					</div>
-					<div style="flex: 0 0 auto;">
-						<label>&nbsp;</label>
-						<button onclick="exportResults()">Export JSON</button>
-					</div>
-				</div>
-			</div>
-		</div>
+    <!-- Tab: RPC Queries -->
+    <div class="tab-content" id="tab-rpc-queries">
+      <div class="query-form">
+        <div class="form-row">
+          <div class="query-type-select">
+            <label for="rpcQueryType">Query Type</label>
+            <select id="rpcQueryType" onchange="updateRpcForm()">
+              <option value="status">Node Status</option>
+              <option value="block">Block by Height</option>
+              <option value="block_results">Block Results / Events</option>
+              <option value="validators">Validator Set</option>
+            </select>
+          </div>
+          <div class="dynamic-fields" id="rpcFields"></div>
+          <div style="flex: 0 0 auto;">
+            <label>&nbsp;</label>
+            <button class="btn-primary" id="rpcSearchBtn" onclick="doRpcQuery()">Query</button>
+          </div>
+          <div style="flex: 0 0 auto;">
+            <label>&nbsp;</label>
+            <button onclick="exportResults()">Export JSON</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<!-- Tab: REST Queries -->
-		<div class="tab-content" id="tab-rest-queries">
-			<div class="query-form">
-				<div class="form-row">
-					<div class="query-type-select">
-						<label for="restQueryType">Query Type</label>
-						<select id="restQueryType" onchange="updateRestForm()">
-							<option value="balances">Account Balances</option>
-							<option value="account">Account Info</option>
-							<option value="delegations">Delegations</option>
-							<option value="rewards">Staking Rewards</option>
-							<option value="validators">Validators List</option>
-							<option value="proposals">Governance Proposals</option>
-							<option value="tx">TX by Hash</option>
-							<option value="txSearch">LCD Event Search</option>
-						</select>
-					</div>
-					<div class="dynamic-fields" id="restFields"></div>
-					<div style="flex: 0 0 auto;">
-						<label>&nbsp;</label>
-						<button class="btn-primary" id="restSearchBtn" onclick="doRestQuery()">Query</button>
-					</div>
-					<div style="flex: 0 0 auto;">
-						<label>&nbsp;</label>
-						<button onclick="exportResults()">Export JSON</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <!-- Tab: REST Queries -->
+    <div class="tab-content" id="tab-rest-queries">
+      <div class="query-form">
+        <div class="form-row">
+          <div class="query-type-select">
+            <label for="restQueryType">Query Type</label>
+            <select id="restQueryType" onchange="updateRestForm()">
+              <option value="balances">Account Balances</option>
+              <option value="account">Account Info</option>
+              <option value="delegations">Delegations</option>
+              <option value="rewards">Staking Rewards</option>
+              <option value="validators">Validators List</option>
+              <option value="proposals">Governance Proposals</option>
+              <option value="tx">TX by Hash</option>
+              <option value="txSearch">LCD Event Search</option>
+            </select>
+          </div>
+          <div class="dynamic-fields" id="restFields"></div>
+          <div style="flex: 0 0 auto;">
+            <label>&nbsp;</label>
+            <button class="btn-primary" id="restSearchBtn" onclick="doRestQuery()">Query</button>
+          </div>
+          <div style="flex: 0 0 auto;">
+            <label>&nbsp;</label>
+            <button onclick="exportResults()">Export JSON</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-	<!-- Status -->
-	<div class="status-bar" id="statusBar">
-		<div class="spinner" id="spinner"></div>
-		<span id="statusText">Ready</span>
-	</div>
+  <!-- Status -->
+  <div class="status-bar" id="statusBar">
+    <div class="spinner" id="spinner"></div>
+    <span id="statusText">Ready</span>
+  </div>
 
-	<!-- Results -->
-	<div id="resultsArea" style="display:none;">
-		<div class="results-header">
-			<div class="results-count" id="resultsCount">
-				<span id="totalCount">0</span> transactions found
-			</div>
-			<div class="pagination" id="pagination"></div>
-		</div>
-		<div id="txList"></div>
-	</div>
+  <!-- Results -->
+  <div id="resultsArea" style="display:none;">
+    <div class="results-header">
+      <div class="results-count" id="resultsCount">
+        <span id="totalCount">0</span> transactions found
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+    <div id="txList"></div>
+  </div>
 </div>
 
 <script>
 // -- Event catalog (synced with rpc-event-query.js) --
 const EVENT_CATALOG = {
-	message: {
-		label: 'Message',
-		attributes: {
-			action: 'Message type (e.g. /cosmos.bank.v1beta1.MsgSend)',
-			module: 'Module name (bank, staking, ibc_client, etc.)',
-			sender: 'Transaction signer address',
-		},
-	},
-	transfer: {
-		label: 'Transfer',
-		attributes: {
-			recipient: 'Receiving address',
-			sender: 'Sending address',
-			amount: 'Amount with denom (e.g. 1000uosmo)',
-		},
-	},
-	coin_spent: {
-		label: 'Coin Spent',
-		attributes: {
-			spender: 'Address that spent coins',
-			amount: 'Amount spent',
-		},
-	},
-	coin_received: {
-		label: 'Coin Received',
-		attributes: {
-			receiver: 'Address that received coins',
-			amount: 'Amount received',
-		},
-	},
-	tx: {
-		label: 'Transaction',
-		attributes: {
-			acc_seq: 'Account/sequence (e.g. osmo1.../42)',
-			fee: 'Fee amount',
-			signature: 'Transaction signature',
-		},
-	},
-	recv_packet: {
-		label: 'IBC Recv Packet',
-		attributes: {
-			packet_src_channel: 'Source channel (e.g. channel-2)',
-			packet_dst_channel: 'Destination channel (e.g. channel-129)',
-			packet_src_port: 'Source port (usually transfer)',
-			packet_dst_port: 'Destination port (usually transfer)',
-			packet_sequence: 'Packet sequence number',
-			packet_connection: 'Connection ID',
-			connection_id: 'Connection ID (alias)',
-		},
-	},
-	send_packet: {
-		label: 'IBC Send Packet',
-		attributes: {
-			packet_src_channel: 'Source channel',
-			packet_dst_channel: 'Destination channel',
-			packet_src_port: 'Source port',
-			packet_dst_port: 'Destination port',
-			packet_sequence: 'Packet sequence number',
-			packet_connection: 'Connection ID',
-		},
-	},
-	acknowledge_packet: {
-		label: 'IBC Acknowledge Packet',
-		attributes: {
-			packet_src_channel: 'Source channel',
-			packet_dst_channel: 'Destination channel',
-			packet_connection: 'Connection ID',
-			packet_sequence: 'Packet sequence number',
-		},
-	},
-	write_acknowledgement: {
-		label: 'IBC Write Acknowledgement',
-		attributes: {
-			packet_src_channel: 'Source channel',
-			packet_dst_channel: 'Destination channel',
-			packet_dst_port: 'Destination port',
-			packet_src_port: 'Source port',
-			packet_sequence: 'Packet sequence number',
-			packet_connection: 'Connection ID',
-			connection_id: 'Connection ID (alias)',
-		},
-	},
-	fungible_token_packet: {
-		label: 'IBC Fungible Token',
-		attributes: {
-			receiver: 'Receiver address',
-			sender: 'Sender address',
-			denom: 'Token denom (source chain, e.g. ugraviton)',
-			amount: 'Token amount (micro units)',
-			module: 'Module (transfer)',
-			success: 'Whether transfer succeeded (true/false)',
-		},
-	},
-	denomination_trace: {
-		label: 'IBC Denomination Trace',
-		attributes: {
-			denom: 'IBC denom on destination chain',
-			trace_hash: 'Denomination trace hash',
-		},
-	},
-	update_client: {
-		label: 'IBC Update Client',
-		attributes: {
-			client_id: 'Client ID (e.g. 07-tendermint-1718)',
-			client_type: 'Client type',
-			consensus_height: 'Consensus height',
-		},
-	},
-	delegate: {
-		label: 'Delegate',
-		attributes: {
-			validator: 'Validator operator address',
-			amount: 'Delegation amount',
-		},
-	},
-	unbond: {
-		label: 'Unbond',
-		attributes: {
-			validator: 'Validator operator address',
-			amount: 'Unbonding amount',
-			completion_time: 'Unbonding completion time',
-		},
-	},
-	redelegate: {
-		label: 'Redelegate',
-		attributes: {
-			source_validator: 'Source validator',
-			destination_validator: 'Destination validator',
-			amount: 'Redelegation amount',
-		},
-	},
-	withdraw_rewards: {
-		label: 'Withdraw Rewards',
-		attributes: {
-			validator: 'Validator operator address',
-			amount: 'Reward amount',
-		},
-	},
-	proposal_vote: {
-		label: 'Governance Vote',
-		attributes: {
-			proposal_id: 'Proposal ID',
-			option: 'Vote option',
-			voter: 'Voter address',
-		},
-	},
-	token_swapped: {
-		label: 'Token Swap',
-		attributes: {
-			pool_id: 'Pool ID',
-			sender: 'Swapper address',
-			tokens_in: 'Input tokens',
-			tokens_out: 'Output tokens',
-			module: 'Module name',
-		},
-	},
-	wasm: {
-		label: 'WASM Contract',
-		attributes: {
-			_contract_address: 'Contract address',
-			action: 'Contract action',
-			sender: 'Sender address',
-			recipient: 'Recipient address',
-			amount: 'Amount',
-			denom: 'Denom',
-		},
-	},
+  message: {
+    label: 'Message',
+    attributes: {
+      action: 'Message type (e.g. /cosmos.bank.v1beta1.MsgSend)',
+      module: 'Module name (bank, staking, wasm, etc.)',
+      sender: 'Transaction signer address',
+      msg_index: 'Message index within transaction',
+    },
+  },
+  transfer: {
+    label: 'Transfer',
+    attributes: {
+      recipient: 'Receiving address',
+      sender: 'Sending address',
+      amount: 'Amount with denom (e.g. 1000uatom)',
+      msg_index: 'Message index',
+    },
+  },
+  coin_spent: {
+    label: 'Coin Spent',
+    attributes: {
+      spender: 'Address that spent coins',
+      amount: 'Amount spent',
+      msg_index: 'Message index (absent = gas fee)',
+    },
+  },
+  coin_received: {
+    label: 'Coin Received',
+    attributes: {
+      receiver: 'Address that received coins',
+      amount: 'Amount received',
+      msg_index: 'Message index',
+    },
+  },
+  tx: {
+    label: 'Transaction',
+    attributes: {
+      acc_seq: 'Account/sequence (e.g. cosmos1.../42)',
+      fee: 'Fee amount',
+      signature: 'Transaction signature',
+    },
+  },
+  // -- CosmWasm events --
+  execute: {
+    label: 'CosmWasm Execute',
+    attributes: {
+      _contract_address: 'Executed contract address',
+      msg_index: 'Message index',
+    },
+  },
+  instantiate: {
+    label: 'CosmWasm Instantiate',
+    attributes: {
+      _contract_address: 'Newly created contract address',
+      code_id: 'Code ID of the contract',
+      msg_index: 'Message index',
+    },
+  },
+  migrate: {
+    label: 'CosmWasm Migrate',
+    attributes: {
+      _contract_address: 'Migrated contract address',
+      code_id: 'New code ID',
+    },
+  },
+  store_code: {
+    label: 'CosmWasm Store Code',
+    attributes: {
+      code_id: 'Stored code ID',
+      sender: 'Code uploader address',
+    },
+  },
+  wasm: {
+    label: 'WASM Contract',
+    attributes: {
+      _contract_address: 'Contract address',
+      action: 'Contract action (mint, transfer_nft, approve, etc.)',
+      sender: 'Sender address',
+      recipient: 'Recipient address',
+      spender: 'Approved spender address',
+      token_id: 'NFT token ID',
+      token_uri: 'NFT metadata URI (IPFS)',
+      owner: 'Token owner address',
+      minter: 'Minter address',
+      mint_price: 'Mint price with denom',
+      network_fee: 'Network fee with denom',
+      seller_amount: 'Seller proceeds with denom',
+      amount: 'Amount',
+      denom: 'Denomination',
+    },
+  },
+  'wasm-set-ask': {
+    label: 'Marketplace: Set Ask',
+    attributes: {
+      _contract_address: 'Marketplace contract',
+      collection: 'NFT collection contract',
+      creator: 'Ask creator address',
+      id: 'Ask ID hash',
+      price: 'Ask price with denom',
+      token_id: 'NFT token ID',
+    },
+  },
+  'wasm-finalize-sale': {
+    label: 'Marketplace: Finalize Sale',
+    attributes: {
+      _contract_address: 'Marketplace contract',
+      protocol: 'Protocol fee amount',
+    },
+  },
+  // -- Fee events --
+  fee_pay: {
+    label: 'Fee Payment',
+    attributes: {
+      fee: 'Fee amount with denom',
+    },
+  },
+  tip_pay: {
+    label: 'Tip Payment',
+    attributes: {
+      tip: 'Tip amount with denom',
+      tip_payee: 'Block proposer receiving tip',
+    },
+  },
+  // -- IBC events --
+  recv_packet: {
+    label: 'IBC Recv Packet',
+    attributes: {
+      packet_src_channel: 'Source channel (e.g. channel-2)',
+      packet_dst_channel: 'Destination channel (e.g. channel-129)',
+      packet_src_port: 'Source port (usually transfer)',
+      packet_dst_port: 'Destination port (usually transfer)',
+      packet_sequence: 'Packet sequence number',
+      packet_connection: 'Connection ID',
+      connection_id: 'Connection ID (alias)',
+    },
+  },
+  send_packet: {
+    label: 'IBC Send Packet',
+    attributes: {
+      packet_src_channel: 'Source channel',
+      packet_dst_channel: 'Destination channel',
+      packet_src_port: 'Source port',
+      packet_dst_port: 'Destination port',
+      packet_sequence: 'Packet sequence number',
+      packet_connection: 'Connection ID',
+    },
+  },
+  acknowledge_packet: {
+    label: 'IBC Acknowledge Packet',
+    attributes: {
+      packet_src_channel: 'Source channel',
+      packet_dst_channel: 'Destination channel',
+      packet_connection: 'Connection ID',
+      packet_sequence: 'Packet sequence number',
+    },
+  },
+  write_acknowledgement: {
+    label: 'IBC Write Acknowledgement',
+    attributes: {
+      packet_src_channel: 'Source channel',
+      packet_dst_channel: 'Destination channel',
+      packet_dst_port: 'Destination port',
+      packet_src_port: 'Source port',
+      packet_sequence: 'Packet sequence number',
+      packet_connection: 'Connection ID',
+      connection_id: 'Connection ID (alias)',
+    },
+  },
+  fungible_token_packet: {
+    label: 'IBC Fungible Token',
+    attributes: {
+      receiver: 'Receiver address',
+      sender: 'Sender address',
+      denom: 'Token denom (source chain)',
+      amount: 'Token amount (micro units)',
+      module: 'Module (transfer)',
+      success: 'Whether transfer succeeded (true/false)',
+    },
+  },
+  denomination_trace: {
+    label: 'IBC Denomination Trace',
+    attributes: {
+      denom: 'IBC denom on destination chain',
+      trace_hash: 'Denomination trace hash',
+    },
+  },
+  update_client: {
+    label: 'IBC Update Client',
+    attributes: {
+      client_id: 'Client ID (e.g. 07-tendermint-1718)',
+      client_type: 'Client type',
+      consensus_height: 'Consensus height',
+    },
+  },
+  // -- Staking events --
+  delegate: {
+    label: 'Delegate',
+    attributes: {
+      validator: 'Validator operator address',
+      amount: 'Delegation amount',
+    },
+  },
+  unbond: {
+    label: 'Unbond',
+    attributes: {
+      validator: 'Validator operator address',
+      amount: 'Unbonding amount',
+      completion_time: 'Unbonding completion time',
+    },
+  },
+  redelegate: {
+    label: 'Redelegate',
+    attributes: {
+      source_validator: 'Source validator',
+      destination_validator: 'Destination validator',
+      amount: 'Redelegation amount',
+    },
+  },
+  withdraw_rewards: {
+    label: 'Withdraw Rewards',
+    attributes: {
+      validator: 'Validator operator address',
+      amount: 'Reward amount',
+    },
+  },
+  // -- Governance events --
+  proposal_vote: {
+    label: 'Governance Vote',
+    attributes: {
+      proposal_id: 'Proposal ID',
+      option: 'Vote option',
+      voter: 'Voter address',
+    },
+  },
+  submit_proposal: {
+    label: 'Submit Proposal',
+    attributes: {
+      proposal_id: 'Proposal ID',
+      proposal_type: 'Proposal type',
+    },
+  },
+  proposal_deposit: {
+    label: 'Proposal Deposit',
+    attributes: {
+      proposal_id: 'Proposal ID',
+      amount: 'Deposit amount',
+    },
+  },
+  // -- DEX events --
+  token_swapped: {
+    label: 'Token Swap',
+    attributes: {
+      pool_id: 'Pool ID',
+      sender: 'Swapper address',
+      tokens_in: 'Input tokens',
+      tokens_out: 'Output tokens',
+      module: 'Module name',
+    },
+  },
 };
 
+// -- Value suggestions (known example values for datalists) --
+const VALUE_SUGGESTIONS = {
+  'message.action': [
+    '/cosmos.bank.v1beta1.MsgSend',
+    '/cosmos.bank.v1beta1.MsgMultiSend',
+    '/cosmos.staking.v1beta1.MsgDelegate',
+    '/cosmos.staking.v1beta1.MsgUndelegate',
+    '/cosmos.staking.v1beta1.MsgBeginRedelegate',
+    '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+    '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission',
+    '/cosmos.gov.v1beta1.MsgVote',
+    '/cosmos.gov.v1.MsgVote',
+    '/cosmos.gov.v1beta1.MsgSubmitProposal',
+    '/cosmos.gov.v1beta1.MsgDeposit',
+    '/cosmos.authz.v1beta1.MsgExec',
+    '/cosmos.authz.v1beta1.MsgGrant',
+    '/cosmos.authz.v1beta1.MsgRevoke',
+    '/cosmos.feegrant.v1beta1.MsgGrantAllowance',
+    '/cosmos.feegrant.v1beta1.MsgRevokeAllowance',
+    '/cosmwasm.wasm.v1.MsgStoreCode',
+    '/cosmwasm.wasm.v1.MsgInstantiateContract',
+    '/cosmwasm.wasm.v1.MsgInstantiateContract2',
+    '/cosmwasm.wasm.v1.MsgExecuteContract',
+    '/cosmwasm.wasm.v1.MsgMigrateContract',
+    '/cosmwasm.wasm.v1.MsgUpdateAdmin',
+    '/cosmwasm.wasm.v1.MsgClearAdmin',
+    '/ibc.core.client.v1.MsgUpdateClient',
+    '/ibc.core.channel.v1.MsgRecvPacket',
+    '/ibc.core.channel.v1.MsgAcknowledgement',
+    '/ibc.core.channel.v1.MsgTimeout',
+    '/ibc.applications.transfer.v1.MsgTransfer',
+  ],
+  'message.module': [
+    'bank', 'staking', 'distribution', 'gov', 'governance',
+    'ibc_client', 'ibc_channel', 'transfer', 'wasm', 'authz',
+    'feegrant', 'crisis', 'slashing',
+  ],
+  'wasm.action': [
+    'mint', 'mint_sender', 'transfer_nft', 'send_nft', 'approve',
+    'revoke', 'approve_all', 'burn', 'set_ask', 'remove_ask',
+    'set_bid', 'accept_bid', 'update_ask', 'finalize_sale',
+  ],
+  'wasm._contract_address': [
+    'cosmos1l7vt0j0e4tjaejs43xvhnaxumyly4gpzcl8u408cg308343fa58sekz67m',
+    'cosmos1tl0ptdmlz422z5pj20zujzyt3c96qp2g9vp83uj9pyj8q994tzhsl77adr',
+    'cosmos1elwpwq2d22g4lmxhrvyg70mc7w8lmkh0ennmnxpeqwgzfnu8v2eqaa7xh6',
+    'cosmos1n5u3u807nrraaq5qpgaxpjq324m9mmxwz6seg2z7uqhgqclaeevq54yh8a',
+    'cosmos12gsv9tmjhhg86wg9fnd9cnju28jx3fxva9cn8dh9meketkfxxajqmg3exz',
+  ],
+  'execute._contract_address': [
+    'cosmos1l7vt0j0e4tjaejs43xvhnaxumyly4gpzcl8u408cg308343fa58sekz67m',
+    'cosmos1tl0ptdmlz422z5pj20zujzyt3c96qp2g9vp83uj9pyj8q994tzhsl77adr',
+    'cosmos1elwpwq2d22g4lmxhrvyg70mc7w8lmkh0ennmnxpeqwgzfnu8v2eqaa7xh6',
+    'cosmos1n5u3u807nrraaq5qpgaxpjq324m9mmxwz6seg2z7uqhgqclaeevq54yh8a',
+    'cosmos12gsv9tmjhhg86wg9fnd9cnju28jx3fxva9cn8dh9meketkfxxajqmg3exz',
+  ],
+  'wasm-set-ask._contract_address': [
+    'cosmos1tl0ptdmlz422z5pj20zujzyt3c96qp2g9vp83uj9pyj8q994tzhsl77adr',
+  ],
+  'wasm-set-ask.collection': [
+    'cosmos1l7vt0j0e4tjaejs43xvhnaxumyly4gpzcl8u408cg308343fa58sekz67m',
+  ],
+  'recv_packet.packet_dst_channel': [
+    'channel-0', 'channel-1', 'channel-2', 'channel-4', 'channel-129',
+  ],
+  'send_packet.packet_src_channel': [
+    'channel-0', 'channel-1', 'channel-2', 'channel-4',
+  ],
+  'recv_packet.packet_dst_port': ['transfer', 'wasm.cosmos1...'],
+  'send_packet.packet_src_port': ['transfer'],
+  'proposal_vote.option': [
+    'VOTE_OPTION_YES', 'VOTE_OPTION_NO',
+    'VOTE_OPTION_ABSTAIN', 'VOTE_OPTION_NO_WITH_VETO',
+  ],
+  'token_swapped.module': ['gamm', 'poolmanager', 'concentrated-liquidity'],
+};
+
+// -- Custom values persistence (localStorage) --
+const CUSTOM_VALUES_KEY = 'cosmos-explorer-custom-values';
+
+function loadCustomValues() {
+  try {
+    const raw = localStorage.getItem(CUSTOM_VALUES_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveCustomValue(eventAttrKey, value) {
+  const custom = loadCustomValues();
+  if (!custom[eventAttrKey]) custom[eventAttrKey] = [];
+  if (!custom[eventAttrKey].includes(value)) {
+    custom[eventAttrKey].push(value);
+    localStorage.setItem(CUSTOM_VALUES_KEY, JSON.stringify(custom));
+  }
+}
+
+function getSuggestions(eventAttrKey) {
+  const base = VALUE_SUGGESTIONS[eventAttrKey] || [];
+  const custom = loadCustomValues()[eventAttrKey] || [];
+  return [...new Set([...base, ...custom])];
+}
+
+// -- Endpoints --
 const KNOWN_ENDPOINTS = [
-	{ label: 'Osmosis Archive', url: 'https://rpc.archive.osmosis.zone' },
-	{ label: 'Osmosis (Polkachu)', url: 'https://osmosis-rpc.polkachu.com' },
-	{ label: 'Osmosis (Lavender.Five)', url: 'https://rpc.lavenderfive.com:443/osmosis' },
-	{ label: 'Cosmos Hub (Polkachu)', url: 'https://cosmos-rpc.polkachu.com' },
-	{ label: 'Cosmos Hub Archive', url: 'https://rpc-cosmoshub.ecostake.com' },
+  { label: 'Osmosis Archive', url: 'https://rpc.archive.osmosis.zone' },
+  { label: 'Osmosis (Polkachu)', url: 'https://osmosis-rpc.polkachu.com' },
+  { label: 'Osmosis (Lavender.Five)', url: 'https://rpc.lavenderfive.com:443/osmosis' },
+  { label: 'Cosmos Hub (Polkachu)', url: 'https://cosmos-rpc.polkachu.com' },
+  { label: 'Cosmos Hub Archive', url: 'https://rpc-cosmoshub.ecostake.com' },
+  { label: 'Cosmos Hub (cosmos.directory)', url: 'https://rpc.cosmos.directory/cosmoshub' },
+  { label: 'Cosmos Hub (Lavender.Five)', url: 'https://rpc.lavenderfive.com:443/cosmoshub' },
+  { label: 'Stargaze', url: 'https://rpc.stargaze-apis.com' },
+  { label: 'Juno', url: 'https://rpc.cosmos.directory/juno' },
+  { label: 'Neutron', url: 'https://rpc.cosmos.directory/neutron' },
 ];
 
 const LCD_ENDPOINTS = [
-	{ label: 'Osmosis', url: 'https://lcd.osmosis.zone' },
-	{ label: 'Osmosis (Polkachu)', url: 'https://osmosis-api.polkachu.com' },
-	{ label: 'Osmosis (Lavender.Five)', url: 'https://rest.lavenderfive.com:443/osmosis' },
-	{ label: 'Cosmos Hub (Polkachu)', url: 'https://cosmos-api.polkachu.com' },
-	{ label: 'Cosmos Hub (ecostake)', url: 'https://rest-cosmoshub.ecostake.com' },
+  { label: 'Osmosis', url: 'https://lcd.osmosis.zone' },
+  { label: 'Osmosis (Polkachu)', url: 'https://osmosis-api.polkachu.com' },
+  { label: 'Osmosis (Lavender.Five)', url: 'https://rest.lavenderfive.com:443/osmosis' },
+  { label: 'Cosmos Hub (Polkachu)', url: 'https://cosmos-api.polkachu.com' },
+  { label: 'Cosmos Hub (ecostake)', url: 'https://rest-cosmoshub.ecostake.com' },
+  { label: 'Cosmos Hub (cosmos.directory)', url: 'https://rest.cosmos.directory/cosmoshub' },
+  { label: 'Cosmos Hub (Lavender.Five)', url: 'https://rest.lavenderfive.com:443/cosmoshub' },
+  { label: 'Stargaze', url: 'https://rest.stargaze-apis.com' },
+  { label: 'Juno', url: 'https://rest.cosmos.directory/juno' },
+  { label: 'Neutron', url: 'https://rest.cosmos.directory/neutron' },
 ];
+
+// -- Preset categories --
+const PRESET_CATEGORIES = [
+  {
+    id: 'cosmwasm', label: 'CosmWasm',
+    presets: [
+      { label: 'Contract Activity', conditions: [
+        { eventType: 'wasm', attribute: '_contract_address', value: '' },
+      ]},
+      { label: 'Execute by Sender', conditions: [
+        { eventType: 'message', attribute: 'action', value: '/cosmwasm.wasm.v1.MsgExecuteContract' },
+        { eventType: 'message', attribute: 'sender', value: '' },
+      ]},
+      { label: 'Wasm Action', conditions: [
+        { eventType: 'wasm', attribute: 'action', value: '' },
+      ]},
+      { label: 'Store Code', conditions: [
+        { eventType: 'message', attribute: 'action', value: '/cosmwasm.wasm.v1.MsgStoreCode' },
+        { eventType: 'message', attribute: 'sender', value: '' },
+      ]},
+      { label: 'Instantiate', conditions: [
+        { eventType: 'message', attribute: 'action', value: '/cosmwasm.wasm.v1.MsgInstantiateContract' },
+      ]},
+      { label: 'Migrate', conditions: [
+        { eventType: 'message', attribute: 'action', value: '/cosmwasm.wasm.v1.MsgMigrateContract' },
+      ]},
+    ],
+  },
+  {
+    id: 'nft', label: 'NFT',
+    presets: [
+      { label: 'Mints', conditions: [
+        { eventType: 'wasm', attribute: 'action', value: 'mint' },
+      ]},
+      { label: 'Transfers', conditions: [
+        { eventType: 'wasm', attribute: 'action', value: 'transfer_nft' },
+      ]},
+      { label: 'Listings (set-ask)', conditions: [
+        { eventType: 'wasm-set-ask', attribute: '_contract_address', value: '' },
+      ]},
+      { label: 'Sales (finalize)', conditions: [
+        { eventType: 'wasm-finalize-sale', attribute: '_contract_address', value: '' },
+      ]},
+      { label: 'By Token ID', conditions: [
+        { eventType: 'wasm', attribute: 'token_id', value: '' },
+      ]},
+      { label: 'By Owner', conditions: [
+        { eventType: 'wasm', attribute: 'owner', value: '' },
+      ]},
+    ],
+  },
+  {
+    id: 'transfers', label: 'Transfers',
+    presets: [
+      { label: 'To Address', conditions: [
+        { eventType: 'transfer', attribute: 'recipient', value: '' },
+      ]},
+      { label: 'From Address', conditions: [
+        { eventType: 'transfer', attribute: 'sender', value: '' },
+      ]},
+      { label: 'Coins Spent By', conditions: [
+        { eventType: 'coin_spent', attribute: 'spender', value: '' },
+      ]},
+      { label: 'Coins Received By', conditions: [
+        { eventType: 'coin_received', attribute: 'receiver', value: '' },
+      ]},
+    ],
+  },
+  {
+    id: 'staking', label: 'Staking',
+    presets: [
+      { label: 'Delegate', conditions: [
+        { eventType: 'delegate', attribute: 'validator', value: '' },
+      ]},
+      { label: 'Unbond', conditions: [
+        { eventType: 'unbond', attribute: 'validator', value: '' },
+      ]},
+      { label: 'Redelegate', conditions: [
+        { eventType: 'redelegate', attribute: 'source_validator', value: '' },
+      ]},
+      { label: 'Withdraw Rewards', conditions: [
+        { eventType: 'withdraw_rewards', attribute: 'validator', value: '' },
+      ]},
+    ],
+  },
+  {
+    id: 'ibc', label: 'IBC',
+    presets: [
+      { label: 'Receives by Address', conditions: [
+        { eventType: 'fungible_token_packet', attribute: 'receiver', value: '' },
+      ]},
+      { label: 'Sends by Address', conditions: [
+        { eventType: 'fungible_token_packet', attribute: 'sender', value: '' },
+      ]},
+      { label: 'Channel Activity', conditions: [
+        { eventType: 'recv_packet', attribute: 'packet_dst_channel', value: '' },
+      ]},
+      { label: 'Acknowledgements', conditions: [
+        { eventType: 'acknowledge_packet', attribute: 'packet_src_channel', value: '' },
+      ]},
+    ],
+  },
+  {
+    id: 'governance', label: 'Governance',
+    presets: [
+      { label: 'Votes', conditions: [
+        { eventType: 'proposal_vote', attribute: 'proposal_id', value: '' },
+      ]},
+      { label: 'Proposals', conditions: [
+        { eventType: 'submit_proposal', attribute: 'proposal_id', value: '' },
+      ]},
+      { label: 'Deposits', conditions: [
+        { eventType: 'proposal_deposit', attribute: 'proposal_id', value: '' },
+      ]},
+    ],
+  },
+  {
+    id: 'advanced', label: 'Advanced',
+    presets: [
+      { label: 'By Message Type', conditions: [
+        { eventType: 'message', attribute: 'action', value: '' },
+      ]},
+      { label: 'By Signer', conditions: [
+        { eventType: 'message', attribute: 'sender', value: '' },
+      ]},
+      { label: 'Token Swaps', conditions: [
+        { eventType: 'token_swapped', attribute: 'sender', value: '' },
+      ]},
+      { label: 'Fee Payments', conditions: [
+        { eventType: 'fee_pay', attribute: 'fee', value: '' },
+      ]},
+      { label: 'Tip Payments', conditions: [
+        { eventType: 'tip_pay', attribute: 'tip_payee', value: '' },
+      ]},
+    ],
+  },
+];
+
+function buildPresetUI() {
+  const container = document.getElementById('presetCategories');
+  container.innerHTML = '';
+  for (const cat of PRESET_CATEGORIES) {
+    const catDiv = document.createElement('div');
+    catDiv.className = 'preset-category';
+    catDiv.dataset.cat = cat.id;
+
+    const header = document.createElement('div');
+    header.className = 'preset-category-header';
+    header.innerHTML = `<span class="chevron">&#9660;</span> ${cat.label}`;
+    header.onclick = () => catDiv.classList.toggle('collapsed');
+
+    const buttons = document.createElement('div');
+    buttons.className = 'preset-category-buttons';
+
+    for (const preset of cat.presets) {
+      const btn = document.createElement('button');
+      btn.textContent = preset.label;
+      btn.title = preset.conditions.map(c => `${c.eventType}.${c.attribute}`).join(' AND ');
+      btn.onclick = () => applyPresetNew(preset);
+      buttons.appendChild(btn);
+    }
+
+    catDiv.appendChild(header);
+    catDiv.appendChild(buttons);
+    container.appendChild(catDiv);
+  }
+}
+
+function applyPresetNew(preset) {
+  clearConditions();
+  for (const cond of preset.conditions) {
+    addCondition(cond.eventType, cond.attribute, cond.value);
+  }
+}
 
 // -- State --
 let conditionId = 0;
@@ -1031,1730 +1497,1814 @@ let activeTab = 'event-search';
 
 // -- Init --
 function init() {
-	// RPC presets
-	const presetSel = document.getElementById('endpointPreset');
-	const opt0 = document.createElement('option');
-	opt0.value = '';
-	opt0.textContent = 'Custom';
-	presetSel.appendChild(opt0);
-	for (const ep of KNOWN_ENDPOINTS) {
-		const opt = document.createElement('option');
-		opt.value = ep.url;
-		opt.textContent = ep.label;
-		presetSel.appendChild(opt);
-	}
-	presetSel.value = KNOWN_ENDPOINTS[0].url;
-	document.getElementById('rpcUrl').value = KNOWN_ENDPOINTS[0].url;
+  // RPC presets
+  const presetSel = document.getElementById('endpointPreset');
+  const opt0 = document.createElement('option');
+  opt0.value = '';
+  opt0.textContent = 'Custom';
+  presetSel.appendChild(opt0);
+  for (const ep of KNOWN_ENDPOINTS) {
+    const opt = document.createElement('option');
+    opt.value = ep.url;
+    opt.textContent = ep.label;
+    presetSel.appendChild(opt);
+  }
+  presetSel.value = KNOWN_ENDPOINTS[0].url;
+  document.getElementById('rpcUrl').value = KNOWN_ENDPOINTS[0].url;
 
-	presetSel.addEventListener('change', () => {
-		if (presetSel.value) document.getElementById('rpcUrl').value = presetSel.value;
-		checkRpcEndpoint();
-	});
-	document.getElementById('rpcUrl').addEventListener('change', () => {
-		presetSel.value = '';
-		for (const ep of KNOWN_ENDPOINTS) {
-			if (ep.url === document.getElementById('rpcUrl').value.replace(/\/+$/, '')) {
-				presetSel.value = ep.url;
-			}
-		}
-		checkRpcEndpoint();
-	});
+  presetSel.addEventListener('change', () => {
+    if (presetSel.value) document.getElementById('rpcUrl').value = presetSel.value;
+    checkRpcEndpoint();
+  });
+  document.getElementById('rpcUrl').addEventListener('change', () => {
+    presetSel.value = '';
+    for (const ep of KNOWN_ENDPOINTS) {
+      if (ep.url === document.getElementById('rpcUrl').value.replace(/\/+$/, '')) {
+        presetSel.value = ep.url;
+      }
+    }
+    checkRpcEndpoint();
+  });
 
-	// LCD presets
-	const lcdSel = document.getElementById('lcdPreset');
-	const lcdOpt0 = document.createElement('option');
-	lcdOpt0.value = '';
-	lcdOpt0.textContent = 'Custom';
-	lcdSel.appendChild(lcdOpt0);
-	for (const ep of LCD_ENDPOINTS) {
-		const opt = document.createElement('option');
-		opt.value = ep.url;
-		opt.textContent = ep.label;
-		lcdSel.appendChild(opt);
-	}
-	lcdSel.value = LCD_ENDPOINTS[0].url;
-	document.getElementById('lcdUrl').value = LCD_ENDPOINTS[0].url;
+  // LCD presets
+  const lcdSel = document.getElementById('lcdPreset');
+  const lcdOpt0 = document.createElement('option');
+  lcdOpt0.value = '';
+  lcdOpt0.textContent = 'Custom';
+  lcdSel.appendChild(lcdOpt0);
+  for (const ep of LCD_ENDPOINTS) {
+    const opt = document.createElement('option');
+    opt.value = ep.url;
+    opt.textContent = ep.label;
+    lcdSel.appendChild(opt);
+  }
+  lcdSel.value = LCD_ENDPOINTS[0].url;
+  document.getElementById('lcdUrl').value = LCD_ENDPOINTS[0].url;
 
-	lcdSel.addEventListener('change', () => {
-		if (lcdSel.value) document.getElementById('lcdUrl').value = lcdSel.value;
-		checkLcdEndpoint();
-	});
-	document.getElementById('lcdUrl').addEventListener('change', () => {
-		lcdSel.value = '';
-		for (const ep of LCD_ENDPOINTS) {
-			if (ep.url === document.getElementById('lcdUrl').value.replace(/\/+$/, '')) {
-				lcdSel.value = ep.url;
-			}
-		}
-		checkLcdEndpoint();
-	});
+  lcdSel.addEventListener('change', () => {
+    if (lcdSel.value) document.getElementById('lcdUrl').value = lcdSel.value;
+    checkLcdEndpoint();
+  });
+  document.getElementById('lcdUrl').addEventListener('change', () => {
+    lcdSel.value = '';
+    for (const ep of LCD_ENDPOINTS) {
+      if (ep.url === document.getElementById('lcdUrl').value.replace(/\/+$/, '')) {
+        lcdSel.value = ep.url;
+      }
+    }
+    checkLcdEndpoint();
+  });
 
-	addCondition();
-	checkRpcEndpoint();
-	checkLcdEndpoint();
-	updateRpcForm();
-	updateRestForm();
+  // Load persisted custom values into EVENT_CATALOG
+  const persistedCustom = loadCustomValues();
+  for (const [key, values] of Object.entries(persistedCustom)) {
+    const dotIdx = key.indexOf('.');
+    if (dotIdx < 0) continue;
+    const eventType = key.slice(0, dotIdx);
+    const attribute = key.slice(dotIdx + 1);
+    if (!EVENT_CATALOG[eventType]) {
+      EVENT_CATALOG[eventType] = {
+        label: eventType,
+        attributes: { [attribute]: 'Custom attribute (saved)' },
+      };
+    } else if (!EVENT_CATALOG[eventType].attributes[attribute]) {
+      EVENT_CATALOG[eventType].attributes[attribute] = 'Custom attribute (saved)';
+    }
+  }
 
-	// Global keyboard shortcut
-	document.addEventListener('keydown', (e) => {
-		if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-			if (activeTab === 'event-search') doSearch(1);
-			else if (activeTab === 'rpc-queries') doRpcQuery();
-			else if (activeTab === 'rest-queries') doRestQuery();
-		}
-	});
+  buildPresetUI();
+  addCondition();
+
+  // Height filter inputs update query preview
+  document.getElementById('afterHeight')?.addEventListener('input', updateQueryPreview);
+  document.getElementById('beforeHeight')?.addEventListener('input', updateQueryPreview);
+
+  checkRpcEndpoint();
+  checkLcdEndpoint();
+  updateRpcForm();
+  updateRestForm();
+
+  // Global keyboard shortcut
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      if (activeTab === 'event-search') doSearch(1);
+      else if (activeTab === 'rpc-queries') doRpcQuery();
+      else if (activeTab === 'rest-queries') doRestQuery();
+    }
+  });
 }
 
 // -- Tab switching --
 function switchTab(tabId) {
-	activeTab = tabId;
-	document.querySelectorAll('.tab-btn').forEach(btn => {
-		btn.classList.toggle('active', btn.dataset.tab === tabId);
-	});
-	document.querySelectorAll('.tab-content').forEach(tc => {
-		tc.classList.toggle('active', tc.id === `tab-${tabId}`);
-	});
+  activeTab = tabId;
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tabId);
+  });
+  document.querySelectorAll('.tab-content').forEach(tc => {
+    tc.classList.toggle('active', tc.id === `tab-${tabId}`);
+  });
 
-	// Update header tag
-	const tag = document.getElementById('headerTag');
-	const tagMap = {
-		'event-search': 'RPC tx_search',
-		'rpc-queries': 'RPC Direct',
-		'rest-queries': 'REST / LCD',
-	};
-	tag.textContent = tagMap[tabId] || tabId;
+  // Update header tag
+  const tag = document.getElementById('headerTag');
+  const tagMap = {
+    'event-search': 'RPC tx_search',
+    'rpc-queries': 'RPC Direct',
+    'rest-queries': 'REST / LCD',
+  };
+  tag.textContent = tagMap[tabId] || tabId;
 }
 
 // -- CORS proxy helper --
 function proxiedFetch(url, opts = {}) {
-	const proxyUrl = `/api/proxy?url=${encodeURIComponent(url)}`;
-	return fetch(proxyUrl, opts);
+  const proxyUrl = `/api/proxy?url=${encodeURIComponent(url)}`;
+  return fetch(proxyUrl, opts);
 }
 
 // -- Endpoint checks --
 async function checkRpcEndpoint() {
-	const dot = document.getElementById('endpointStatus');
-	const url = document.getElementById('rpcUrl').value.replace(/\/+$/, '');
-	dot.className = 'status-dot';
-	try {
-		const resp = await proxiedFetch(`${url}/status`, { signal: AbortSignal.timeout(5000) });
-		dot.classList.add(resp.ok ? 'ok' : 'err');
-	} catch {
-		dot.classList.add('err');
-	}
+  const dot = document.getElementById('endpointStatus');
+  const url = document.getElementById('rpcUrl').value.replace(/\/+$/, '');
+  dot.className = 'status-dot';
+  try {
+    const resp = await proxiedFetch(`${url}/status`, { signal: AbortSignal.timeout(5000) });
+    dot.classList.add(resp.ok ? 'ok' : 'err');
+  } catch {
+    dot.classList.add('err');
+  }
 }
 
 async function checkLcdEndpoint() {
-	const dot = document.getElementById('lcdStatus');
-	const url = document.getElementById('lcdUrl').value.replace(/\/+$/, '');
-	dot.className = 'status-dot';
-	try {
-		const resp = await proxiedFetch(`${url}/cosmos/base/tendermint/v1beta1/syncing`, { signal: AbortSignal.timeout(5000) });
-		dot.classList.add(resp.ok ? 'ok' : 'err');
-	} catch {
-		dot.classList.add('err');
-	}
+  const dot = document.getElementById('lcdStatus');
+  const url = document.getElementById('lcdUrl').value.replace(/\/+$/, '');
+  dot.className = 'status-dot';
+  try {
+    const resp = await proxiedFetch(`${url}/cosmos/base/tendermint/v1beta1/syncing`, { signal: AbortSignal.timeout(5000) });
+    dot.classList.add(resp.ok ? 'ok' : 'err');
+  } catch {
+    dot.classList.add('err');
+  }
 }
 
 // -- Condition management (Event Search tab) --
 function addCondition(eventType, attribute, value) {
-	const id = conditionId++;
-	const container = document.getElementById('conditions');
+  const id = conditionId++;
+  const container = document.getElementById('conditions');
 
-	if (container.children.length > 0) {
-		const andDiv = document.createElement('div');
-		andDiv.className = 'and-label';
-		andDiv.id = `and-${id}`;
-		andDiv.textContent = 'AND';
-		container.appendChild(andDiv);
-	}
+  if (container.children.length > 0) {
+    const andDiv = document.createElement('div');
+    andDiv.className = 'and-label';
+    andDiv.id = `and-${id}`;
+    andDiv.textContent = 'AND';
+    container.appendChild(andDiv);
+  }
 
-	const row = document.createElement('div');
-	row.className = 'condition-row';
-	row.id = `cond-${id}`;
+  const row = document.createElement('div');
+  row.className = 'condition-row';
+  row.id = `cond-${id}`;
 
-	// Event type dropdown
-	const etDiv = document.createElement('div');
-	etDiv.className = 'event-type';
-	const etLabel = document.createElement('label');
-	etLabel.textContent = 'Event Type';
-	const etSelect = document.createElement('select');
-	etSelect.id = `et-${id}`;
-	etSelect.innerHTML = '<option value="">-- select --</option>';
-	for (const [key, val] of Object.entries(EVENT_CATALOG)) {
-		const opt = document.createElement('option');
-		opt.value = key;
-		opt.textContent = `${val.label} (${key})`;
-		etSelect.appendChild(opt);
-	}
-	const optCustom = document.createElement('option');
-	optCustom.value = '__custom__';
-	optCustom.textContent = 'Custom...';
-	etSelect.appendChild(optCustom);
+  // Event type dropdown
+  const etDiv = document.createElement('div');
+  etDiv.className = 'event-type';
+  const etLabel = document.createElement('label');
+  etLabel.textContent = 'Event Type';
+  const etSelect = document.createElement('select');
+  etSelect.id = `et-${id}`;
+  etSelect.innerHTML = '<option value="">-- select --</option>';
+  for (const [key, val] of Object.entries(EVENT_CATALOG)) {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = `${val.label} (${key})`;
+    etSelect.appendChild(opt);
+  }
+  const optCustom = document.createElement('option');
+  optCustom.value = '__custom__';
+  optCustom.textContent = 'Custom...';
+  etSelect.appendChild(optCustom);
 
-	etSelect.addEventListener('change', () => {
-		updateAttributeDropdown(id);
-		updateQueryPreview();
-	});
-	etDiv.appendChild(etLabel);
-	etDiv.appendChild(etSelect);
+  etSelect.addEventListener('change', () => {
+    updateAttributeDropdown(id);
+    updateValueSuggestions(id);
+    updateQueryPreview();
+  });
+  etDiv.appendChild(etLabel);
+  etDiv.appendChild(etSelect);
 
-	const etCustom = document.createElement('input');
-	etCustom.type = 'text';
-	etCustom.id = `et-custom-${id}`;
-	etCustom.placeholder = 'custom_event_type';
-	etCustom.style.display = 'none';
-	etCustom.style.marginTop = '4px';
-	etCustom.addEventListener('input', updateQueryPreview);
-	etDiv.appendChild(etCustom);
+  const etCustom = document.createElement('input');
+  etCustom.type = 'text';
+  etCustom.id = `et-custom-${id}`;
+  etCustom.placeholder = 'custom_event_type';
+  etCustom.style.display = 'none';
+  etCustom.style.marginTop = '4px';
+  etCustom.addEventListener('input', updateQueryPreview);
+  etDiv.appendChild(etCustom);
 
-	// Attribute dropdown
-	const attrDiv = document.createElement('div');
-	attrDiv.className = 'attribute';
-	const attrLabel = document.createElement('label');
-	attrLabel.textContent = 'Attribute';
-	const attrSelect = document.createElement('select');
-	attrSelect.id = `attr-${id}`;
-	attrSelect.innerHTML = '<option value="">-- select event type first --</option>';
-	attrSelect.addEventListener('change', () => {
-		updateValuePlaceholder(id);
-		updateQueryPreview();
-	});
-	attrDiv.appendChild(attrLabel);
-	attrDiv.appendChild(attrSelect);
+  // Attribute dropdown
+  const attrDiv = document.createElement('div');
+  attrDiv.className = 'attribute';
+  const attrLabel = document.createElement('label');
+  attrLabel.textContent = 'Attribute';
+  const attrSelect = document.createElement('select');
+  attrSelect.id = `attr-${id}`;
+  attrSelect.innerHTML = '<option value="">-- select event type first --</option>';
+  attrSelect.addEventListener('change', () => {
+    updateValuePlaceholder(id);
+    updateValueSuggestions(id);
+    updateQueryPreview();
+  });
+  attrDiv.appendChild(attrLabel);
+  attrDiv.appendChild(attrSelect);
 
-	const attrCustom = document.createElement('input');
-	attrCustom.type = 'text';
-	attrCustom.id = `attr-custom-${id}`;
-	attrCustom.placeholder = 'custom_attribute';
-	attrCustom.style.display = 'none';
-	attrCustom.style.marginTop = '4px';
-	attrCustom.addEventListener('input', updateQueryPreview);
-	attrDiv.appendChild(attrCustom);
+  const attrCustom = document.createElement('input');
+  attrCustom.type = 'text';
+  attrCustom.id = `attr-custom-${id}`;
+  attrCustom.placeholder = 'custom_attribute';
+  attrCustom.style.display = 'none';
+  attrCustom.style.marginTop = '4px';
+  attrCustom.addEventListener('input', updateQueryPreview);
+  attrDiv.appendChild(attrCustom);
 
-	// Value input
-	const valDiv = document.createElement('div');
-	valDiv.className = 'value';
-	const valLabel = document.createElement('label');
-	valLabel.textContent = 'Value';
-	const valInput = document.createElement('input');
-	valInput.type = 'text';
-	valInput.id = `val-${id}`;
-	valInput.placeholder = 'Enter value...';
-	valInput.addEventListener('input', updateQueryPreview);
-	valDiv.appendChild(valLabel);
-	valDiv.appendChild(valInput);
+  // Value input with datalist suggestions
+  const valDiv = document.createElement('div');
+  valDiv.className = 'value';
+  const valLabel = document.createElement('label');
+  valLabel.textContent = 'Value';
+  const valInput = document.createElement('input');
+  valInput.type = 'text';
+  valInput.id = `val-${id}`;
+  valInput.placeholder = 'Enter value...';
+  valInput.setAttribute('list', `suggestions-${id}`);
+  valInput.setAttribute('autocomplete', 'off');
+  valInput.addEventListener('input', updateQueryPreview);
+  const datalist = document.createElement('datalist');
+  datalist.id = `suggestions-${id}`;
+  valDiv.appendChild(valLabel);
+  valDiv.appendChild(valInput);
+  valDiv.appendChild(datalist);
 
-	// Remove button
-	const removeBtn = document.createElement('button');
-	removeBtn.className = 'remove-btn';
-	removeBtn.innerHTML = '&times;';
-	removeBtn.title = 'Remove condition';
-	removeBtn.onclick = () => removeCondition(id);
+  // Remove button
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'remove-btn';
+  removeBtn.innerHTML = '&times;';
+  removeBtn.title = 'Remove condition';
+  removeBtn.onclick = () => removeCondition(id);
 
-	row.appendChild(etDiv);
-	row.appendChild(attrDiv);
-	row.appendChild(valDiv);
-	row.appendChild(removeBtn);
-	container.appendChild(row);
+  row.appendChild(etDiv);
+  row.appendChild(attrDiv);
+  row.appendChild(valDiv);
+  row.appendChild(removeBtn);
+  container.appendChild(row);
 
-	if (eventType) {
-		etSelect.value = eventType;
-		updateAttributeDropdown(id);
-		if (attribute) {
-			attrSelect.value = attribute;
-			updateValuePlaceholder(id);
-		}
-		if (value) valInput.value = value;
-	}
+  if (eventType) {
+    etSelect.value = eventType;
+    updateAttributeDropdown(id);
+    if (attribute) {
+      attrSelect.value = attribute;
+      updateValuePlaceholder(id);
+      updateValueSuggestions(id);
+    }
+    if (value) valInput.value = value;
+  }
 
-	updateQueryPreview();
+  updateQueryPreview();
 }
 
 function removeCondition(id) {
-	const row = document.getElementById(`cond-${id}`);
-	const andLabel = document.getElementById(`and-${id}`);
-	if (row) row.remove();
-	if (andLabel) andLabel.remove();
+  const row = document.getElementById(`cond-${id}`);
+  const andLabel = document.getElementById(`and-${id}`);
+  if (row) row.remove();
+  if (andLabel) andLabel.remove();
 
-	const container = document.getElementById('conditions');
-	if (container.firstElementChild?.classList.contains('and-label')) {
-		container.firstElementChild.remove();
-	}
+  const container = document.getElementById('conditions');
+  if (container.firstElementChild?.classList.contains('and-label')) {
+    container.firstElementChild.remove();
+  }
 
-	updateQueryPreview();
+  updateQueryPreview();
 }
 
 function updateAttributeDropdown(id) {
-	const etSelect = document.getElementById(`et-${id}`);
-	const etCustom = document.getElementById(`et-custom-${id}`);
-	const attrSelect = document.getElementById(`attr-${id}`);
-	const attrCustom = document.getElementById(`attr-custom-${id}`);
-	const eventType = etSelect.value;
+  const etSelect = document.getElementById(`et-${id}`);
+  const etCustom = document.getElementById(`et-custom-${id}`);
+  const attrSelect = document.getElementById(`attr-${id}`);
+  const attrCustom = document.getElementById(`attr-custom-${id}`);
+  const eventType = etSelect.value;
 
-	if (eventType === '__custom__') {
-		etCustom.style.display = 'block';
-		attrSelect.innerHTML = '<option value="__custom__">Custom...</option>';
-		attrSelect.value = '__custom__';
-		attrCustom.style.display = 'block';
-		return;
-	}
+  if (eventType === '__custom__') {
+    etCustom.style.display = 'block';
+    attrSelect.innerHTML = '<option value="__custom__">Custom...</option>';
+    attrSelect.value = '__custom__';
+    attrCustom.style.display = 'block';
+    return;
+  }
 
-	etCustom.style.display = 'none';
+  etCustom.style.display = 'none';
 
-	if (!eventType || !EVENT_CATALOG[eventType]) {
-		attrSelect.innerHTML = '<option value="">-- select event type first --</option>';
-		attrCustom.style.display = 'none';
-		return;
-	}
+  if (!eventType || !EVENT_CATALOG[eventType]) {
+    attrSelect.innerHTML = '<option value="">-- select event type first --</option>';
+    attrCustom.style.display = 'none';
+    return;
+  }
 
-	const attrs = EVENT_CATALOG[eventType].attributes;
-	attrSelect.innerHTML = '<option value="">-- select --</option>';
-	for (const [key, desc] of Object.entries(attrs)) {
-		const opt = document.createElement('option');
-		opt.value = key;
-		opt.textContent = key;
-		opt.title = desc;
-		attrSelect.appendChild(opt);
-	}
+  const attrs = EVENT_CATALOG[eventType].attributes;
+  attrSelect.innerHTML = '<option value="">-- select --</option>';
+  for (const [key, desc] of Object.entries(attrs)) {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = key;
+    opt.title = desc;
+    attrSelect.appendChild(opt);
+  }
 
-	const customOpt = document.createElement('option');
-	customOpt.value = '__custom__';
-	customOpt.textContent = 'Custom...';
-	attrSelect.appendChild(customOpt);
+  const customOpt = document.createElement('option');
+  customOpt.value = '__custom__';
+  customOpt.textContent = 'Custom...';
+  attrSelect.appendChild(customOpt);
 
-	attrCustom.style.display = 'none';
-	attrSelect.addEventListener('change', () => {
-		if (attrSelect.value === '__custom__') {
-			attrCustom.style.display = 'block';
-		} else {
-			attrCustom.style.display = 'none';
-		}
-	});
+  attrCustom.style.display = 'none';
+  attrSelect.addEventListener('change', () => {
+    if (attrSelect.value === '__custom__') {
+      attrCustom.style.display = 'block';
+    } else {
+      attrCustom.style.display = 'none';
+    }
+  });
 }
 
 function updateValuePlaceholder(id) {
-	const etSelect = document.getElementById(`et-${id}`);
-	const attrSelect = document.getElementById(`attr-${id}`);
-	const valInput = document.getElementById(`val-${id}`);
-	const eventType = etSelect.value;
-	const attr = attrSelect.value;
+  const etSelect = document.getElementById(`et-${id}`);
+  const attrSelect = document.getElementById(`attr-${id}`);
+  const valInput = document.getElementById(`val-${id}`);
+  const eventType = etSelect.value;
+  const attr = attrSelect.value;
 
-	if (eventType && eventType !== '__custom__' && EVENT_CATALOG[eventType]?.attributes[attr]) {
-		valInput.placeholder = EVENT_CATALOG[eventType].attributes[attr];
-	} else {
-		valInput.placeholder = 'Enter value...';
-	}
+  if (eventType && eventType !== '__custom__' && EVENT_CATALOG[eventType]?.attributes[attr]) {
+    valInput.placeholder = EVENT_CATALOG[eventType].attributes[attr];
+  } else {
+    valInput.placeholder = 'Enter value...';
+  }
 }
 
-// -- Presets --
+function updateValueSuggestions(id) {
+  const etSelect = document.getElementById(`et-${id}`);
+  const etCustom = document.getElementById(`et-custom-${id}`);
+  const attrSelect = document.getElementById(`attr-${id}`);
+  const attrCustom = document.getElementById(`attr-custom-${id}`);
+  const datalist = document.getElementById(`suggestions-${id}`);
+  if (!datalist) return;
+  datalist.innerHTML = '';
+
+  const eventType = etSelect.value === '__custom__' ? etCustom.value.trim() : etSelect.value;
+  const attribute = attrSelect.value === '__custom__' ? attrCustom.value.trim() : attrSelect.value;
+  if (!eventType || !attribute) return;
+
+  const suggestions = getSuggestions(`${eventType}.${attribute}`);
+  for (const val of suggestions) {
+    const opt = document.createElement('option');
+    opt.value = val;
+    datalist.appendChild(opt);
+  }
+}
+
+// -- Presets (legacy) --
 function applyPreset(name) {
-	clearConditions();
-	switch (name) {
-		case 'ibcReceive':
-			addCondition('fungible_token_packet', 'receiver', '');
-			break;
-		case 'transfersTo':
-			addCondition('transfer', 'recipient', '');
-			break;
-		case 'transfersFrom':
-			addCondition('transfer', 'sender', '');
-			break;
-		case 'ibcChannel':
-			addCondition('recv_packet', 'packet_dst_channel', '');
-			break;
-		case 'swaps':
-			addCondition('token_swapped', 'sender', '');
-			break;
-		case 'delegation':
-			addCondition('delegate', 'validator', '');
-			break;
-	}
+  clearConditions();
+  switch (name) {
+    case 'ibcReceive':
+      addCondition('fungible_token_packet', 'receiver', '');
+      break;
+    case 'transfersTo':
+      addCondition('transfer', 'recipient', '');
+      break;
+    case 'transfersFrom':
+      addCondition('transfer', 'sender', '');
+      break;
+    case 'ibcChannel':
+      addCondition('recv_packet', 'packet_dst_channel', '');
+      break;
+    case 'swaps':
+      addCondition('token_swapped', 'sender', '');
+      break;
+    case 'delegation':
+      addCondition('delegate', 'validator', '');
+      break;
+  }
 }
 
 function clearConditions() {
-	document.getElementById('conditions').innerHTML = '';
-	conditionId = 0;
-	updateQueryPreview();
+  document.getElementById('conditions').innerHTML = '';
+  conditionId = 0;
+  updateQueryPreview();
 }
 
 function clearAll() {
-	clearConditions();
-	addCondition();
-	document.getElementById('resultsArea').style.display = 'none';
-	document.getElementById('statusText').textContent = 'Ready';
-	allFetchedTxs = [];
-	lastRawResult = null;
+  clearConditions();
+  addCondition();
+  document.getElementById('resultsArea').style.display = 'none';
+  document.getElementById('statusText').textContent = 'Ready';
+  allFetchedTxs = [];
+  lastRawResult = null;
 }
 
 // -- Query preview --
 function updateQueryPreview() {
-	const conditions = getConditions();
-	const preview = document.getElementById('queryPreview');
+  const conditions = getConditions();
+  const preview = document.getElementById('queryPreview');
 
-	if (conditions.length === 0 || !conditions.some(c => c.eventType && c.attribute)) {
-		preview.classList.remove('visible');
-		return;
-	}
+  if (conditions.length === 0 || !conditions.some(c => c.eventType && c.attribute)) {
+    preview.classList.remove('visible');
+    return;
+  }
 
-	const parts = conditions
-		.filter(c => c.eventType && c.attribute)
-		.map(c => {
-			const val = c.value || '...';
-			return `<span class="qkey">${c.eventType}.${c.attribute}</span>=<span class="qval">'${val}'</span>`;
-		});
+  const parts = conditions
+    .filter(c => c.eventType && c.attribute)
+    .map(c => {
+      const val = c.value || '...';
+      return `<span class="qkey">${c.eventType}.${c.attribute}</span>=<span class="qval">'${val}'</span>`;
+    });
 
-	preview.innerHTML = parts.join(` <span class="qop">AND</span> `);
-	preview.classList.add('visible');
+  // Append height range if present
+  const afterH = document.getElementById('afterHeight')?.value?.trim();
+  const beforeH = document.getElementById('beforeHeight')?.value?.trim();
+  if (afterH) parts.push(`<span class="qkey">tx.height</span>&gt;<span class="qval">${afterH}</span>`);
+  if (beforeH) parts.push(`<span class="qkey">tx.height</span>&lt;<span class="qval">${beforeH}</span>`);
+
+  preview.innerHTML = parts.join(` <span class="qop">AND</span> `);
+  preview.classList.add('visible');
 }
 
 function getConditions() {
-	const container = document.getElementById('conditions');
-	const rows = container.querySelectorAll('.condition-row');
-	const conditions = [];
+  const container = document.getElementById('conditions');
+  const rows = container.querySelectorAll('.condition-row');
+  const conditions = [];
 
-	for (const row of rows) {
-		const id = row.id.replace('cond-', '');
-		const etSelect = document.getElementById(`et-${id}`);
-		const etCustom = document.getElementById(`et-custom-${id}`);
-		const attrSelect = document.getElementById(`attr-${id}`);
-		const attrCustom = document.getElementById(`attr-custom-${id}`);
-		const valInput = document.getElementById(`val-${id}`);
+  for (const row of rows) {
+    const id = row.id.replace('cond-', '');
+    const etSelect = document.getElementById(`et-${id}`);
+    const etCustom = document.getElementById(`et-custom-${id}`);
+    const attrSelect = document.getElementById(`attr-${id}`);
+    const attrCustom = document.getElementById(`attr-custom-${id}`);
+    const valInput = document.getElementById(`val-${id}`);
 
-		if (!etSelect) continue;
+    if (!etSelect) continue;
 
-		const eventType = etSelect.value === '__custom__' ? etCustom.value.trim() : etSelect.value;
-		const attribute = attrSelect.value === '__custom__' ? attrCustom.value.trim() : attrSelect.value;
-		const value = valInput.value.trim();
+    const eventType = etSelect.value === '__custom__' ? etCustom.value.trim() : etSelect.value;
+    const attribute = attrSelect.value === '__custom__' ? attrCustom.value.trim() : attrSelect.value;
+    const value = valInput.value.trim();
 
-		if (eventType && attribute && value) {
-			conditions.push({ eventType, attribute, value });
-		}
-	}
+    if (eventType && attribute && value) {
+      conditions.push({ eventType, attribute, value });
+    }
+  }
 
-	return conditions;
+  return conditions;
 }
 
 // ===== RPC QUERY FORM =====
 
 function updateRpcForm() {
-	const type = document.getElementById('rpcQueryType').value;
-	const container = document.getElementById('rpcFields');
-	container.innerHTML = '';
+  const type = document.getElementById('rpcQueryType').value;
+  const container = document.getElementById('rpcFields');
+  container.innerHTML = '';
 
-	switch (type) {
-		case 'status':
-			// No fields needed
-			container.innerHTML = '<div style="color: var(--text-muted); font-size: 12px; padding: 6px 0;">No parameters required</div>';
-			break;
-		case 'block':
-		case 'block_results': {
-			const div = document.createElement('div');
-			const label = document.createElement('label');
-			label.textContent = 'Height (leave empty for latest)';
-			const input = document.createElement('input');
-			input.type = 'number';
-			input.id = 'rpcHeight';
-			input.placeholder = 'e.g. 12345678';
-			div.appendChild(label);
-			div.appendChild(input);
-			container.appendChild(div);
-			break;
-		}
-		case 'validators': {
-			const hDiv = document.createElement('div');
-			const hLabel = document.createElement('label');
-			hLabel.textContent = 'Height (optional)';
-			const hInput = document.createElement('input');
-			hInput.type = 'number';
-			hInput.id = 'rpcHeight';
-			hInput.placeholder = 'latest';
-			hDiv.appendChild(hLabel);
-			hDiv.appendChild(hInput);
-			container.appendChild(hDiv);
+  switch (type) {
+    case 'status':
+      // No fields needed
+      container.innerHTML = '<div style="color: var(--text-muted); font-size: 12px; padding: 6px 0;">No parameters required</div>';
+      break;
+    case 'block':
+    case 'block_results': {
+      const div = document.createElement('div');
+      const label = document.createElement('label');
+      label.textContent = 'Height (leave empty for latest)';
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.id = 'rpcHeight';
+      input.placeholder = 'e.g. 12345678';
+      div.appendChild(label);
+      div.appendChild(input);
+      container.appendChild(div);
+      break;
+    }
+    case 'validators': {
+      const hDiv = document.createElement('div');
+      const hLabel = document.createElement('label');
+      hLabel.textContent = 'Height (optional)';
+      const hInput = document.createElement('input');
+      hInput.type = 'number';
+      hInput.id = 'rpcHeight';
+      hInput.placeholder = 'latest';
+      hDiv.appendChild(hLabel);
+      hDiv.appendChild(hInput);
+      container.appendChild(hDiv);
 
-			const ppDiv = document.createElement('div');
-			const ppLabel = document.createElement('label');
-			ppLabel.textContent = 'Per Page';
-			const ppSelect = document.createElement('select');
-			ppSelect.id = 'rpcPerPage';
-			for (const v of [30, 50, 100]) {
-				const opt = document.createElement('option');
-				opt.value = v;
-				opt.textContent = v;
-				if (v === 100) opt.selected = true;
-				ppSelect.appendChild(opt);
-			}
-			ppDiv.appendChild(ppLabel);
-			ppDiv.appendChild(ppSelect);
-			container.appendChild(ppDiv);
-			break;
-		}
-	}
+      const ppDiv = document.createElement('div');
+      const ppLabel = document.createElement('label');
+      ppLabel.textContent = 'Per Page';
+      const ppSelect = document.createElement('select');
+      ppSelect.id = 'rpcPerPage';
+      for (const v of [30, 50, 100]) {
+        const opt = document.createElement('option');
+        opt.value = v;
+        opt.textContent = v;
+        if (v === 100) opt.selected = true;
+        ppSelect.appendChild(opt);
+      }
+      ppDiv.appendChild(ppLabel);
+      ppDiv.appendChild(ppSelect);
+      container.appendChild(ppDiv);
+      break;
+    }
+  }
 }
 
 async function doRpcQuery() {
-	const type = document.getElementById('rpcQueryType').value;
-	const rpcUrl = document.getElementById('rpcUrl').value.replace(/\/+$/, '');
+  const type = document.getElementById('rpcQueryType').value;
+  const rpcUrl = document.getElementById('rpcUrl').value.replace(/\/+$/, '');
 
-	setStatus(`Querying ${type}...`);
-	setLoading(true);
+  setStatus(`Querying ${type}...`);
+  setLoading(true);
 
-	try {
-		let url;
-		const params = new URLSearchParams();
+  try {
+    let url;
+    const params = new URLSearchParams();
 
-		switch (type) {
-			case 'status':
-				url = `${rpcUrl}/status`;
-				break;
-			case 'block': {
-				const h = document.getElementById('rpcHeight')?.value;
-				url = `${rpcUrl}/block`;
-				if (h) params.set('height', h);
-				break;
-			}
-			case 'block_results': {
-				const h = document.getElementById('rpcHeight')?.value;
-				url = `${rpcUrl}/block_results`;
-				if (h) params.set('height', h);
-				break;
-			}
-			case 'validators': {
-				const h = document.getElementById('rpcHeight')?.value;
-				const pp = document.getElementById('rpcPerPage')?.value || '100';
-				url = `${rpcUrl}/validators`;
-				if (h) params.set('height', h);
-				params.set('per_page', pp);
-				break;
-			}
-		}
+    switch (type) {
+      case 'status':
+        url = `${rpcUrl}/status`;
+        break;
+      case 'block': {
+        const h = document.getElementById('rpcHeight')?.value;
+        url = `${rpcUrl}/block`;
+        if (h) params.set('height', h);
+        break;
+      }
+      case 'block_results': {
+        const h = document.getElementById('rpcHeight')?.value;
+        url = `${rpcUrl}/block_results`;
+        if (h) params.set('height', h);
+        break;
+      }
+      case 'validators': {
+        const h = document.getElementById('rpcHeight')?.value;
+        const pp = document.getElementById('rpcPerPage')?.value || '100';
+        url = `${rpcUrl}/validators`;
+        if (h) params.set('height', h);
+        params.set('per_page', pp);
+        break;
+      }
+    }
 
-		const qs = params.toString();
-		const fullUrl = qs ? `${url}?${qs}` : url;
-		const resp = await proxiedFetch(fullUrl, { signal: AbortSignal.timeout(15000) });
-		if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
+    const qs = params.toString();
+    const fullUrl = qs ? `${url}?${qs}` : url;
+    const resp = await proxiedFetch(fullUrl, { signal: AbortSignal.timeout(15000) });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
 
-		const data = await resp.json();
-		if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
 
-		lastRawResult = data.result || data;
-		allFetchedTxs = [];
-		renderRpcResult(type, lastRawResult);
-		setStatus(`${type} query complete`);
-	} catch (err) {
-		setStatus(`Error: ${err.message}`, true);
-		console.error(err);
-	} finally {
-		setLoading(false);
-	}
+    lastRawResult = data.result || data;
+    allFetchedTxs = [];
+    renderRpcResult(type, lastRawResult);
+    setStatus(`${type} query complete`);
+  } catch (err) {
+    setStatus(`Error: ${err.message}`, true);
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
 }
 
 function renderRpcResult(type, result) {
-	const area = document.getElementById('resultsArea');
-	area.style.display = 'block';
-	const countEl = document.getElementById('resultsCount');
-	const pagDiv = document.getElementById('pagination');
-	pagDiv.innerHTML = '';
-	const list = document.getElementById('txList');
-	list.innerHTML = '';
+  const area = document.getElementById('resultsArea');
+  area.style.display = 'block';
+  const countEl = document.getElementById('resultsCount');
+  const pagDiv = document.getElementById('pagination');
+  pagDiv.innerHTML = '';
+  const list = document.getElementById('txList');
+  list.innerHTML = '';
 
-	switch (type) {
-		case 'status':
-			countEl.innerHTML = 'Node Status';
-			renderNodeStatus(list, result);
-			break;
-		case 'block':
-			countEl.innerHTML = 'Block Info';
-			renderBlockInfo(list, result);
-			break;
-		case 'block_results':
-			countEl.innerHTML = 'Block Results';
-			renderBlockResults(list, result);
-			break;
-		case 'validators':
-			countEl.innerHTML = `<span>${(result.validators || []).length}</span> validators`;
-			renderValidators(list, result);
-			break;
-		default:
-			countEl.innerHTML = 'Result';
-			renderJsonFallback(list, result);
-	}
+  switch (type) {
+    case 'status':
+      countEl.innerHTML = 'Node Status';
+      renderNodeStatus(list, result);
+      break;
+    case 'block':
+      countEl.innerHTML = 'Block Info';
+      renderBlockInfo(list, result);
+      break;
+    case 'block_results':
+      countEl.innerHTML = 'Block Results';
+      renderBlockResults(list, result);
+      break;
+    case 'validators':
+      countEl.innerHTML = `<span>${(result.validators || []).length}</span> validators`;
+      renderValidators(list, result);
+      break;
+    default:
+      countEl.innerHTML = 'Result';
+      renderJsonFallback(list, result);
+  }
 }
 
 function renderNodeStatus(container, result) {
-	const ni = result.node_info || {};
-	const si = result.sync_info || {};
-	const vi = result.validator_info || {};
+  const ni = result.node_info || {};
+  const si = result.sync_info || {};
+  const vi = result.validator_info || {};
 
-	const kvData = [
-		['Moniker', ni.moniker || ''],
-		['Network', ni.network || ''],
-		['Version', ni.version || ''],
-		['Node ID', ni.id || ''],
-		['Latest Height', si.latest_block_height || ''],
-		['Latest Hash', si.latest_block_hash || ''],
-		['Latest Time', si.latest_block_time || ''],
-		['Catching Up', String(si.catching_up ?? '')],
-		['Earliest Height', si.earliest_block_height || ''],
-		['Earliest Time', si.earliest_block_time || ''],
-	];
+  const kvData = [
+    ['Moniker', ni.moniker || ''],
+    ['Network', ni.network || ''],
+    ['Version', ni.version || ''],
+    ['Node ID', ni.id || ''],
+    ['Latest Height', si.latest_block_height || ''],
+    ['Latest Hash', si.latest_block_hash || ''],
+    ['Latest Time', si.latest_block_time || ''],
+    ['Catching Up', String(si.catching_up ?? '')],
+    ['Earliest Height', si.earliest_block_height || ''],
+    ['Earliest Time', si.earliest_block_time || ''],
+  ];
 
-	if (vi.address) {
-		kvData.push(['Validator Address', vi.address]);
-		kvData.push(['Voting Power', vi.voting_power || '0']);
-	}
+  if (vi.address) {
+    kvData.push(['Validator Address', vi.address]);
+    kvData.push(['Voting Power', vi.voting_power || '0']);
+  }
 
-	container.appendChild(buildKvGrid(kvData));
+  container.appendChild(buildKvGrid(kvData));
 }
 
 function renderBlockInfo(container, result) {
-	const header = result.block?.header || {};
-	const kvData = [
-		['Height', header.height || ''],
-		['Chain ID', header.chain_id || ''],
-		['Time', header.time || ''],
-		['Proposer', header.proposer_address || ''],
-		['Block Hash', result.block_id?.hash || ''],
-		['Num Txs', String((result.block?.data?.txs || []).length)],
-		['Last Commit Hash', header.last_commit_hash || ''],
-		['Data Hash', header.data_hash || ''],
-		['Validators Hash', header.validators_hash || ''],
-		['App Hash', header.app_hash || ''],
-	];
+  const header = result.block?.header || {};
+  const kvData = [
+    ['Height', header.height || ''],
+    ['Chain ID', header.chain_id || ''],
+    ['Time', header.time || ''],
+    ['Proposer', header.proposer_address || ''],
+    ['Block Hash', result.block_id?.hash || ''],
+    ['Num Txs', String((result.block?.data?.txs || []).length)],
+    ['Last Commit Hash', header.last_commit_hash || ''],
+    ['Data Hash', header.data_hash || ''],
+    ['Validators Hash', header.validators_hash || ''],
+    ['App Hash', header.app_hash || ''],
+  ];
 
-	container.appendChild(buildKvGrid(kvData));
+  container.appendChild(buildKvGrid(kvData));
 
-	const txCount = (result.block?.data?.txs || []).length;
-	if (txCount > 0) {
-		const note = document.createElement('div');
-		note.style.cssText = 'font-size: 12px; color: var(--text-muted); margin-top: 8px;';
-		note.textContent = `Block contains ${txCount} transaction(s). Use "Block Results" to see events.`;
-		container.appendChild(note);
-	}
+  const txCount = (result.block?.data?.txs || []).length;
+  if (txCount > 0) {
+    const note = document.createElement('div');
+    note.style.cssText = 'font-size: 12px; color: var(--text-muted); margin-top: 8px;';
+    note.textContent = `Block contains ${txCount} transaction(s). Use "Block Results" to see events.`;
+    container.appendChild(note);
+  }
 }
 
 function renderBlockResults(container, result) {
-	const height = result.height || '';
+  const height = result.height || '';
 
-	const hDiv = document.createElement('div');
-	hDiv.style.cssText = 'font-size: 13px; margin-bottom: 12px; color: var(--text-muted);';
-	hDiv.textContent = `Block height: ${height}`;
-	container.appendChild(hDiv);
+  const hDiv = document.createElement('div');
+  hDiv.style.cssText = 'font-size: 13px; margin-bottom: 12px; color: var(--text-muted);';
+  hDiv.textContent = `Block height: ${height}`;
+  container.appendChild(hDiv);
 
-	// Begin-block events
-	const beginEvents = result.begin_block_events || [];
-	if (beginEvents.length > 0) {
-		const title = document.createElement('div');
-		title.className = 'section-title';
-		title.textContent = `Begin Block Events (${beginEvents.length})`;
-		container.appendChild(title);
-		renderEventList(container, beginEvents);
-	}
+  // Begin-block events
+  const beginEvents = result.begin_block_events || [];
+  if (beginEvents.length > 0) {
+    const title = document.createElement('div');
+    title.className = 'section-title';
+    title.textContent = `Begin Block Events (${beginEvents.length})`;
+    container.appendChild(title);
+    renderEventList(container, beginEvents);
+  }
 
-	// Tx results
-	const txResults = result.txs_results || [];
-	if (txResults.length > 0) {
-		const title = document.createElement('div');
-		title.className = 'section-title';
-		title.style.marginTop = '16px';
-		title.textContent = `Transaction Results (${txResults.length})`;
-		container.appendChild(title);
+  // Tx results
+  const txResults = result.txs_results || [];
+  if (txResults.length > 0) {
+    const title = document.createElement('div');
+    title.className = 'section-title';
+    title.style.marginTop = '16px';
+    title.textContent = `Transaction Results (${txResults.length})`;
+    container.appendChild(title);
 
-		txResults.forEach((txr, i) => {
-			const card = document.createElement('div');
-			card.className = 'tx-card';
+    txResults.forEach((txr, i) => {
+      const card = document.createElement('div');
+      card.className = 'tx-card';
 
-			const summary = document.createElement('div');
-			summary.className = 'tx-summary';
-			summary.onclick = () => card.classList.toggle('expanded');
+      const summary = document.createElement('div');
+      summary.className = 'tx-summary';
+      summary.onclick = () => card.classList.toggle('expanded');
 
-			const code = txr.code || 0;
-			summary.innerHTML = `
-				<span class="idx">${i + 1}</span>
-				<span class="height">Tx #${i + 1}</span>
-				<span class="hash" style="color: var(--text-muted);">gas: ${parseInt(txr.gas_used || 0).toLocaleString()} / ${parseInt(txr.gas_wanted || 0).toLocaleString()}</span>
-				<span class="status-badge ${code === 0 ? 'ok' : 'fail'}">${code === 0 ? 'OK' : 'ERR ' + code}</span>
-				<span class="expand-icon">&#9654;</span>
-			`;
+      const code = txr.code || 0;
+      summary.innerHTML = `
+        <span class="idx">${i + 1}</span>
+        <span class="height">Tx #${i + 1}</span>
+        <span class="hash" style="color: var(--text-muted);">gas: ${parseInt(txr.gas_used || 0).toLocaleString()} / ${parseInt(txr.gas_wanted || 0).toLocaleString()}</span>
+        <span class="status-badge ${code === 0 ? 'ok' : 'fail'}">${code === 0 ? 'OK' : 'ERR ' + code}</span>
+        <span class="expand-icon">&#9654;</span>
+      `;
 
-			const detail = document.createElement('div');
-			detail.className = 'tx-detail';
+      const detail = document.createElement('div');
+      detail.className = 'tx-detail';
 
-			const skipTypes = new Set(['tx', 'coin_spent', 'coin_received', 'coinbase']);
-			for (const ev of (txr.events || [])) {
-				if (skipTypes.has(ev.type)) continue;
-				detail.appendChild(buildEventBlock(ev));
-			}
+      const skipTypes = new Set(['tx', 'coin_spent', 'coin_received', 'coinbase']);
+      for (const ev of (txr.events || [])) {
+        if (skipTypes.has(ev.type)) continue;
+        detail.appendChild(buildEventBlock(ev));
+      }
 
-			card.appendChild(summary);
-			card.appendChild(detail);
-			container.appendChild(card);
-		});
-	}
+      card.appendChild(summary);
+      card.appendChild(detail);
+      container.appendChild(card);
+    });
+  }
 
-	// End-block events
-	const endEvents = result.end_block_events || [];
-	if (endEvents.length > 0) {
-		const title = document.createElement('div');
-		title.className = 'section-title';
-		title.style.marginTop = '16px';
-		title.textContent = `End Block Events (${endEvents.length})`;
-		container.appendChild(title);
-		renderEventList(container, endEvents);
-	}
+  // End-block events
+  const endEvents = result.end_block_events || [];
+  if (endEvents.length > 0) {
+    const title = document.createElement('div');
+    title.className = 'section-title';
+    title.style.marginTop = '16px';
+    title.textContent = `End Block Events (${endEvents.length})`;
+    container.appendChild(title);
+    renderEventList(container, endEvents);
+  }
 
-	if (beginEvents.length === 0 && txResults.length === 0 && endEvents.length === 0) {
-		container.appendChild(buildEmptyMessage('No events found for this block'));
-	}
+  if (beginEvents.length === 0 && txResults.length === 0 && endEvents.length === 0) {
+    container.appendChild(buildEmptyMessage('No events found for this block'));
+  }
 }
 
 function renderValidators(container, result) {
-	const vals = result.validators || [];
-	if (vals.length === 0) {
-		container.appendChild(buildEmptyMessage('No validators found'));
-		return;
-	}
+  const vals = result.validators || [];
+  if (vals.length === 0) {
+    container.appendChild(buildEmptyMessage('No validators found'));
+    return;
+  }
 
-	const table = document.createElement('table');
-	table.className = 'data-table';
+  const table = document.createElement('table');
+  table.className = 'data-table';
 
-	const thead = document.createElement('thead');
-	thead.innerHTML = '<tr><th>#</th><th>Address</th><th>Pub Key Type</th><th>Voting Power</th><th>Proposer Priority</th></tr>';
-	table.appendChild(thead);
+  const thead = document.createElement('thead');
+  thead.innerHTML = '<tr><th>#</th><th>Address</th><th>Pub Key Type</th><th>Voting Power</th><th>Proposer Priority</th></tr>';
+  table.appendChild(thead);
 
-	const tbody = document.createElement('tbody');
-	vals.forEach((v, i) => {
-		const tr = document.createElement('tr');
-		const pubkey = v.pub_key || {};
-		tr.innerHTML = `
-			<td>${i + 1}</td>
-			<td>${escapeHtml(v.address || '')}</td>
-			<td>${escapeHtml(pubkey.type || '')}</td>
-			<td>${parseInt(v.voting_power || 0).toLocaleString()}</td>
-			<td>${v.proposer_priority || '0'}</td>
-		`;
-		tbody.appendChild(tr);
-	});
-	table.appendChild(tbody);
-	container.appendChild(table);
+  const tbody = document.createElement('tbody');
+  vals.forEach((v, i) => {
+    const tr = document.createElement('tr');
+    const pubkey = v.pub_key || {};
+    tr.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${escapeHtml(v.address || '')}</td>
+      <td>${escapeHtml(pubkey.type || '')}</td>
+      <td>${parseInt(v.voting_power || 0).toLocaleString()}</td>
+      <td>${v.proposer_priority || '0'}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
 
-	if (result.block_height) {
-		const note = document.createElement('div');
-		note.style.cssText = 'font-size: 12px; color: var(--text-muted); margin-top: 8px;';
-		note.textContent = `At height: ${result.block_height} | Total: ${result.total || vals.length}`;
-		container.appendChild(note);
-	}
+  if (result.block_height) {
+    const note = document.createElement('div');
+    note.style.cssText = 'font-size: 12px; color: var(--text-muted); margin-top: 8px;';
+    note.textContent = `At height: ${result.block_height} | Total: ${result.total || vals.length}`;
+    container.appendChild(note);
+  }
 }
 
 // ===== REST QUERY FORM =====
 
 function updateRestForm() {
-	const type = document.getElementById('restQueryType').value;
-	const container = document.getElementById('restFields');
-	container.innerHTML = '';
+  const type = document.getElementById('restQueryType').value;
+  const container = document.getElementById('restFields');
+  container.innerHTML = '';
 
-	switch (type) {
-		case 'balances':
-		case 'account':
-		case 'delegations':
-		case 'rewards': {
-			const div = document.createElement('div');
-			const label = document.createElement('label');
-			label.textContent = 'Address';
-			const input = document.createElement('input');
-			input.type = 'text';
-			input.id = 'restAddress';
-			input.placeholder = 'cosmos1... or osmo1...';
-			div.appendChild(label);
-			div.appendChild(input);
-			container.appendChild(div);
-			break;
-		}
-		case 'validators': {
-			const div = document.createElement('div');
-			const label = document.createElement('label');
-			label.textContent = 'Status Filter';
-			const sel = document.createElement('select');
-			sel.id = 'restValStatus';
-			for (const [val, text] of [
-				['BOND_STATUS_BONDED', 'Bonded'],
-				['BOND_STATUS_UNBONDING', 'Unbonding'],
-				['BOND_STATUS_UNBONDED', 'Unbonded'],
-				['', 'All'],
-			]) {
-				const opt = document.createElement('option');
-				opt.value = val;
-				opt.textContent = text;
-				sel.appendChild(opt);
-			}
-			div.appendChild(label);
-			div.appendChild(sel);
-			container.appendChild(div);
-			break;
-		}
-		case 'proposals': {
-			const div = document.createElement('div');
-			const label = document.createElement('label');
-			label.textContent = 'Status Filter';
-			const sel = document.createElement('select');
-			sel.id = 'restPropStatus';
-			for (const [val, text] of [
-				['0', 'All'],
-				['1', 'Deposit Period'],
-				['2', 'Voting Period'],
-				['3', 'Passed'],
-				['4', 'Rejected'],
-				['5', 'Failed'],
-			]) {
-				const opt = document.createElement('option');
-				opt.value = val;
-				opt.textContent = text;
-				sel.appendChild(opt);
-			}
-			div.appendChild(label);
-			div.appendChild(sel);
-			container.appendChild(div);
-			break;
-		}
-		case 'tx': {
-			const div = document.createElement('div');
-			const label = document.createElement('label');
-			label.textContent = 'Transaction Hash';
-			const input = document.createElement('input');
-			input.type = 'text';
-			input.id = 'restTxHash';
-			input.placeholder = 'e.g. A1B2C3D4...';
-			div.appendChild(label);
-			div.appendChild(input);
-			container.appendChild(div);
-			break;
-		}
-		case 'txSearch': {
-			const evDiv = document.createElement('div');
-			const evLabel = document.createElement('label');
-			evLabel.textContent = 'Events Query';
-			const evInput = document.createElement('input');
-			evInput.type = 'text';
-			evInput.id = 'restEvents';
-			evInput.placeholder = "e.g. transfer.recipient='osmo1...'";
-			evDiv.appendChild(evLabel);
-			evDiv.appendChild(evInput);
-			container.appendChild(evDiv);
+  switch (type) {
+    case 'balances':
+    case 'account':
+    case 'delegations':
+    case 'rewards': {
+      const div = document.createElement('div');
+      const label = document.createElement('label');
+      label.textContent = 'Address';
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.id = 'restAddress';
+      input.placeholder = 'cosmos1... or osmo1...';
+      div.appendChild(label);
+      div.appendChild(input);
+      container.appendChild(div);
+      break;
+    }
+    case 'validators': {
+      const div = document.createElement('div');
+      const label = document.createElement('label');
+      label.textContent = 'Status Filter';
+      const sel = document.createElement('select');
+      sel.id = 'restValStatus';
+      for (const [val, text] of [
+        ['BOND_STATUS_BONDED', 'Bonded'],
+        ['BOND_STATUS_UNBONDING', 'Unbonding'],
+        ['BOND_STATUS_UNBONDED', 'Unbonded'],
+        ['', 'All'],
+      ]) {
+        const opt = document.createElement('option');
+        opt.value = val;
+        opt.textContent = text;
+        sel.appendChild(opt);
+      }
+      div.appendChild(label);
+      div.appendChild(sel);
+      container.appendChild(div);
+      break;
+    }
+    case 'proposals': {
+      const div = document.createElement('div');
+      const label = document.createElement('label');
+      label.textContent = 'Status Filter';
+      const sel = document.createElement('select');
+      sel.id = 'restPropStatus';
+      for (const [val, text] of [
+        ['0', 'All'],
+        ['1', 'Deposit Period'],
+        ['2', 'Voting Period'],
+        ['3', 'Passed'],
+        ['4', 'Rejected'],
+        ['5', 'Failed'],
+      ]) {
+        const opt = document.createElement('option');
+        opt.value = val;
+        opt.textContent = text;
+        sel.appendChild(opt);
+      }
+      div.appendChild(label);
+      div.appendChild(sel);
+      container.appendChild(div);
+      break;
+    }
+    case 'tx': {
+      const div = document.createElement('div');
+      const label = document.createElement('label');
+      label.textContent = 'Transaction Hash';
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.id = 'restTxHash';
+      input.placeholder = 'e.g. A1B2C3D4...';
+      div.appendChild(label);
+      div.appendChild(input);
+      container.appendChild(div);
+      break;
+    }
+    case 'txSearch': {
+      const evDiv = document.createElement('div');
+      const evLabel = document.createElement('label');
+      evLabel.textContent = 'Events Query';
+      const evInput = document.createElement('input');
+      evInput.type = 'text';
+      evInput.id = 'restEvents';
+      evInput.placeholder = "e.g. transfer.recipient='osmo1...'";
+      evDiv.appendChild(evLabel);
+      evDiv.appendChild(evInput);
+      container.appendChild(evDiv);
 
-			const ordDiv = document.createElement('div');
-			const ordLabel = document.createElement('label');
-			ordLabel.textContent = 'Order';
-			const ordSelect = document.createElement('select');
-			ordSelect.id = 'restOrder';
-			const opt1 = document.createElement('option');
-			opt1.value = 'ORDER_BY_DESC';
-			opt1.textContent = 'Newest first';
-			const opt2 = document.createElement('option');
-			opt2.value = 'ORDER_BY_ASC';
-			opt2.textContent = 'Oldest first';
-			ordSelect.appendChild(opt1);
-			ordSelect.appendChild(opt2);
-			ordDiv.appendChild(ordLabel);
-			ordDiv.appendChild(ordSelect);
-			container.appendChild(ordDiv);
-			break;
-		}
-	}
+      const ordDiv = document.createElement('div');
+      const ordLabel = document.createElement('label');
+      ordLabel.textContent = 'Order';
+      const ordSelect = document.createElement('select');
+      ordSelect.id = 'restOrder';
+      const opt1 = document.createElement('option');
+      opt1.value = 'ORDER_BY_DESC';
+      opt1.textContent = 'Newest first';
+      const opt2 = document.createElement('option');
+      opt2.value = 'ORDER_BY_ASC';
+      opt2.textContent = 'Oldest first';
+      ordSelect.appendChild(opt1);
+      ordSelect.appendChild(opt2);
+      ordDiv.appendChild(ordLabel);
+      ordDiv.appendChild(ordSelect);
+      container.appendChild(ordDiv);
+      break;
+    }
+  }
 }
 
 async function doRestQuery() {
-	const type = document.getElementById('restQueryType').value;
-	const lcdUrl = document.getElementById('lcdUrl').value.replace(/\/+$/, '');
+  const type = document.getElementById('restQueryType').value;
+  const lcdUrl = document.getElementById('lcdUrl').value.replace(/\/+$/, '');
 
-	setStatus(`Querying ${type}...`);
-	setLoading(true);
+  setStatus(`Querying ${type}...`);
+  setLoading(true);
 
-	try {
-		let url;
+  try {
+    let url;
 
-		switch (type) {
-			case 'balances': {
-				const addr = document.getElementById('restAddress')?.value.trim();
-				if (!addr) throw new Error('Address is required');
-				url = `${lcdUrl}/cosmos/bank/v1beta1/balances/${encodeURIComponent(addr)}`;
-				break;
-			}
-			case 'account': {
-				const addr = document.getElementById('restAddress')?.value.trim();
-				if (!addr) throw new Error('Address is required');
-				url = `${lcdUrl}/cosmos/auth/v1beta1/accounts/${encodeURIComponent(addr)}`;
-				break;
-			}
-			case 'delegations': {
-				const addr = document.getElementById('restAddress')?.value.trim();
-				if (!addr) throw new Error('Address is required');
-				url = `${lcdUrl}/cosmos/staking/v1beta1/delegators/${encodeURIComponent(addr)}/delegations`;
-				break;
-			}
-			case 'rewards': {
-				const addr = document.getElementById('restAddress')?.value.trim();
-				if (!addr) throw new Error('Address is required');
-				url = `${lcdUrl}/cosmos/distribution/v1beta1/delegators/${encodeURIComponent(addr)}/rewards`;
-				break;
-			}
-			case 'validators': {
-				const status = document.getElementById('restValStatus')?.value || '';
-				const params = new URLSearchParams({ 'pagination.limit': '200' });
-				if (status) params.set('status', status);
-				url = `${lcdUrl}/cosmos/staking/v1beta1/validators?${params}`;
-				break;
-			}
-			case 'proposals': {
-				const status = document.getElementById('restPropStatus')?.value || '0';
-				const params = new URLSearchParams({ 'pagination.limit': '50', 'pagination.reverse': 'true' });
-				if (status !== '0') params.set('proposal_status', status);
-				url = `${lcdUrl}/cosmos/gov/v1beta1/proposals?${params}`;
-				break;
-			}
-			case 'tx': {
-				const hash = document.getElementById('restTxHash')?.value.trim();
-				if (!hash) throw new Error('Transaction hash is required');
-				url = `${lcdUrl}/cosmos/tx/v1beta1/txs/${encodeURIComponent(hash)}`;
-				break;
-			}
-			case 'txSearch': {
-				const events = document.getElementById('restEvents')?.value.trim();
-				if (!events) throw new Error('Events query is required');
-				const order = document.getElementById('restOrder')?.value || 'ORDER_BY_DESC';
-				const params = new URLSearchParams({
-					events: events,
-					order_by: order,
-					'pagination.limit': '50',
-				});
-				url = `${lcdUrl}/cosmos/tx/v1beta1/txs?${params}`;
-				break;
-			}
-		}
+    switch (type) {
+      case 'balances': {
+        const addr = document.getElementById('restAddress')?.value.trim();
+        if (!addr) throw new Error('Address is required');
+        url = `${lcdUrl}/cosmos/bank/v1beta1/balances/${encodeURIComponent(addr)}`;
+        break;
+      }
+      case 'account': {
+        const addr = document.getElementById('restAddress')?.value.trim();
+        if (!addr) throw new Error('Address is required');
+        url = `${lcdUrl}/cosmos/auth/v1beta1/accounts/${encodeURIComponent(addr)}`;
+        break;
+      }
+      case 'delegations': {
+        const addr = document.getElementById('restAddress')?.value.trim();
+        if (!addr) throw new Error('Address is required');
+        url = `${lcdUrl}/cosmos/staking/v1beta1/delegators/${encodeURIComponent(addr)}/delegations`;
+        break;
+      }
+      case 'rewards': {
+        const addr = document.getElementById('restAddress')?.value.trim();
+        if (!addr) throw new Error('Address is required');
+        url = `${lcdUrl}/cosmos/distribution/v1beta1/delegators/${encodeURIComponent(addr)}/rewards`;
+        break;
+      }
+      case 'validators': {
+        const status = document.getElementById('restValStatus')?.value || '';
+        const params = new URLSearchParams({ 'pagination.limit': '200' });
+        if (status) params.set('status', status);
+        url = `${lcdUrl}/cosmos/staking/v1beta1/validators?${params}`;
+        break;
+      }
+      case 'proposals': {
+        const status = document.getElementById('restPropStatus')?.value || '0';
+        const params = new URLSearchParams({ 'pagination.limit': '50', 'pagination.reverse': 'true' });
+        if (status !== '0') params.set('proposal_status', status);
+        url = `${lcdUrl}/cosmos/gov/v1beta1/proposals?${params}`;
+        break;
+      }
+      case 'tx': {
+        const hash = document.getElementById('restTxHash')?.value.trim();
+        if (!hash) throw new Error('Transaction hash is required');
+        url = `${lcdUrl}/cosmos/tx/v1beta1/txs/${encodeURIComponent(hash)}`;
+        break;
+      }
+      case 'txSearch': {
+        const events = document.getElementById('restEvents')?.value.trim();
+        if (!events) throw new Error('Events query is required');
+        const order = document.getElementById('restOrder')?.value || 'ORDER_BY_DESC';
+        const params = new URLSearchParams({
+          events: events,
+          order_by: order,
+          'pagination.limit': '50',
+        });
+        url = `${lcdUrl}/cosmos/tx/v1beta1/txs?${params}`;
+        break;
+      }
+    }
 
-		const resp = await proxiedFetch(url, { signal: AbortSignal.timeout(15000) });
-		if (!resp.ok) {
-			const errBody = await resp.text().catch(() => '');
-			let errMsg = `HTTP ${resp.status}: ${resp.statusText}`;
-			try {
-				const errJson = JSON.parse(errBody);
-				if (errJson.message) errMsg += ` - ${errJson.message}`;
-			} catch { /* ignore */ }
-			throw new Error(errMsg);
-		}
+    const resp = await proxiedFetch(url, { signal: AbortSignal.timeout(15000) });
+    if (!resp.ok) {
+      const errBody = await resp.text().catch(() => '');
+      let errMsg = `HTTP ${resp.status}: ${resp.statusText}`;
+      try {
+        const errJson = JSON.parse(errBody);
+        if (errJson.message) errMsg += ` - ${errJson.message}`;
+      } catch { /* ignore */ }
+      throw new Error(errMsg);
+    }
 
-		const data = await resp.json();
-		lastRawResult = data;
-		allFetchedTxs = [];
-		renderRestResult(type, data);
-		setStatus(`${type} query complete`);
-	} catch (err) {
-		setStatus(`Error: ${err.message}`, true);
-		console.error(err);
-	} finally {
-		setLoading(false);
-	}
+    const data = await resp.json();
+    lastRawResult = data;
+    allFetchedTxs = [];
+    renderRestResult(type, data);
+    setStatus(`${type} query complete`);
+  } catch (err) {
+    setStatus(`Error: ${err.message}`, true);
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
 }
 
 function renderRestResult(type, data) {
-	const area = document.getElementById('resultsArea');
-	area.style.display = 'block';
-	const countEl = document.getElementById('resultsCount');
-	const pagDiv = document.getElementById('pagination');
-	pagDiv.innerHTML = '';
-	const list = document.getElementById('txList');
-	list.innerHTML = '';
+  const area = document.getElementById('resultsArea');
+  area.style.display = 'block';
+  const countEl = document.getElementById('resultsCount');
+  const pagDiv = document.getElementById('pagination');
+  pagDiv.innerHTML = '';
+  const list = document.getElementById('txList');
+  list.innerHTML = '';
 
-	switch (type) {
-		case 'balances':
-			renderBalances(list, countEl, data);
-			break;
-		case 'account':
-			renderAccountInfo(list, countEl, data);
-			break;
-		case 'delegations':
-			renderDelegations(list, countEl, data);
-			break;
-		case 'rewards':
-			renderRewards(list, countEl, data);
-			break;
-		case 'validators':
-			renderRestValidators(list, countEl, data);
-			break;
-		case 'proposals':
-			renderProposals(list, countEl, data);
-			break;
-		case 'tx':
-			renderRestTx(list, countEl, data);
-			break;
-		case 'txSearch':
-			renderRestTxSearch(list, countEl, data);
-			break;
-		default:
-			countEl.innerHTML = 'Result';
-			renderJsonFallback(list, data);
-	}
+  switch (type) {
+    case 'balances':
+      renderBalances(list, countEl, data);
+      break;
+    case 'account':
+      renderAccountInfo(list, countEl, data);
+      break;
+    case 'delegations':
+      renderDelegations(list, countEl, data);
+      break;
+    case 'rewards':
+      renderRewards(list, countEl, data);
+      break;
+    case 'validators':
+      renderRestValidators(list, countEl, data);
+      break;
+    case 'proposals':
+      renderProposals(list, countEl, data);
+      break;
+    case 'tx':
+      renderRestTx(list, countEl, data);
+      break;
+    case 'txSearch':
+      renderRestTxSearch(list, countEl, data);
+      break;
+    default:
+      countEl.innerHTML = 'Result';
+      renderJsonFallback(list, data);
+  }
 }
 
 function renderBalances(container, countEl, data) {
-	const balances = data.balances || [];
-	countEl.innerHTML = `<span>${balances.length}</span> balance(s)`;
+  const balances = data.balances || [];
+  countEl.innerHTML = `<span>${balances.length}</span> balance(s)`;
 
-	if (balances.length === 0) {
-		container.appendChild(buildEmptyMessage('No balances found'));
-		return;
-	}
+  if (balances.length === 0) {
+    container.appendChild(buildEmptyMessage('No balances found'));
+    return;
+  }
 
-	const table = document.createElement('table');
-	table.className = 'data-table';
+  const table = document.createElement('table');
+  table.className = 'data-table';
 
-	const thead = document.createElement('thead');
-	thead.innerHTML = '<tr><th>Denom</th><th>Amount</th></tr>';
-	table.appendChild(thead);
+  const thead = document.createElement('thead');
+  thead.innerHTML = '<tr><th>Denom</th><th>Amount</th></tr>';
+  table.appendChild(thead);
 
-	const tbody = document.createElement('tbody');
-	for (const b of balances) {
-		const tr = document.createElement('tr');
-		tr.innerHTML = `<td>${escapeHtml(b.denom || '')}</td><td>${escapeHtml(b.amount || '0')}</td>`;
-		tbody.appendChild(tr);
-	}
-	table.appendChild(tbody);
-	container.appendChild(table);
+  const tbody = document.createElement('tbody');
+  for (const b of balances) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${escapeHtml(b.denom || '')}</td><td>${escapeHtml(b.amount || '0')}</td>`;
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+  container.appendChild(table);
 }
 
 function renderAccountInfo(container, countEl, data) {
-	countEl.innerHTML = 'Account Info';
-	const account = data.account || {};
+  countEl.innerHTML = 'Account Info';
+  const account = data.account || {};
 
-	const kvData = [
-		['Type', account['@type'] || ''],
-		['Address', account.address || account.base_account?.address || ''],
-		['Account Number', account.account_number || account.base_account?.account_number || ''],
-		['Sequence', account.sequence || account.base_account?.sequence || ''],
-	];
+  const kvData = [
+    ['Type', account['@type'] || ''],
+    ['Address', account.address || account.base_account?.address || ''],
+    ['Account Number', account.account_number || account.base_account?.account_number || ''],
+    ['Sequence', account.sequence || account.base_account?.sequence || ''],
+  ];
 
-	// Handle vesting accounts
-	if (account.base_vesting_account) {
-		const bva = account.base_vesting_account;
-		const ba = bva.base_account || {};
-		kvData[1][1] = ba.address || kvData[1][1];
-		kvData[2][1] = ba.account_number || kvData[2][1];
-		kvData[3][1] = ba.sequence || kvData[3][1];
-		kvData.push(['End Time', account.end_time || '']);
-		if (bva.original_vesting) {
-			kvData.push(['Original Vesting', bva.original_vesting.map(c => `${c.amount} ${c.denom}`).join(', ')]);
-		}
-	}
+  // Handle vesting accounts
+  if (account.base_vesting_account) {
+    const bva = account.base_vesting_account;
+    const ba = bva.base_account || {};
+    kvData[1][1] = ba.address || kvData[1][1];
+    kvData[2][1] = ba.account_number || kvData[2][1];
+    kvData[3][1] = ba.sequence || kvData[3][1];
+    kvData.push(['End Time', account.end_time || '']);
+    if (bva.original_vesting) {
+      kvData.push(['Original Vesting', bva.original_vesting.map(c => `${c.amount} ${c.denom}`).join(', ')]);
+    }
+  }
 
-	const pubKey = account.pub_key || account.base_account?.pub_key;
-	if (pubKey) {
-		kvData.push(['Pub Key Type', pubKey['@type'] || '']);
-		kvData.push(['Pub Key', pubKey.key || '']);
-	}
+  const pubKey = account.pub_key || account.base_account?.pub_key;
+  if (pubKey) {
+    kvData.push(['Pub Key Type', pubKey['@type'] || '']);
+    kvData.push(['Pub Key', pubKey.key || '']);
+  }
 
-	container.appendChild(buildKvGrid(kvData));
+  container.appendChild(buildKvGrid(kvData));
 }
 
 function renderDelegations(container, countEl, data) {
-	const delegations = data.delegation_responses || [];
-	countEl.innerHTML = `<span>${delegations.length}</span> delegation(s)`;
+  const delegations = data.delegation_responses || [];
+  countEl.innerHTML = `<span>${delegations.length}</span> delegation(s)`;
 
-	if (delegations.length === 0) {
-		container.appendChild(buildEmptyMessage('No delegations found'));
-		return;
-	}
+  if (delegations.length === 0) {
+    container.appendChild(buildEmptyMessage('No delegations found'));
+    return;
+  }
 
-	const table = document.createElement('table');
-	table.className = 'data-table';
+  const table = document.createElement('table');
+  table.className = 'data-table';
 
-	const thead = document.createElement('thead');
-	thead.innerHTML = '<tr><th>#</th><th>Validator</th><th>Shares</th><th>Balance</th></tr>';
-	table.appendChild(thead);
+  const thead = document.createElement('thead');
+  thead.innerHTML = '<tr><th>#</th><th>Validator</th><th>Shares</th><th>Balance</th></tr>';
+  table.appendChild(thead);
 
-	const tbody = document.createElement('tbody');
-	delegations.forEach((d, i) => {
-		const del = d.delegation || {};
-		const bal = d.balance || {};
-		const tr = document.createElement('tr');
-		tr.innerHTML = `
-			<td>${i + 1}</td>
-			<td>${escapeHtml(del.validator_address || '')}</td>
-			<td>${escapeHtml(formatDecimal(del.shares))}</td>
-			<td>${escapeHtml(bal.amount || '0')} ${escapeHtml(bal.denom || '')}</td>
-		`;
-		tbody.appendChild(tr);
-	});
-	table.appendChild(tbody);
-	container.appendChild(table);
+  const tbody = document.createElement('tbody');
+  delegations.forEach((d, i) => {
+    const del = d.delegation || {};
+    const bal = d.balance || {};
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${escapeHtml(del.validator_address || '')}</td>
+      <td>${escapeHtml(formatDecimal(del.shares))}</td>
+      <td>${escapeHtml(bal.amount || '0')} ${escapeHtml(bal.denom || '')}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
 }
 
 function renderRewards(container, countEl, data) {
-	const rewards = data.rewards || [];
-	const total = data.total || [];
-	countEl.innerHTML = `<span>${rewards.length}</span> validator reward(s)`;
+  const rewards = data.rewards || [];
+  const total = data.total || [];
+  countEl.innerHTML = `<span>${rewards.length}</span> validator reward(s)`;
 
-	if (total.length > 0) {
-		const totalDiv = document.createElement('div');
-		totalDiv.className = 'section-title';
-		totalDiv.textContent = 'Total Rewards';
-		container.appendChild(totalDiv);
+  if (total.length > 0) {
+    const totalDiv = document.createElement('div');
+    totalDiv.className = 'section-title';
+    totalDiv.textContent = 'Total Rewards';
+    container.appendChild(totalDiv);
 
-		const table = document.createElement('table');
-		table.className = 'data-table';
-		const thead = document.createElement('thead');
-		thead.innerHTML = '<tr><th>Denom</th><th>Amount</th></tr>';
-		table.appendChild(thead);
+    const table = document.createElement('table');
+    table.className = 'data-table';
+    const thead = document.createElement('thead');
+    thead.innerHTML = '<tr><th>Denom</th><th>Amount</th></tr>';
+    table.appendChild(thead);
 
-		const tbody = document.createElement('tbody');
-		for (const t of total) {
-			const tr = document.createElement('tr');
-			tr.innerHTML = `<td>${escapeHtml(t.denom || '')}</td><td>${escapeHtml(formatDecimal(t.amount))}</td>`;
-			tbody.appendChild(tr);
-		}
-		table.appendChild(tbody);
-		container.appendChild(table);
-	}
+    const tbody = document.createElement('tbody');
+    for (const t of total) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${escapeHtml(t.denom || '')}</td><td>${escapeHtml(formatDecimal(t.amount))}</td>`;
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    container.appendChild(table);
+  }
 
-	if (rewards.length > 0) {
-		const perValDiv = document.createElement('div');
-		perValDiv.className = 'section-title';
-		perValDiv.style.marginTop = '16px';
-		perValDiv.textContent = 'Per Validator';
-		container.appendChild(perValDiv);
+  if (rewards.length > 0) {
+    const perValDiv = document.createElement('div');
+    perValDiv.className = 'section-title';
+    perValDiv.style.marginTop = '16px';
+    perValDiv.textContent = 'Per Validator';
+    container.appendChild(perValDiv);
 
-		const table = document.createElement('table');
-		table.className = 'data-table';
-		const thead = document.createElement('thead');
-		thead.innerHTML = '<tr><th>#</th><th>Validator</th><th>Rewards</th></tr>';
-		table.appendChild(thead);
+    const table = document.createElement('table');
+    table.className = 'data-table';
+    const thead = document.createElement('thead');
+    thead.innerHTML = '<tr><th>#</th><th>Validator</th><th>Rewards</th></tr>';
+    table.appendChild(thead);
 
-		const tbody = document.createElement('tbody');
-		rewards.forEach((r, i) => {
-			const rewardStr = (r.reward || []).map(c => `${formatDecimal(c.amount)} ${c.denom}`).join(', ') || 'none';
-			const tr = document.createElement('tr');
-			tr.innerHTML = `
-				<td>${i + 1}</td>
-				<td>${escapeHtml(r.validator_address || '')}</td>
-				<td>${escapeHtml(rewardStr)}</td>
-			`;
-			tbody.appendChild(tr);
-		});
-		table.appendChild(tbody);
-		container.appendChild(table);
-	}
+    const tbody = document.createElement('tbody');
+    rewards.forEach((r, i) => {
+      const rewardStr = (r.reward || []).map(c => `${formatDecimal(c.amount)} ${c.denom}`).join(', ') || 'none';
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${i + 1}</td>
+        <td>${escapeHtml(r.validator_address || '')}</td>
+        <td>${escapeHtml(rewardStr)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    container.appendChild(table);
+  }
 
-	if (rewards.length === 0 && total.length === 0) {
-		container.appendChild(buildEmptyMessage('No rewards found'));
-	}
+  if (rewards.length === 0 && total.length === 0) {
+    container.appendChild(buildEmptyMessage('No rewards found'));
+  }
 }
 
 function renderRestValidators(container, countEl, data) {
-	const validators = data.validators || [];
-	countEl.innerHTML = `<span>${validators.length}</span> validator(s)`;
+  const validators = data.validators || [];
+  countEl.innerHTML = `<span>${validators.length}</span> validator(s)`;
 
-	if (validators.length === 0) {
-		container.appendChild(buildEmptyMessage('No validators found'));
-		return;
-	}
+  if (validators.length === 0) {
+    container.appendChild(buildEmptyMessage('No validators found'));
+    return;
+  }
 
-	// Sort by tokens descending
-	validators.sort((a, b) => parseInt(b.tokens || 0) - parseInt(a.tokens || 0));
+  // Sort by tokens descending
+  validators.sort((a, b) => parseInt(b.tokens || 0) - parseInt(a.tokens || 0));
 
-	const table = document.createElement('table');
-	table.className = 'data-table';
+  const table = document.createElement('table');
+  table.className = 'data-table';
 
-	const thead = document.createElement('thead');
-	thead.innerHTML = '<tr><th>#</th><th>Moniker</th><th>Operator</th><th>Tokens</th><th>Commission</th><th>Status</th><th>Jailed</th></tr>';
-	table.appendChild(thead);
+  const thead = document.createElement('thead');
+  thead.innerHTML = '<tr><th>#</th><th>Moniker</th><th>Operator</th><th>Tokens</th><th>Commission</th><th>Status</th><th>Jailed</th></tr>';
+  table.appendChild(thead);
 
-	const tbody = document.createElement('tbody');
-	validators.forEach((v, i) => {
-		const desc = v.description || {};
-		const comm = v.commission?.commission_rates?.rate || '0';
-		const statusMap = {
-			BOND_STATUS_BONDED: 'Bonded',
-			BOND_STATUS_UNBONDING: 'Unbonding',
-			BOND_STATUS_UNBONDED: 'Unbonded',
-		};
-		const tr = document.createElement('tr');
-		tr.innerHTML = `
-			<td>${i + 1}</td>
-			<td>${escapeHtml(desc.moniker || '')}</td>
-			<td>${escapeHtml(v.operator_address || '')}</td>
-			<td>${parseInt(v.tokens || 0).toLocaleString()}</td>
-			<td>${(parseFloat(comm) * 100).toFixed(1)}%</td>
-			<td>${statusMap[v.status] || v.status || ''}</td>
-			<td>${v.jailed ? 'Y' : 'N'}</td>
-		`;
-		tbody.appendChild(tr);
-	});
-	table.appendChild(tbody);
-	container.appendChild(table);
+  const tbody = document.createElement('tbody');
+  validators.forEach((v, i) => {
+    const desc = v.description || {};
+    const comm = v.commission?.commission_rates?.rate || '0';
+    const statusMap = {
+      BOND_STATUS_BONDED: 'Bonded',
+      BOND_STATUS_UNBONDING: 'Unbonding',
+      BOND_STATUS_UNBONDED: 'Unbonded',
+    };
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${escapeHtml(desc.moniker || '')}</td>
+      <td>${escapeHtml(v.operator_address || '')}</td>
+      <td>${parseInt(v.tokens || 0).toLocaleString()}</td>
+      <td>${(parseFloat(comm) * 100).toFixed(1)}%</td>
+      <td>${statusMap[v.status] || v.status || ''}</td>
+      <td>${v.jailed ? 'Y' : 'N'}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
 }
 
 function renderProposals(container, countEl, data) {
-	const proposals = data.proposals || [];
-	countEl.innerHTML = `<span>${proposals.length}</span> proposal(s)`;
+  const proposals = data.proposals || [];
+  countEl.innerHTML = `<span>${proposals.length}</span> proposal(s)`;
 
-	if (proposals.length === 0) {
-		container.appendChild(buildEmptyMessage('No proposals found'));
-		return;
-	}
+  if (proposals.length === 0) {
+    container.appendChild(buildEmptyMessage('No proposals found'));
+    return;
+  }
 
-	for (const p of proposals) {
-		const card = document.createElement('div');
-		card.className = 'proposal-card';
+  for (const p of proposals) {
+    const card = document.createElement('div');
+    card.className = 'proposal-card';
 
-		const content = p.content || {};
-		const statusMap = {
-			PROPOSAL_STATUS_DEPOSIT_PERIOD: 'Deposit',
-			PROPOSAL_STATUS_VOTING_PERIOD: 'Voting',
-			PROPOSAL_STATUS_PASSED: 'Passed',
-			PROPOSAL_STATUS_REJECTED: 'Rejected',
-			PROPOSAL_STATUS_FAILED: 'Failed',
-		};
-		const statusText = statusMap[p.status] || p.status || '';
-		const statusColor = {
-			Passed: 'var(--success)',
-			Rejected: 'var(--error)',
-			Voting: 'var(--accent)',
-			Deposit: 'var(--warn)',
-			Failed: 'var(--error)',
-		}[statusText] || 'var(--text-muted)';
+    const content = p.content || {};
+    const statusMap = {
+      PROPOSAL_STATUS_DEPOSIT_PERIOD: 'Deposit',
+      PROPOSAL_STATUS_VOTING_PERIOD: 'Voting',
+      PROPOSAL_STATUS_PASSED: 'Passed',
+      PROPOSAL_STATUS_REJECTED: 'Rejected',
+      PROPOSAL_STATUS_FAILED: 'Failed',
+    };
+    const statusText = statusMap[p.status] || p.status || '';
+    const statusColor = {
+      Passed: 'var(--success)',
+      Rejected: 'var(--error)',
+      Voting: 'var(--accent)',
+      Deposit: 'var(--warn)',
+      Failed: 'var(--error)',
+    }[statusText] || 'var(--text-muted)';
 
-		card.innerHTML = `
-			<div class="proposal-title">
-				${escapeHtml(content.title || p.title || `Proposal #${p.proposal_id || p.id || ''}`)}
-			</div>
-			<span class="proposal-id">#${escapeHtml(p.proposal_id || p.id || '')}</span>
-			<span class="proposal-status" style="background: ${statusColor}22; color: ${statusColor};">${statusText}</span>
-			${content.description || p.summary ? `<div class="proposal-desc">${escapeHtml((content.description || p.summary || '').slice(0, 500))}</div>` : ''}
-		`;
+    card.innerHTML = `
+      <div class="proposal-title">
+        ${escapeHtml(content.title || p.title || `Proposal #${p.proposal_id || p.id || ''}`)}
+      </div>
+      <span class="proposal-id">#${escapeHtml(p.proposal_id || p.id || '')}</span>
+      <span class="proposal-status" style="background: ${statusColor}22; color: ${statusColor};">${statusText}</span>
+      ${content.description || p.summary ? `<div class="proposal-desc">${escapeHtml((content.description || p.summary || '').slice(0, 500))}</div>` : ''}
+    `;
 
-		container.appendChild(card);
-	}
+    container.appendChild(card);
+  }
 }
 
 function renderRestTx(container, countEl, data) {
-	countEl.innerHTML = 'Transaction Details';
+  countEl.innerHTML = 'Transaction Details';
 
-	const tx = data.tx || {};
-	const txResponse = data.tx_response || {};
-	const body = tx.body || {};
-	const authInfo = tx.auth_info || {};
+  const tx = data.tx || {};
+  const txResponse = data.tx_response || {};
+  const body = tx.body || {};
+  const authInfo = tx.auth_info || {};
 
-	const kvData = [
-		['Hash', txResponse.txhash || ''],
-		['Height', txResponse.height || ''],
-		['Timestamp', txResponse.timestamp || ''],
-		['Code', String(txResponse.code ?? '')],
-		['Gas Wanted', txResponse.gas_wanted || ''],
-		['Gas Used', txResponse.gas_used || ''],
-		['Memo', body.memo || '(none)'],
-	];
+  const kvData = [
+    ['Hash', txResponse.txhash || ''],
+    ['Height', txResponse.height || ''],
+    ['Timestamp', txResponse.timestamp || ''],
+    ['Code', String(txResponse.code ?? '')],
+    ['Gas Wanted', txResponse.gas_wanted || ''],
+    ['Gas Used', txResponse.gas_used || ''],
+    ['Memo', body.memo || '(none)'],
+  ];
 
-	if (txResponse.raw_log && txResponse.code) {
-		kvData.push(['Error Log', txResponse.raw_log]);
-	}
+  if (txResponse.raw_log && txResponse.code) {
+    kvData.push(['Error Log', txResponse.raw_log]);
+  }
 
-	container.appendChild(buildKvGrid(kvData));
+  container.appendChild(buildKvGrid(kvData));
 
-	// Messages
-	const msgs = body.messages || [];
-	if (msgs.length > 0) {
-		const title = document.createElement('div');
-		title.className = 'section-title';
-		title.style.marginTop = '12px';
-		title.textContent = `Messages (${msgs.length})`;
-		container.appendChild(title);
+  // Messages
+  const msgs = body.messages || [];
+  if (msgs.length > 0) {
+    const title = document.createElement('div');
+    title.className = 'section-title';
+    title.style.marginTop = '12px';
+    title.textContent = `Messages (${msgs.length})`;
+    container.appendChild(title);
 
-		for (const msg of msgs) {
-			const block = document.createElement('div');
-			block.style.cssText = 'margin-bottom: 8px;';
-			const typeLabel = document.createElement('div');
-			typeLabel.className = 'event-type-label';
-			typeLabel.textContent = msg['@type'] || 'unknown';
-			block.appendChild(typeLabel);
+    for (const msg of msgs) {
+      const block = document.createElement('div');
+      block.style.cssText = 'margin-bottom: 8px;';
+      const typeLabel = document.createElement('div');
+      typeLabel.className = 'event-type-label';
+      typeLabel.textContent = msg['@type'] || 'unknown';
+      block.appendChild(typeLabel);
 
-			const table = document.createElement('table');
-			table.className = 'attr-table';
-			for (const [key, val] of Object.entries(msg)) {
-				if (key === '@type') continue;
-				const tr = document.createElement('tr');
-				const tdKey = document.createElement('td');
-				tdKey.textContent = key;
-				const tdVal = document.createElement('td');
-				tdVal.textContent = typeof val === 'object' ? JSON.stringify(val) : String(val);
-				tr.appendChild(tdKey);
-				tr.appendChild(tdVal);
-				table.appendChild(tr);
-			}
-			block.appendChild(table);
-			container.appendChild(block);
-		}
-	}
+      const table = document.createElement('table');
+      table.className = 'attr-table';
+      for (const [key, val] of Object.entries(msg)) {
+        if (key === '@type') continue;
+        const tr = document.createElement('tr');
+        const tdKey = document.createElement('td');
+        tdKey.textContent = key;
+        const tdVal = document.createElement('td');
+        tdVal.textContent = typeof val === 'object' ? JSON.stringify(val) : String(val);
+        tr.appendChild(tdKey);
+        tr.appendChild(tdVal);
+        table.appendChild(tr);
+      }
+      block.appendChild(table);
+      container.appendChild(block);
+    }
+  }
 
-	// Events
-	const logs = txResponse.logs || [];
-	if (logs.length > 0) {
-		const title = document.createElement('div');
-		title.className = 'section-title';
-		title.style.marginTop = '12px';
-		title.textContent = 'Events';
-		container.appendChild(title);
+  // Events
+  const logs = txResponse.logs || [];
+  if (logs.length > 0) {
+    const title = document.createElement('div');
+    title.className = 'section-title';
+    title.style.marginTop = '12px';
+    title.textContent = 'Events';
+    container.appendChild(title);
 
-		const skipTypes = new Set(['tx', 'coin_spent', 'coin_received', 'coinbase']);
-		for (const log of logs) {
-			for (const ev of (log.events || [])) {
-				if (skipTypes.has(ev.type)) continue;
-				const block = document.createElement('div');
-				block.className = 'event-block';
+    const skipTypes = new Set(['tx', 'coin_spent', 'coin_received', 'coinbase']);
+    for (const log of logs) {
+      for (const ev of (log.events || [])) {
+        if (skipTypes.has(ev.type)) continue;
+        const block = document.createElement('div');
+        block.className = 'event-block';
 
-				const typeLabel = document.createElement('div');
-				typeLabel.className = 'event-type-label';
-				typeLabel.textContent = ev.type;
-				block.appendChild(typeLabel);
+        const typeLabel = document.createElement('div');
+        typeLabel.className = 'event-type-label';
+        typeLabel.textContent = ev.type;
+        block.appendChild(typeLabel);
 
-				const table = document.createElement('table');
-				table.className = 'attr-table';
-				for (const attr of (ev.attributes || [])) {
-					const tr = document.createElement('tr');
-					const tdKey = document.createElement('td');
-					tdKey.textContent = attr.key || '';
-					const tdVal = document.createElement('td');
-					tdVal.textContent = attr.value || '';
-					tr.appendChild(tdKey);
-					tr.appendChild(tdVal);
-					table.appendChild(tr);
-				}
-				block.appendChild(table);
-				container.appendChild(block);
-			}
-		}
-	}
+        const table = document.createElement('table');
+        table.className = 'attr-table';
+        for (const attr of (ev.attributes || [])) {
+          const tr = document.createElement('tr');
+          const tdKey = document.createElement('td');
+          tdKey.textContent = attr.key || '';
+          const tdVal = document.createElement('td');
+          tdVal.textContent = attr.value || '';
+          tr.appendChild(tdKey);
+          tr.appendChild(tdVal);
+          table.appendChild(tr);
+        }
+        block.appendChild(table);
+        container.appendChild(block);
+      }
+    }
+  }
 }
 
 function renderRestTxSearch(container, countEl, data) {
-	const txResponses = data.tx_responses || [];
-	const total = data.total || data.pagination?.total || txResponses.length;
-	countEl.innerHTML = `<span>${total}</span> transaction(s) found`;
+  const txResponses = data.tx_responses || [];
+  const total = data.total || data.pagination?.total || txResponses.length;
+  countEl.innerHTML = `<span>${total}</span> transaction(s) found`;
 
-	if (txResponses.length === 0) {
-		container.appendChild(buildEmptyMessage('No transactions found'));
-		return;
-	}
+  if (txResponses.length === 0) {
+    container.appendChild(buildEmptyMessage('No transactions found'));
+    return;
+  }
 
-	// Store for export
-	allFetchedTxs = txResponses;
+  // Store for export
+  allFetchedTxs = txResponses;
 
-	for (let i = 0; i < txResponses.length; i++) {
-		const txr = txResponses[i];
-		const card = document.createElement('div');
-		card.className = 'tx-card';
+  for (let i = 0; i < txResponses.length; i++) {
+    const txr = txResponses[i];
+    const card = document.createElement('div');
+    card.className = 'tx-card';
 
-		const code = parseInt(txr.code || 0);
-		const summary = document.createElement('div');
-		summary.className = 'tx-summary';
-		summary.onclick = () => card.classList.toggle('expanded');
-		summary.innerHTML = `
-			<span class="idx">${i + 1}</span>
-			<span class="height">${(parseInt(txr.height) || 0).toLocaleString()}</span>
-			<span class="hash" title="${escapeHtml(txr.txhash || '')}">${escapeHtml(txr.txhash || '')}</span>
-			<span class="status-badge ${code === 0 ? 'ok' : 'fail'}">${code === 0 ? 'OK' : 'ERR ' + code}</span>
-			<span class="expand-icon">&#9654;</span>
-		`;
+    const code = parseInt(txr.code || 0);
+    const summary = document.createElement('div');
+    summary.className = 'tx-summary';
+    summary.onclick = () => card.classList.toggle('expanded');
+    summary.innerHTML = `
+      <span class="idx">${i + 1}</span>
+      <span class="height">${(parseInt(txr.height) || 0).toLocaleString()}</span>
+      <span class="hash" title="${escapeHtml(txr.txhash || '')}">${escapeHtml(txr.txhash || '')}</span>
+      <span class="status-badge ${code === 0 ? 'ok' : 'fail'}">${code === 0 ? 'OK' : 'ERR ' + code}</span>
+      <span class="expand-icon">&#9654;</span>
+    `;
 
-		const detail = document.createElement('div');
-		detail.className = 'tx-detail';
+    const detail = document.createElement('div');
+    detail.className = 'tx-detail';
 
-		const gasInfo = document.createElement('div');
-		gasInfo.className = 'gas-info';
-		gasInfo.textContent = `Gas: ${parseInt(txr.gas_used || 0).toLocaleString()} used / ${parseInt(txr.gas_wanted || 0).toLocaleString()} wanted`;
-		if (txr.timestamp) gasInfo.textContent += ` | ${txr.timestamp}`;
-		detail.appendChild(gasInfo);
+    const gasInfo = document.createElement('div');
+    gasInfo.className = 'gas-info';
+    gasInfo.textContent = `Gas: ${parseInt(txr.gas_used || 0).toLocaleString()} used / ${parseInt(txr.gas_wanted || 0).toLocaleString()} wanted`;
+    if (txr.timestamp) gasInfo.textContent += ` | ${txr.timestamp}`;
+    detail.appendChild(gasInfo);
 
-		const skipTypes = new Set(['tx', 'coin_spent', 'coin_received', 'coinbase']);
-		const logs = txr.logs || [];
-		for (const log of logs) {
-			for (const ev of (log.events || [])) {
-				if (skipTypes.has(ev.type)) continue;
+    const skipTypes = new Set(['tx', 'coin_spent', 'coin_received', 'coinbase']);
+    const logs = txr.logs || [];
+    for (const log of logs) {
+      for (const ev of (log.events || [])) {
+        if (skipTypes.has(ev.type)) continue;
 
-				const block = document.createElement('div');
-				block.className = 'event-block';
+        const block = document.createElement('div');
+        block.className = 'event-block';
 
-				const typeLabel = document.createElement('div');
-				typeLabel.className = 'event-type-label';
-				typeLabel.textContent = ev.type;
-				block.appendChild(typeLabel);
+        const typeLabel = document.createElement('div');
+        typeLabel.className = 'event-type-label';
+        typeLabel.textContent = ev.type;
+        block.appendChild(typeLabel);
 
-				const table = document.createElement('table');
-				table.className = 'attr-table';
-				for (const attr of (ev.attributes || [])) {
-					if (attr.key === 'msg_index') continue;
-					const tr = document.createElement('tr');
-					const tdKey = document.createElement('td');
-					tdKey.textContent = attr.key || '';
-					const tdVal = document.createElement('td');
-					tdVal.textContent = attr.value || '';
-					tr.appendChild(tdKey);
-					tr.appendChild(tdVal);
-					table.appendChild(tr);
-				}
-				block.appendChild(table);
-				detail.appendChild(block);
-			}
-		}
+        const table = document.createElement('table');
+        table.className = 'attr-table';
+        for (const attr of (ev.attributes || [])) {
+          if (attr.key === 'msg_index') continue;
+          const tr = document.createElement('tr');
+          const tdKey = document.createElement('td');
+          tdKey.textContent = attr.key || '';
+          const tdVal = document.createElement('td');
+          tdVal.textContent = attr.value || '';
+          tr.appendChild(tdKey);
+          tr.appendChild(tdVal);
+          table.appendChild(tr);
+        }
+        block.appendChild(table);
+        detail.appendChild(block);
+      }
+    }
 
-		card.appendChild(summary);
-		card.appendChild(detail);
-		container.appendChild(card);
-	}
+    card.appendChild(summary);
+    card.appendChild(detail);
+    container.appendChild(card);
+  }
 }
 
 // ===== EVENT SEARCH (existing tx_search) =====
 
 async function doSearch(page) {
-	const conditions = getConditions();
-	if (conditions.length === 0) {
-		setStatus('Add at least one complete condition (event type + attribute + value)', true);
-		return;
-	}
+  const conditions = getConditions();
+  if (conditions.length === 0) {
+    setStatus('Add at least one complete condition (event type + attribute + value)', true);
+    return;
+  }
 
-	const query = conditions
-		.map(c => `${c.eventType}.${c.attribute}='${c.value}'`)
-		.join(' AND ');
+  let query = conditions
+    .map(c => `${c.eventType}.${c.attribute}='${c.value}'`)
+    .join(' AND ');
 
-	const rpcUrl = document.getElementById('rpcUrl').value.replace(/\/+$/, '');
-	const perPage = parseInt(document.getElementById('perPage').value);
-	const orderBy = document.getElementById('orderBy').value;
+  // Append height range filters
+  const afterHeight = document.getElementById('afterHeight')?.value?.trim();
+  const beforeHeight = document.getElementById('beforeHeight')?.value?.trim();
+  if (afterHeight) query += ` AND tx.height>${afterHeight}`;
+  if (beforeHeight) query += ` AND tx.height<${beforeHeight}`;
 
-	currentPage = page;
-	lastQuery = query;
+  const rpcUrl = document.getElementById('rpcUrl').value.replace(/\/+$/, '');
+  const perPage = parseInt(document.getElementById('perPage').value);
+  const orderBy = document.getElementById('orderBy').value;
 
-	setStatus(`Searching page ${page}...`);
-	setLoading(true);
+  currentPage = page;
+  lastQuery = query;
 
-	try {
-		const params = new URLSearchParams({
-			query: `"${query}"`,
-			per_page: String(perPage),
-			page: String(page),
-			order_by: `"${orderBy}"`,
-		});
+  setStatus(`Searching page ${page}...`);
+  setLoading(true);
 
-		const resp = await proxiedFetch(`${rpcUrl}/tx_search?${params}`);
-		if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
+  try {
+    const params = new URLSearchParams({
+      query: `"${query}"`,
+      per_page: String(perPage),
+      page: String(page),
+      order_by: `"${orderBy}"`,
+    });
 
-		const data = await resp.json();
-		if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+    const resp = await proxiedFetch(`${rpcUrl}/tx_search?${params}`);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
 
-		const result = data.result || {};
-		const totalCount = parseInt(result.total_count || '0', 10);
-		const txs = (result.txs || []).map(parseTxBrowser);
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
 
-		lastTotalCount = totalCount;
-		allFetchedTxs = txs;
-		lastRawResult = result;
+    const result = data.result || {};
+    const totalCount = parseInt(result.total_count || '0', 10);
+    const txs = (result.txs || []).map(parseTxBrowser);
 
-		renderResults(txs, totalCount, page, perPage);
-		setStatus(`Page ${page} loaded -- ${totalCount} total transactions`);
-	} catch (err) {
-		setStatus(`Error: ${err.message}`, true);
-		console.error(err);
-	} finally {
-		setLoading(false);
-	}
+    lastTotalCount = totalCount;
+    allFetchedTxs = txs;
+    lastRawResult = result;
+
+    renderResults(txs, totalCount, page, perPage);
+    setStatus(`Page ${page} loaded -- ${totalCount} total transactions`);
+
+    // Persist custom values from successful queries
+    if (totalCount > 0) {
+      for (const cond of conditions) {
+        const key = `${cond.eventType}.${cond.attribute}`;
+        const baseSuggestions = VALUE_SUGGESTIONS[key] || [];
+        if (cond.value && !baseSuggestions.includes(cond.value)) {
+          saveCustomValue(key, cond.value);
+        }
+        // Dynamically expand EVENT_CATALOG for same-session use
+        if (!EVENT_CATALOG[cond.eventType]) {
+          EVENT_CATALOG[cond.eventType] = {
+            label: cond.eventType,
+            attributes: { [cond.attribute]: 'Custom attribute' },
+          };
+        } else if (!EVENT_CATALOG[cond.eventType].attributes[cond.attribute]) {
+          EVENT_CATALOG[cond.eventType].attributes[cond.attribute] = 'Custom attribute';
+        }
+      }
+    }
+  } catch (err) {
+    setStatus(`Error: ${err.message}`, true);
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
 }
 
 // -- Parsing --
 function decodeAttr(raw) {
-	if (!raw) return '';
-	if (/[^A-Za-z0-9+/=]/.test(raw)) return raw;
-	try {
-		const decoded = atob(raw);
-		if (btoa(decoded) !== raw) return raw;
-		const bytes = Uint8Array.from(decoded, c => c.charCodeAt(0));
-		new TextDecoder('utf-8', { fatal: true }).decode(bytes);
-		return new TextDecoder('utf-8').decode(bytes);
-	} catch {
-		return raw;
-	}
+  if (!raw) return '';
+  if (/[^A-Za-z0-9+/=]/.test(raw)) return raw;
+  try {
+    const decoded = atob(raw);
+    if (btoa(decoded) !== raw) return raw;
+    const bytes = Uint8Array.from(decoded, c => c.charCodeAt(0));
+    new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+    return new TextDecoder('utf-8').decode(bytes);
+  } catch {
+    return raw;
+  }
 }
 
 function parseTxBrowser(tx) {
-	const txResult = tx.tx_result || {};
-	const events = (txResult.events || []).map(ev => {
-		const attrs = {};
-		for (const a of (ev.attributes || [])) {
-			const key = decodeAttr(a.key || '');
-			const value = a.value ? decodeAttr(a.value) : '';
-			attrs[key] = value;
-		}
-		return { type: ev.type, attributes: attrs };
-	});
+  const txResult = tx.tx_result || {};
+  const events = (txResult.events || []).map(ev => {
+    const attrs = {};
+    for (const a of (ev.attributes || [])) {
+      const key = decodeAttr(a.key || '');
+      const value = a.value ? decodeAttr(a.value) : '';
+      attrs[key] = value;
+    }
+    return { type: ev.type, attributes: attrs };
+  });
 
-	return {
-		hash: tx.hash,
-		height: parseInt(tx.height, 10),
-		code: txResult.code || 0,
-		success: !txResult.code || txResult.code === 0,
-		gasWanted: txResult.gas_wanted,
-		gasUsed: txResult.gas_used,
-		events,
-		log: txResult.log || '',
-	};
+  return {
+    hash: tx.hash,
+    height: parseInt(tx.height, 10),
+    code: txResult.code || 0,
+    success: !txResult.code || txResult.code === 0,
+    gasWanted: txResult.gas_wanted,
+    gasUsed: txResult.gas_used,
+    events,
+    log: txResult.log || '',
+  };
 }
 
 // -- Rendering (Event Search) --
 function renderResults(txs, totalCount, page, perPage) {
-	const area = document.getElementById('resultsArea');
-	area.style.display = 'block';
+  const area = document.getElementById('resultsArea');
+  area.style.display = 'block';
 
-	document.getElementById('resultsCount').innerHTML = `<span id="totalCount">${totalCount.toLocaleString()}</span> transactions found`;
+  document.getElementById('resultsCount').innerHTML = `<span id="totalCount">${totalCount.toLocaleString()}</span> transactions found`;
 
-	// Pagination
-	const totalPages = Math.ceil(totalCount / perPage);
-	const pagDiv = document.getElementById('pagination');
-	pagDiv.innerHTML = '';
+  // Pagination
+  const totalPages = Math.ceil(totalCount / perPage);
+  const pagDiv = document.getElementById('pagination');
+  pagDiv.innerHTML = '';
 
-	if (totalPages > 1) {
-		const prevBtn = document.createElement('button');
-		prevBtn.textContent = 'Prev';
-		prevBtn.className = 'btn-sm';
-		prevBtn.disabled = page <= 1;
-		prevBtn.onclick = () => doSearch(page - 1);
+  if (totalPages > 1) {
+    const prevBtn = document.createElement('button');
+    prevBtn.textContent = 'Prev';
+    prevBtn.className = 'btn-sm';
+    prevBtn.disabled = page <= 1;
+    prevBtn.onclick = () => doSearch(page - 1);
 
-		const info = document.createElement('span');
-		info.textContent = `Page ${page} of ${totalPages}`;
+    const info = document.createElement('span');
+    info.textContent = `Page ${page} of ${totalPages}`;
 
-		const nextBtn = document.createElement('button');
-		nextBtn.textContent = 'Next';
-		nextBtn.className = 'btn-sm';
-		nextBtn.disabled = page >= totalPages;
-		nextBtn.onclick = () => doSearch(page + 1);
+    const nextBtn = document.createElement('button');
+    nextBtn.textContent = 'Next';
+    nextBtn.className = 'btn-sm';
+    nextBtn.disabled = page >= totalPages;
+    nextBtn.onclick = () => doSearch(page + 1);
 
-		pagDiv.appendChild(prevBtn);
-		pagDiv.appendChild(info);
-		pagDiv.appendChild(nextBtn);
-	}
+    pagDiv.appendChild(prevBtn);
+    pagDiv.appendChild(info);
+    pagDiv.appendChild(nextBtn);
+  }
 
-	// Tx list
-	const list = document.getElementById('txList');
-	list.innerHTML = '';
+  // Tx list
+  const list = document.getElementById('txList');
+  list.innerHTML = '';
 
-	const startIdx = (page - 1) * perPage;
+  const startIdx = (page - 1) * perPage;
 
-	txs.forEach((tx, i) => {
-		const card = document.createElement('div');
-		card.className = 'tx-card';
+  txs.forEach((tx, i) => {
+    const card = document.createElement('div');
+    card.className = 'tx-card';
 
-		const summary = document.createElement('div');
-		summary.className = 'tx-summary';
-		summary.onclick = () => card.classList.toggle('expanded');
+    const summary = document.createElement('div');
+    summary.className = 'tx-summary';
+    summary.onclick = () => card.classList.toggle('expanded');
 
-		summary.innerHTML = `
-			<span class="idx">${startIdx + i + 1}</span>
-			<span class="height">${tx.height.toLocaleString()}</span>
-			<span class="hash" title="${tx.hash}">${tx.hash}</span>
-			<span class="status-badge ${tx.success ? 'ok' : 'fail'}">${tx.success ? 'OK' : 'ERR ' + tx.code}</span>
-			<span class="expand-icon">&#9654;</span>
-		`;
+    summary.innerHTML = `
+      <span class="idx">${startIdx + i + 1}</span>
+      <span class="height">${tx.height.toLocaleString()}</span>
+      <span class="hash" title="${tx.hash}">${tx.hash}</span>
+      <span class="status-badge ${tx.success ? 'ok' : 'fail'}">${tx.success ? 'OK' : 'ERR ' + tx.code}</span>
+      <span class="expand-icon">&#9654;</span>
+    `;
 
-		const detail = document.createElement('div');
-		detail.className = 'tx-detail';
+    const detail = document.createElement('div');
+    detail.className = 'tx-detail';
 
-		const gasInfo = document.createElement('div');
-		gasInfo.className = 'gas-info';
-		gasInfo.textContent = `Gas: ${parseInt(tx.gasUsed).toLocaleString()} used / ${parseInt(tx.gasWanted).toLocaleString()} wanted`;
-		detail.appendChild(gasInfo);
+    const gasInfo = document.createElement('div');
+    gasInfo.className = 'gas-info';
+    gasInfo.textContent = `Gas: ${parseInt(tx.gasUsed).toLocaleString()} used / ${parseInt(tx.gasWanted).toLocaleString()} wanted`;
+    detail.appendChild(gasInfo);
 
-		const skipTypes = new Set(['tx', 'coin_spent', 'coin_received', 'coinbase']);
+    const skipTypes = new Set(['tx', 'coin_spent', 'coin_received', 'coinbase']);
 
-		for (const ev of tx.events) {
-			if (skipTypes.has(ev.type)) continue;
-			detail.appendChild(buildEventBlockFromParsed(ev));
-		}
+    for (const ev of tx.events) {
+      if (skipTypes.has(ev.type)) continue;
+      detail.appendChild(buildEventBlockFromParsed(ev));
+    }
 
-		card.appendChild(summary);
-		card.appendChild(detail);
-		list.appendChild(card);
-	});
+    card.appendChild(summary);
+    card.appendChild(detail);
+    list.appendChild(card);
+  });
 }
 
 // ===== SHARED RENDERING HELPERS =====
 
 function buildKvGrid(pairs) {
-	const grid = document.createElement('div');
-	grid.className = 'kv-grid';
-	for (const [key, val] of pairs) {
-		if (!val && val !== '0' && val !== 'false') continue;
-		const kEl = document.createElement('div');
-		kEl.className = 'kv-key';
-		kEl.textContent = key;
-		const vEl = document.createElement('div');
-		vEl.className = 'kv-val';
-		vEl.textContent = val;
-		grid.appendChild(kEl);
-		grid.appendChild(vEl);
-	}
-	return grid;
+  const grid = document.createElement('div');
+  grid.className = 'kv-grid';
+  for (const [key, val] of pairs) {
+    if (!val && val !== '0' && val !== 'false') continue;
+    const kEl = document.createElement('div');
+    kEl.className = 'kv-key';
+    kEl.textContent = key;
+    const vEl = document.createElement('div');
+    vEl.className = 'kv-val';
+    vEl.textContent = val;
+    grid.appendChild(kEl);
+    grid.appendChild(vEl);
+  }
+  return grid;
 }
 
 function buildEventBlock(ev) {
-	const block = document.createElement('div');
-	block.className = 'event-block';
+  const block = document.createElement('div');
+  block.className = 'event-block';
 
-	const typeLabel = document.createElement('div');
-	typeLabel.className = 'event-type-label';
-	typeLabel.textContent = ev.type;
-	block.appendChild(typeLabel);
+  const typeLabel = document.createElement('div');
+  typeLabel.className = 'event-type-label';
+  typeLabel.textContent = ev.type;
+  block.appendChild(typeLabel);
 
-	const table = document.createElement('table');
-	table.className = 'attr-table';
+  const table = document.createElement('table');
+  table.className = 'attr-table';
 
-	for (const a of (ev.attributes || [])) {
-		const key = decodeAttr(a.key || '');
-		const value = a.value ? decodeAttr(a.value) : '';
-		if (key === 'msg_index') continue;
+  for (const a of (ev.attributes || [])) {
+    const key = decodeAttr(a.key || '');
+    const value = a.value ? decodeAttr(a.value) : '';
+    if (key === 'msg_index') continue;
 
-		const tr = document.createElement('tr');
-		const tdKey = document.createElement('td');
-		tdKey.textContent = key;
-		const tdVal = document.createElement('td');
+    const tr = document.createElement('tr');
+    const tdKey = document.createElement('td');
+    tdKey.textContent = key;
+    const tdVal = document.createElement('td');
 
-		if ((key === 'packet_data' || key === 'packet_ack') && value.startsWith('{')) {
-			try {
-				tdVal.textContent = JSON.stringify(JSON.parse(value), null, 2);
-				tdVal.style.whiteSpace = 'pre-wrap';
-			} catch {
-				tdVal.textContent = value;
-			}
-		} else {
-			tdVal.textContent = value;
-		}
+    if ((key === 'packet_data' || key === 'packet_ack') && value.startsWith('{')) {
+      try {
+        tdVal.textContent = JSON.stringify(JSON.parse(value), null, 2);
+        tdVal.style.whiteSpace = 'pre-wrap';
+      } catch {
+        tdVal.textContent = value;
+      }
+    } else {
+      tdVal.textContent = value;
+    }
 
-		tr.appendChild(tdKey);
-		tr.appendChild(tdVal);
-		table.appendChild(tr);
-	}
+    tr.appendChild(tdKey);
+    tr.appendChild(tdVal);
+    table.appendChild(tr);
+  }
 
-	block.appendChild(table);
-	return block;
+  block.appendChild(table);
+  return block;
 }
 
 function buildEventBlockFromParsed(ev) {
-	const block = document.createElement('div');
-	block.className = 'event-block';
+  const block = document.createElement('div');
+  block.className = 'event-block';
 
-	const typeLabel = document.createElement('div');
-	typeLabel.className = 'event-type-label';
-	typeLabel.textContent = ev.type;
-	block.appendChild(typeLabel);
+  const typeLabel = document.createElement('div');
+  typeLabel.className = 'event-type-label';
+  typeLabel.textContent = ev.type;
+  block.appendChild(typeLabel);
 
-	const table = document.createElement('table');
-	table.className = 'attr-table';
+  const table = document.createElement('table');
+  table.className = 'attr-table';
 
-	for (const [key, val] of Object.entries(ev.attributes)) {
-		if (key === 'msg_index') continue;
+  for (const [key, val] of Object.entries(ev.attributes)) {
+    if (key === 'msg_index') continue;
 
-		const tr = document.createElement('tr');
-		const tdKey = document.createElement('td');
-		tdKey.textContent = key;
-		const tdVal = document.createElement('td');
+    const tr = document.createElement('tr');
+    const tdKey = document.createElement('td');
+    tdKey.textContent = key;
+    const tdVal = document.createElement('td');
 
-		if ((key === 'packet_data' || key === 'packet_ack') && val.startsWith('{')) {
-			try {
-				tdVal.textContent = JSON.stringify(JSON.parse(val), null, 2);
-				tdVal.style.whiteSpace = 'pre-wrap';
-			} catch {
-				tdVal.textContent = val;
-			}
-		} else if (key.endsWith('_hex')) {
-			tdVal.textContent = val.length > 40 ? val.slice(0, 37) + '...' : val;
-			tdVal.title = val;
-			tdVal.style.cursor = 'pointer';
-			tdVal.onclick = () => { tdVal.textContent = val; };
-		} else {
-			tdVal.textContent = val;
-		}
+    if ((key === 'packet_data' || key === 'packet_ack') && val.startsWith('{')) {
+      try {
+        tdVal.textContent = JSON.stringify(JSON.parse(val), null, 2);
+        tdVal.style.whiteSpace = 'pre-wrap';
+      } catch {
+        tdVal.textContent = val;
+      }
+    } else if (key.endsWith('_hex')) {
+      tdVal.textContent = val.length > 40 ? val.slice(0, 37) + '...' : val;
+      tdVal.title = val;
+      tdVal.style.cursor = 'pointer';
+      tdVal.onclick = () => { tdVal.textContent = val; };
+    } else {
+      tdVal.textContent = val;
+    }
 
-		tr.appendChild(tdKey);
-		tr.appendChild(tdVal);
-		table.appendChild(tr);
-	}
+    tr.appendChild(tdKey);
+    tr.appendChild(tdVal);
+    table.appendChild(tr);
+  }
 
-	block.appendChild(table);
-	return block;
+  block.appendChild(table);
+  return block;
 }
 
 function renderEventList(container, events) {
-	for (const ev of events) {
-		container.appendChild(buildEventBlock(ev));
-	}
+  for (const ev of events) {
+    container.appendChild(buildEventBlock(ev));
+  }
 }
 
 function renderJsonFallback(container, data) {
-	const block = document.createElement('pre');
-	block.className = 'json-block';
-	block.textContent = JSON.stringify(data, null, 2);
-	container.appendChild(block);
+  const block = document.createElement('pre');
+  block.className = 'json-block';
+  block.textContent = JSON.stringify(data, null, 2);
+  container.appendChild(block);
 }
 
 function buildEmptyMessage(msg) {
-	const div = document.createElement('div');
-	div.style.cssText = 'padding: 24px; text-align: center; color: var(--text-muted); font-size: 13px;';
-	div.textContent = msg;
-	return div;
+  const div = document.createElement('div');
+  div.style.cssText = 'padding: 24px; text-align: center; color: var(--text-muted); font-size: 13px;';
+  div.textContent = msg;
+  return div;
 }
 
 // -- Export --
 function exportResults() {
-	const exportData = allFetchedTxs.length > 0 ? allFetchedTxs : lastRawResult;
-	if (!exportData) {
-		setStatus('No results to export', true);
-		return;
-	}
+  const exportData = allFetchedTxs.length > 0 ? allFetchedTxs : lastRawResult;
+  if (!exportData) {
+    setStatus('No results to export', true);
+    return;
+  }
 
-	const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-	const url = URL.createObjectURL(blob);
-	const a = document.createElement('a');
-	a.href = url;
-	a.download = `cosmos-query-${Date.now()}.json`;
-	a.click();
-	URL.revokeObjectURL(url);
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `cosmos-query-${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 // -- Utility --
 function escapeHtml(str) {
-	const div = document.createElement('div');
-	div.textContent = str;
-	return div.innerHTML;
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }
 
 function formatDecimal(val) {
-	if (!val) return '0';
-	const str = String(val);
-	const dot = str.indexOf('.');
-	if (dot === -1) return str;
-	// Truncate to 6 decimal places
-	return str.slice(0, dot + 7);
+  if (!val) return '0';
+  const str = String(val);
+  const dot = str.indexOf('.');
+  if (dot === -1) return str;
+  // Truncate to 6 decimal places
+  return str.slice(0, dot + 7);
 }
 
 // -- UI helpers --
 function setStatus(msg, isError) {
-	const el = document.getElementById('statusText');
-	el.textContent = msg;
-	el.style.color = isError ? 'var(--error)' : 'var(--text-muted)';
+  const el = document.getElementById('statusText');
+  el.textContent = msg;
+  el.style.color = isError ? 'var(--error)' : 'var(--text-muted)';
 }
 
 function setLoading(on) {
-	document.getElementById('spinner').classList.toggle('active', on);
-	const searchBtn = document.getElementById('searchBtn');
-	const rpcBtn = document.getElementById('rpcSearchBtn');
-	const restBtn = document.getElementById('restSearchBtn');
-	if (searchBtn) searchBtn.disabled = on;
-	if (rpcBtn) rpcBtn.disabled = on;
-	if (restBtn) restBtn.disabled = on;
+  document.getElementById('spinner').classList.toggle('active', on);
+  const searchBtn = document.getElementById('searchBtn');
+  const rpcBtn = document.getElementById('rpcSearchBtn');
+  const restBtn = document.getElementById('restSearchBtn');
+  if (searchBtn) searchBtn.disabled = on;
+  if (rpcBtn) rpcBtn.disabled = on;
+  if (restBtn) restBtn.disabled = on;
 }
 
 init();
