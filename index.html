@@ -1124,13 +1124,19 @@ function switchTab(tabId) {
 	tag.textContent = tagMap[tabId] || tabId;
 }
 
+// -- CORS proxy helper --
+function proxiedFetch(url, opts = {}) {
+	const proxyUrl = `/api/proxy?url=${encodeURIComponent(url)}`;
+	return fetch(proxyUrl, opts);
+}
+
 // -- Endpoint checks --
 async function checkRpcEndpoint() {
 	const dot = document.getElementById('endpointStatus');
 	const url = document.getElementById('rpcUrl').value.replace(/\/+$/, '');
 	dot.className = 'status-dot';
 	try {
-		const resp = await fetch(`${url}/status`, { signal: AbortSignal.timeout(5000) });
+		const resp = await proxiedFetch(`${url}/status`, { signal: AbortSignal.timeout(5000) });
 		dot.classList.add(resp.ok ? 'ok' : 'err');
 	} catch {
 		dot.classList.add('err');
@@ -1142,7 +1148,7 @@ async function checkLcdEndpoint() {
 	const url = document.getElementById('lcdUrl').value.replace(/\/+$/, '');
 	dot.className = 'status-dot';
 	try {
-		const resp = await fetch(`${url}/cosmos/base/tendermint/v1beta1/syncing`, { signal: AbortSignal.timeout(5000) });
+		const resp = await proxiedFetch(`${url}/cosmos/base/tendermint/v1beta1/syncing`, { signal: AbortSignal.timeout(5000) });
 		dot.classList.add(resp.ok ? 'ok' : 'err');
 	} catch {
 		dot.classList.add('err');
@@ -1525,7 +1531,7 @@ async function doRpcQuery() {
 
 		const qs = params.toString();
 		const fullUrl = qs ? `${url}?${qs}` : url;
-		const resp = await fetch(fullUrl, { signal: AbortSignal.timeout(15000) });
+		const resp = await proxiedFetch(fullUrl, { signal: AbortSignal.timeout(15000) });
 		if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
 
 		const data = await resp.json();
@@ -1925,7 +1931,7 @@ async function doRestQuery() {
 			}
 		}
 
-		const resp = await fetch(url, { signal: AbortSignal.timeout(15000) });
+		const resp = await proxiedFetch(url, { signal: AbortSignal.timeout(15000) });
 		if (!resp.ok) {
 			const errBody = await resp.text().catch(() => '');
 			let errMsg = `HTTP ${resp.status}: ${resp.statusText}`;
@@ -2435,7 +2441,7 @@ async function doSearch(page) {
 			order_by: `"${orderBy}"`,
 		});
 
-		const resp = await fetch(`${rpcUrl}/tx_search?${params}`);
+		const resp = await proxiedFetch(`${rpcUrl}/tx_search?${params}`);
 		if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
 
 		const data = await resp.json();
