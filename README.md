@@ -104,8 +104,9 @@ node send-cosmos-txs.js
 
 ## Dependencies
 
-- `node-fetch` -- HTTP client
 - `@cosmjs/amino`, `@cosmjs/proto-signing`, `@cosmjs/stargate` -- wallet/signing/broadcasting (only used by `send-cosmos-txs.js`)
+
+Uses Node.js native `fetch` (requires Node 18+).
 
 ## License
 

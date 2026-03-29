@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import fetch from 'node-fetch';
 
 export class CosmosEventParser {
 	constructor(options = {}) {

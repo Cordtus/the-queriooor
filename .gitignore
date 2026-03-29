@@ -9,6 +9,10 @@ PROJECT_BLUEPRINT.md
 # Output files from find-address-txs.js
 *-txs-*.json
 
+# Vercel
+.vercel/
+
 # OS
 .DS_Store
 Thumbs.db
+.vercel

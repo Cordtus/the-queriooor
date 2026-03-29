@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import fetch from 'node-fetch';
 
 async function queryTransactionByHash(hash) {
 	const url = `https://devnet-1-lcd.ib.skip.build/cosmos/tx/v1beta1/txs/${hash}`;

@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import fetch from 'node-fetch';
 
 /**
  * Known Cosmos event types and their queryable attributes.
