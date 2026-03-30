@@ -1259,6 +1259,167 @@ const EVENT_CATALOG = {
   },
 };
 
+/**
+ * Context-aware refinement rules for the structure map.
+ * Empirically verified against live Osmosis RPC (2026-03-29).
+ *
+ * For each event type:
+ * - refines: attributes that genuinely narrow results when given a specific value
+ * - implied: { attr: [trigger_attrs] } -- attr is redundant when any trigger is active
+ * - niche: attributes that are rarely useful (msg_index, authz_msg_index)
+ *
+ * Attributes not listed in any category are hidden from "+ add" suggestions.
+ * EXISTS on any same-event attribute is almost always redundant (all events
+ * contain all their attributes), so we only offer value-based refinements.
+ */
+const REFINEMENT_RULES = {
+  message: {
+    refines: ['action', 'sender'],
+    implied: { module: ['action'] },
+    niche: ['msg_index'],
+  },
+  transfer: {
+    refines: ['recipient', 'sender', 'amount'],
+    implied: {},
+    niche: ['msg_index', 'authz_msg_index'],
+  },
+  coin_spent: {
+    refines: ['spender', 'amount'],
+    implied: {},
+    niche: ['msg_index'],
+  },
+  coin_received: {
+    refines: ['receiver', 'amount'],
+    implied: {},
+    niche: ['msg_index'],
+  },
+  wasm: {
+    refines: ['_contract_address', 'action', 'sender', 'recipient', 'token_id', 'owner'],
+    implied: {},
+    niche: ['msg_index', 'spender', 'token_uri', 'minter', 'mint_price', 'network_fee', 'seller_amount', 'amount', 'denom'],
+  },
+  'wasm-set-ask': {
+    refines: ['_contract_address', 'collection', 'token_id', 'creator', 'price'],
+    implied: {},
+    niche: ['id'],
+  },
+  'wasm-finalize-sale': {
+    refines: ['_contract_address'],
+    implied: {},
+    niche: ['protocol'],
+  },
+  execute: {
+    refines: ['_contract_address'],
+    implied: {},
+    niche: ['msg_index'],
+  },
+  instantiate: {
+    refines: ['_contract_address', 'code_id'],
+    implied: {},
+    niche: ['msg_index'],
+  },
+  migrate: {
+    refines: ['_contract_address', 'code_id'],
+    implied: {},
+    niche: [],
+  },
+  store_code: {
+    refines: ['code_id', 'sender'],
+    implied: {},
+    niche: [],
+  },
+  delegate: {
+    refines: ['validator', 'amount'],
+    implied: {},
+    niche: ['new_shares', 'msg_index'],
+  },
+  unbond: {
+    refines: ['validator', 'amount'],
+    implied: {},
+    niche: ['completion_time', 'msg_index'],
+  },
+  redelegate: {
+    refines: ['source_validator', 'destination_validator', 'amount'],
+    implied: {},
+    niche: ['msg_index'],
+  },
+  withdraw_rewards: {
+    refines: ['validator', 'amount'],
+    implied: {},
+    niche: ['msg_index'],
+  },
+  recv_packet: {
+    refines: ['packet_dst_channel', 'packet_src_channel', 'packet_connection'],
+    implied: {},
+    niche: ['packet_src_port', 'packet_dst_port', 'packet_sequence', 'connection_id'],
+  },
+  send_packet: {
+    refines: ['packet_src_channel', 'packet_dst_channel', 'packet_connection'],
+    implied: {},
+    niche: ['packet_src_port', 'packet_dst_port', 'packet_sequence'],
+  },
+  acknowledge_packet: {
+    refines: ['packet_src_channel', 'packet_dst_channel', 'packet_connection'],
+    implied: {},
+    niche: ['packet_sequence'],
+  },
+  write_acknowledgement: {
+    refines: ['packet_dst_channel', 'packet_src_channel', 'packet_connection'],
+    implied: {},
+    niche: ['packet_dst_port', 'packet_src_port', 'packet_sequence', 'connection_id'],
+  },
+  fungible_token_packet: {
+    refines: ['receiver', 'sender', 'denom', 'amount'],
+    implied: {},
+    niche: ['module', 'success'],
+  },
+  denomination_trace: {
+    refines: ['denom', 'trace_hash'],
+    implied: {},
+    niche: [],
+  },
+  update_client: {
+    refines: ['client_id', 'client_type', 'consensus_height'],
+    implied: {},
+    niche: [],
+  },
+  proposal_vote: {
+    refines: ['proposal_id', 'option', 'voter'],
+    implied: {},
+    niche: [],
+  },
+  submit_proposal: {
+    refines: ['proposal_id', 'proposal_type'],
+    implied: {},
+    niche: [],
+  },
+  proposal_deposit: {
+    refines: ['proposal_id', 'amount'],
+    implied: {},
+    niche: [],
+  },
+  token_swapped: {
+    refines: ['pool_id', 'sender', 'tokens_in', 'tokens_out'],
+    implied: {},
+    niche: ['module', 'msg_index'],
+  },
+  tx: {
+    refines: ['acc_seq', 'fee', 'signature'],
+    implied: {},
+    niche: [],
+  },
+  fee_pay: {
+    refines: ['fee'],
+    implied: {},
+    niche: [],
+  },
+  tip_pay: {
+    refines: ['tip', 'tip_payee'],
+    implied: {},
+    niche: [],
+  },
+};
+
 // -- Value suggestions (known example values for datalists) --
 const VALUE_SUGGESTIONS = {
   'message.action': [
@@ -1583,10 +1744,30 @@ function updateStructureMap() {
       html += `<div class="smap-attr smap-active">${display}</div>`;
     }
 
-    // Available refinements (only from same event type = valid AND)
+    // Context-aware refinements using REFINEMENT_RULES
+    const rules = REFINEMENT_RULES[et] || { refines: allAttrs, implied: {}, niche: [] };
+
+    // Determine which attributes are implied by current selections
+    const impliedAttrs = new Set();
+    for (const [impliedAttr, triggers] of Object.entries(rules.implied)) {
+      if (triggers.some(t => activeKeys.has(t))) {
+        impliedAttrs.add(impliedAttr);
+      }
+    }
+
+    const nicheSet = new Set(rules.niche || []);
+    const refineSet = new Set(rules.refines || []);
+
     for (const attr of allAttrs) {
       if (activeKeys.has(attr)) continue;
-      html += `<div class="smap-attr"><span style="color:var(--text-muted)">${attr}</span> <span class="smap-add" onclick="addFilterFromMap('${et}','${attr}')">+ add</span></div>`;
+      if (impliedAttrs.has(attr)) {
+        // Show as implied/redundant (no + add)
+        html += `<div class="smap-attr"><span style="color:var(--text-muted);opacity:0.4">${attr}</span> <span style="font-size:10px;color:var(--text-muted);opacity:0.5">implied</span></div>`;
+      } else if (refineSet.has(attr)) {
+        // Genuine refinement -- show + add
+        html += `<div class="smap-attr"><span style="color:var(--text-muted)">${attr}</span> <span class="smap-add" onclick="addFilterFromMap('${et}','${attr}')">+ add</span></div>`;
+      }
+      // niche and unlisted attributes are hidden entirely
     }
   });
 
