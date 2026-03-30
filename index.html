@@ -198,7 +198,8 @@ select { cursor: pointer; }
 }
 
 .condition-row .event-type { flex: 0 0 200px; }
-.condition-row .attribute { flex: 0 0 190px; }
+.condition-row .attribute { flex: 0 0 170px; }
+.condition-row .operator { flex: 0 0 110px; }
 .condition-row .value { flex: 1; }
 .condition-row .remove-btn {
   flex: 0 0 32px;
@@ -274,6 +275,12 @@ button:active { transform: scale(0.98); }
 }
 
 /* -- Query preview -- */
+.query-preview-wrap {
+  margin-top: 12px;
+  display: none;
+}
+.query-preview-wrap.visible { display: block; }
+
 .query-preview {
   font-family: var(--mono);
   font-size: 12px;
@@ -283,15 +290,30 @@ button:active { transform: scale(0.98); }
   border-radius: var(--radius);
   color: var(--text-muted);
   word-break: break-all;
-  margin-top: 12px;
-  display: none;
+  cursor: text;
+  user-select: all;
 }
-
-.query-preview.visible { display: block; }
 
 .query-preview .qkey { color: var(--accent); }
 .query-preview .qval { color: var(--success); }
 .query-preview .qop { color: var(--warn); font-weight: 600; }
+
+.query-copy-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.query-copy-row button {
+  font-size: 11px;
+  padding: 3px 10px;
+  background: var(--surface2);
+  border: 1px solid var(--text-muted);
+  border-radius: var(--radius);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.query-copy-row button:hover { background: var(--accent-dim); border-color: var(--accent); }
 
 /* -- Search options row -- */
 .search-options {
@@ -643,74 +665,110 @@ button:active { transform: scale(0.98); }
   margin-bottom: 10px;
 }
 
-/* -- Preset categories -- */
-.preset-categories {
+/* -- Quick Fill -- */
+.quick-fill {
   margin-bottom: 12px;
 }
-
-.preset-category {
-  margin-bottom: 2px;
+.quick-fill select {
+  max-width: 320px;
 }
 
-.preset-category-header {
+/* -- Tab layout with sidebar -- */
+.tab-layout {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
+  gap: 16px;
+  align-items: flex-start;
+}
+.tab-main { flex: 1; min-width: 0; }
+.structure-sidebar {
+  flex: 0 0 260px;
+  position: sticky;
+  top: 16px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+}
+
+/* -- Structure map -- */
+.structure-map {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.6;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  color: var(--text-muted);
+}
+.structure-map .smap-title {
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-muted);
-  cursor: pointer;
-  user-select: none;
-  border-radius: 3px;
-  transition: background 0.15s;
+  margin-bottom: 8px;
 }
-
-.preset-category-header:hover {
-  background: var(--surface2);
+.structure-map .smap-event {
   color: var(--text);
+  font-weight: 600;
+  margin-top: 6px;
 }
-
-.preset-category-header .chevron {
-  font-size: 9px;
-  transition: transform 0.15s;
-  flex: 0 0 12px;
-}
-
-.preset-category.collapsed .chevron {
-  transform: rotate(-90deg);
-}
-
-.preset-category-buttons {
+.structure-map .smap-event:first-of-type { margin-top: 0; }
+.structure-map .smap-attr {
+  padding-left: 16px;
   display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-  padding: 4px 0 4px 24px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
 }
-
-.preset-category.collapsed .preset-category-buttons {
-  display: none;
+.structure-map .smap-active {
+  color: var(--accent);
 }
-
-.preset-category-buttons button {
+.structure-map .smap-active .smap-val {
+  color: var(--success);
+  font-weight: 400;
+}
+.structure-map .smap-add {
+  color: var(--text-muted);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.structure-map .smap-add:hover {
+  color: var(--accent);
+  opacity: 1;
+}
+.structure-map .smap-warn {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  color: var(--warn);
   font-size: 11px;
-  padding: 3px 8px;
-  border-radius: 3px;
+  font-family: inherit;
+}
+.structure-map .smap-query-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  float: right;
+}
+.structure-map .smap-height {
+  color: var(--warn);
+  margin-bottom: 4px;
+}
+.structure-map .smap-empty {
+  color: var(--text-muted);
+  font-style: italic;
 }
 
-.preset-category-buttons button:hover {
-  border-color: var(--accent);
+@media (max-width: 900px) {
+  .tab-layout { flex-direction: column; }
+  .structure-sidebar {
+    flex: none;
+    width: 100%;
+    position: static;
+    max-height: none;
+  }
 }
-
-.preset-category[data-cat="cosmwasm"] .preset-category-header { color: #f0883e; }
-.preset-category[data-cat="nft"] .preset-category-header { color: #bc8cff; }
-.preset-category[data-cat="transfers"] .preset-category-header { color: var(--accent); }
-.preset-category[data-cat="staking"] .preset-category-header { color: var(--success); }
-.preset-category[data-cat="ibc"] .preset-category-header { color: #79c0ff; }
-.preset-category[data-cat="governance"] .preset-category-header { color: var(--warn); }
-.preset-category[data-cat="advanced"] .preset-category-header { color: var(--text-muted); }
 
 /* -- Height filter -- */
 .height-filter {
@@ -730,6 +788,7 @@ button:active { transform: scale(0.98); }
   .condition-row { flex-wrap: wrap; }
   .condition-row .event-type,
   .condition-row .attribute { flex: 1 1 45%; }
+  .condition-row .operator { flex: 0 0 110px; }
   .condition-row .value { flex: 1 1 100%; }
   .endpoint-bar { flex-wrap: wrap; }
   .endpoint-bar .preset { flex: 1 1 100%; }
@@ -788,56 +847,75 @@ button:active { transform: scale(0.98); }
 
     <!-- Tab: Event Search (existing tx_search) -->
     <div class="tab-content active" id="tab-event-search">
-      <div class="preset-categories" id="presetCategories"></div>
-
-      <div id="conditions"></div>
-
-      <div class="btn-row">
-        <button onclick="addCondition()" class="btn-sm">+ Add Condition</button>
-      </div>
-
-      <div class="query-preview" id="queryPreview"></div>
-
-      <div style="margin-top: 14px;">
-        <div class="search-options">
-          <div>
-            <label for="perPage">Per Page</label>
-            <select id="perPage">
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100" selected>100</option>
-            </select>
+      <div class="tab-layout">
+        <div class="tab-main">
+          <div class="quick-fill">
+            <label for="quickFill">Quick Fill</label>
+            <select id="quickFill"></select>
           </div>
-          <div>
-            <label for="orderBy">Order</label>
-            <select id="orderBy">
-              <option value="desc">Newest first</option>
-              <option value="asc">Oldest first</option>
-            </select>
+
+          <div id="conditions"></div>
+
+          <div class="btn-row">
+            <button onclick="addCondition()" class="btn-sm">+ Add Condition</button>
           </div>
-          <div>
-            <label>&nbsp;</label>
-            <button class="btn-primary" id="searchBtn" onclick="doSearch(1)">Search</button>
+
+          <div class="query-preview-wrap" id="queryPreviewWrap">
+            <div class="query-preview" id="queryPreview"></div>
+            <div class="query-copy-row">
+              <button onclick="copyQuery()" title="Copy raw query string">Copy Query</button>
+              <button onclick="copyCurl()" title="Copy as curl command">Copy as curl</button>
+            </div>
           </div>
-          <div>
-            <label>&nbsp;</label>
-            <button onclick="clearAll()">Clear</button>
+
+          <div style="margin-top: 14px;">
+            <div class="search-options">
+              <div>
+                <label for="perPage">Per Page</label>
+                <select id="perPage">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100" selected>100</option>
+                </select>
+              </div>
+              <div>
+                <label for="orderBy">Order</label>
+                <select id="orderBy">
+                  <option value="desc">Newest first</option>
+                  <option value="asc">Oldest first</option>
+                </select>
+              </div>
+              <div>
+                <label>&nbsp;</label>
+                <button class="btn-primary" id="searchBtn" onclick="doSearch(1)">Search</button>
+              </div>
+              <div>
+                <label>&nbsp;</label>
+                <button onclick="clearAll()">Clear</button>
+              </div>
+              <div>
+                <label>&nbsp;</label>
+                <button onclick="exportResults()">Export JSON</button>
+              </div>
+            </div>
           </div>
-          <div>
-            <label>&nbsp;</label>
-            <button onclick="exportResults()">Export JSON</button>
+          <div class="height-filter">
+            <div>
+              <label for="afterHeight">After Height</label>
+              <input type="number" id="afterHeight" placeholder="e.g. 15000000">
+            </div>
+            <div>
+              <label for="beforeHeight">Before Height</label>
+              <input type="number" id="beforeHeight" placeholder="e.g. 16000000">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="height-filter">
-        <div>
-          <label for="afterHeight">After Height</label>
-          <input type="number" id="afterHeight" placeholder="e.g. 15000000">
-        </div>
-        <div>
-          <label for="beforeHeight">Before Height</label>
-          <input type="number" id="beforeHeight" placeholder="e.g. 16000000">
+
+        <div class="structure-sidebar">
+          <div class="structure-map" id="structureMap">
+            <div class="smap-empty">Select an event type to see query structure</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1312,178 +1390,215 @@ const LCD_ENDPOINTS = [
   { label: 'Neutron', url: 'https://rest.cosmos.directory/neutron' },
 ];
 
-// -- Preset categories --
-const PRESET_CATEGORIES = [
-  {
-    id: 'cosmwasm', label: 'CosmWasm',
-    presets: [
-      { label: 'Contract Activity', conditions: [
-        { eventType: 'wasm', attribute: '_contract_address', value: '' },
-      ]},
-      { label: 'Execute by Sender', conditions: [
-        { eventType: 'message', attribute: 'action', value: '/cosmwasm.wasm.v1.MsgExecuteContract' },
-        { eventType: 'message', attribute: 'sender', value: '' },
-      ]},
-      { label: 'Wasm Action', conditions: [
-        { eventType: 'wasm', attribute: 'action', value: '' },
-      ]},
-      { label: 'Store Code', conditions: [
-        { eventType: 'message', attribute: 'action', value: '/cosmwasm.wasm.v1.MsgStoreCode' },
-        { eventType: 'message', attribute: 'sender', value: '' },
-      ]},
-      { label: 'Instantiate', conditions: [
-        { eventType: 'message', attribute: 'action', value: '/cosmwasm.wasm.v1.MsgInstantiateContract' },
-      ]},
-      { label: 'Migrate', conditions: [
-        { eventType: 'message', attribute: 'action', value: '/cosmwasm.wasm.v1.MsgMigrateContract' },
-      ]},
-    ],
-  },
-  {
-    id: 'nft', label: 'NFT',
-    presets: [
-      { label: 'Mints', conditions: [
-        { eventType: 'wasm', attribute: 'action', value: 'mint' },
-      ]},
-      { label: 'Transfers', conditions: [
-        { eventType: 'wasm', attribute: 'action', value: 'transfer_nft' },
-      ]},
-      { label: 'Listings (set-ask)', conditions: [
-        { eventType: 'wasm-set-ask', attribute: '_contract_address', value: '' },
-      ]},
-      { label: 'Sales (finalize)', conditions: [
-        { eventType: 'wasm-finalize-sale', attribute: '_contract_address', value: '' },
-      ]},
-      { label: 'By Token ID', conditions: [
-        { eventType: 'wasm', attribute: 'token_id', value: '' },
-      ]},
-      { label: 'By Owner', conditions: [
-        { eventType: 'wasm', attribute: 'owner', value: '' },
-      ]},
-    ],
-  },
-  {
-    id: 'transfers', label: 'Transfers',
-    presets: [
-      { label: 'To Address', conditions: [
-        { eventType: 'transfer', attribute: 'recipient', value: '' },
-      ]},
-      { label: 'From Address', conditions: [
-        { eventType: 'transfer', attribute: 'sender', value: '' },
-      ]},
-      { label: 'Coins Spent By', conditions: [
-        { eventType: 'coin_spent', attribute: 'spender', value: '' },
-      ]},
-      { label: 'Coins Received By', conditions: [
-        { eventType: 'coin_received', attribute: 'receiver', value: '' },
-      ]},
-    ],
-  },
-  {
-    id: 'staking', label: 'Staking',
-    presets: [
-      { label: 'Delegate', conditions: [
-        { eventType: 'delegate', attribute: 'validator', value: '' },
-      ]},
-      { label: 'Unbond', conditions: [
-        { eventType: 'unbond', attribute: 'validator', value: '' },
-      ]},
-      { label: 'Redelegate', conditions: [
-        { eventType: 'redelegate', attribute: 'source_validator', value: '' },
-      ]},
-      { label: 'Withdraw Rewards', conditions: [
-        { eventType: 'withdraw_rewards', attribute: 'validator', value: '' },
-      ]},
-    ],
-  },
-  {
-    id: 'ibc', label: 'IBC',
-    presets: [
-      { label: 'Receives by Address', conditions: [
-        { eventType: 'fungible_token_packet', attribute: 'receiver', value: '' },
-      ]},
-      { label: 'Sends by Address', conditions: [
-        { eventType: 'fungible_token_packet', attribute: 'sender', value: '' },
-      ]},
-      { label: 'Channel Activity', conditions: [
-        { eventType: 'recv_packet', attribute: 'packet_dst_channel', value: '' },
-      ]},
-      { label: 'Acknowledgements', conditions: [
-        { eventType: 'acknowledge_packet', attribute: 'packet_src_channel', value: '' },
-      ]},
-    ],
-  },
-  {
-    id: 'governance', label: 'Governance',
-    presets: [
-      { label: 'Votes', conditions: [
-        { eventType: 'proposal_vote', attribute: 'proposal_id', value: '' },
-      ]},
-      { label: 'Proposals', conditions: [
-        { eventType: 'submit_proposal', attribute: 'proposal_id', value: '' },
-      ]},
-      { label: 'Deposits', conditions: [
-        { eventType: 'proposal_deposit', attribute: 'proposal_id', value: '' },
-      ]},
-    ],
-  },
-  {
-    id: 'advanced', label: 'Advanced',
-    presets: [
-      { label: 'By Message Type', conditions: [
-        { eventType: 'message', attribute: 'action', value: '' },
-      ]},
-      { label: 'By Signer', conditions: [
-        { eventType: 'message', attribute: 'sender', value: '' },
-      ]},
-      { label: 'Token Swaps', conditions: [
-        { eventType: 'token_swapped', attribute: 'sender', value: '' },
-      ]},
-      { label: 'Fee Payments', conditions: [
-        { eventType: 'fee_pay', attribute: 'fee', value: '' },
-      ]},
-      { label: 'Tip Payments', conditions: [
-        { eventType: 'tip_pay', attribute: 'tip_payee', value: '' },
-      ]},
-    ],
-  },
+// -- Quick Fill presets --
+const QUICK_FILLS = [
+  { group: 'Transfers', label: 'Send tokens', conditions: [
+    { eventType: 'message', attribute: 'action', value: '/cosmos.bank.v1beta1.MsgSend' },
+    { eventType: 'message', attribute: 'sender', value: '' },
+  ]},
+  { group: 'Transfers', label: 'To address', conditions: [
+    { eventType: 'transfer', attribute: 'recipient', value: '' },
+  ]},
+  { group: 'Transfers', label: 'From address', conditions: [
+    { eventType: 'transfer', attribute: 'sender', value: '' },
+  ]},
+  { group: 'Transfers', label: 'Coins spent by', conditions: [
+    { eventType: 'coin_spent', attribute: 'spender', value: '' },
+  ]},
+  { group: 'Transfers', label: 'Coins received by', conditions: [
+    { eventType: 'coin_received', attribute: 'receiver', value: '' },
+  ]},
+  { group: 'Staking', label: 'Delegate', conditions: [
+    { eventType: 'delegate', attribute: 'validator', value: '' },
+  ]},
+  { group: 'Staking', label: 'Unbond', conditions: [
+    { eventType: 'unbond', attribute: 'validator', value: '' },
+  ]},
+  { group: 'Staking', label: 'Redelegate', conditions: [
+    { eventType: 'redelegate', attribute: 'source_validator', value: '' },
+  ]},
+  { group: 'Staking', label: 'Withdraw rewards', conditions: [
+    { eventType: 'withdraw_rewards', attribute: 'validator', value: '' },
+  ]},
+  { group: 'CosmWasm', label: 'Contract activity', conditions: [
+    { eventType: 'wasm', attribute: '_contract_address', value: '' },
+  ]},
+  { group: 'CosmWasm', label: 'Execute by sender', conditions: [
+    { eventType: 'message', attribute: 'action', value: '/cosmwasm.wasm.v1.MsgExecuteContract' },
+    { eventType: 'message', attribute: 'sender', value: '' },
+  ]},
+  { group: 'CosmWasm', label: 'Wasm action', conditions: [
+    { eventType: 'wasm', attribute: 'action', value: '' },
+  ]},
+  { group: 'CosmWasm', label: 'Store code', conditions: [
+    { eventType: 'message', attribute: 'action', value: '/cosmwasm.wasm.v1.MsgStoreCode' },
+  ]},
+  { group: 'CosmWasm', label: 'Instantiate', conditions: [
+    { eventType: 'message', attribute: 'action', value: '/cosmwasm.wasm.v1.MsgInstantiateContract' },
+  ]},
+  { group: 'NFT', label: 'Mints', conditions: [
+    { eventType: 'wasm', attribute: 'action', value: 'mint' },
+  ]},
+  { group: 'NFT', label: 'NFT transfers', conditions: [
+    { eventType: 'wasm', attribute: 'action', value: 'transfer_nft' },
+  ]},
+  { group: 'NFT', label: 'Listings (set-ask)', conditions: [
+    { eventType: 'wasm-set-ask', attribute: '_contract_address', value: '' },
+  ]},
+  { group: 'NFT', label: 'By token ID', conditions: [
+    { eventType: 'wasm', attribute: 'token_id', value: '' },
+  ]},
+  { group: 'IBC', label: 'IBC receives', conditions: [
+    { eventType: 'fungible_token_packet', attribute: 'receiver', value: '' },
+  ]},
+  { group: 'IBC', label: 'IBC sends', conditions: [
+    { eventType: 'fungible_token_packet', attribute: 'sender', value: '' },
+  ]},
+  { group: 'IBC', label: 'Channel activity', conditions: [
+    { eventType: 'recv_packet', attribute: 'packet_dst_channel', value: '' },
+  ]},
+  { group: 'Governance', label: 'Votes', conditions: [
+    { eventType: 'proposal_vote', attribute: 'proposal_id', value: '' },
+  ]},
+  { group: 'Governance', label: 'Proposals', conditions: [
+    { eventType: 'submit_proposal', attribute: 'proposal_id', value: '' },
+  ]},
+  { group: 'Advanced', label: 'By message type', conditions: [
+    { eventType: 'message', attribute: 'action', value: '' },
+  ]},
+  { group: 'Advanced', label: 'By signer', conditions: [
+    { eventType: 'message', attribute: 'sender', value: '' },
+  ]},
+  { group: 'Advanced', label: 'Token swaps', conditions: [
+    { eventType: 'token_swapped', attribute: 'sender', value: '' },
+  ]},
 ];
 
-function buildPresetUI() {
-  const container = document.getElementById('presetCategories');
-  container.innerHTML = '';
-  for (const cat of PRESET_CATEGORIES) {
-    const catDiv = document.createElement('div');
-    catDiv.className = 'preset-category';
-    catDiv.dataset.cat = cat.id;
-
-    const header = document.createElement('div');
-    header.className = 'preset-category-header';
-    header.innerHTML = `<span class="chevron">&#9660;</span> ${cat.label}`;
-    header.onclick = () => catDiv.classList.toggle('collapsed');
-
-    const buttons = document.createElement('div');
-    buttons.className = 'preset-category-buttons';
-
-    for (const preset of cat.presets) {
-      const btn = document.createElement('button');
-      btn.textContent = preset.label;
-      btn.title = preset.conditions.map(c => `${c.eventType}.${c.attribute}`).join(' AND ');
-      btn.onclick = () => applyPresetNew(preset);
-      buttons.appendChild(btn);
+function buildQuickFillUI() {
+  const select = document.getElementById('quickFill');
+  select.innerHTML = '<option value="">Build your own query...</option>';
+  select.addEventListener('change', () => applyQuickFill(select.value));
+  const groups = {};
+  QUICK_FILLS.forEach((qf, i) => {
+    if (!groups[qf.group]) groups[qf.group] = [];
+    groups[qf.group].push({ ...qf, index: i });
+  });
+  for (const [group, items] of Object.entries(groups)) {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = group;
+    for (const item of items) {
+      const opt = document.createElement('option');
+      opt.value = String(item.index);
+      opt.textContent = item.label;
+      optgroup.appendChild(opt);
     }
-
-    catDiv.appendChild(header);
-    catDiv.appendChild(buttons);
-    container.appendChild(catDiv);
+    select.appendChild(optgroup);
   }
 }
 
-function applyPresetNew(preset) {
+function applyQuickFill(index) {
+  if (index === '') return;
+  const qf = QUICK_FILLS[parseInt(index)];
+  if (!qf) return;
   clearConditions();
-  for (const cond of preset.conditions) {
-    addCondition(cond.eventType, cond.attribute, cond.value);
+  for (const cond of qf.conditions) {
+    addCondition(cond.eventType, cond.attribute, cond.value, cond.operator);
   }
+  document.getElementById('quickFill').value = '';
+}
+
+// -- Structure map sidebar --
+function updateStructureMap() {
+  const mapEl = document.getElementById('structureMap');
+  if (!mapEl) return;
+
+  // Gather all conditions including partial ones (event type selected but no value yet)
+  const container = document.getElementById('conditions');
+  const rows = container.querySelectorAll('.condition-row');
+  const conditionsByEvent = {};
+
+  for (const row of rows) {
+    const id = row.id.replace('cond-', '');
+    const etSelect = document.getElementById(`et-${id}`);
+    const etCustom = document.getElementById(`et-custom-${id}`);
+    const attrSelect = document.getElementById(`attr-${id}`);
+    const attrCustom = document.getElementById(`attr-custom-${id}`);
+    const opSelect = document.getElementById(`op-${id}`);
+    const valInput = document.getElementById(`val-${id}`);
+    if (!etSelect) continue;
+
+    const eventType = etSelect.value === '__custom__' ? etCustom?.value?.trim() : etSelect.value;
+    if (!eventType) continue;
+
+    const attribute = attrSelect?.value === '__custom__' ? attrCustom?.value?.trim() : attrSelect?.value;
+    const operator = opSelect?.value || '=';
+    const value = valInput?.value?.trim() || '';
+
+    if (!conditionsByEvent[eventType]) conditionsByEvent[eventType] = [];
+    if (attribute) {
+      conditionsByEvent[eventType].push({ attribute, operator, value });
+    }
+  }
+
+  const eventTypes = Object.keys(conditionsByEvent);
+
+  if (eventTypes.length === 0) {
+    mapEl.innerHTML = '<div class="smap-empty">Select an event type to see query structure</div>';
+    return;
+  }
+
+  const isCrossEvent = eventTypes.length > 1;
+  const afterH = document.getElementById('afterHeight')?.value?.trim();
+  const beforeH = document.getElementById('beforeHeight')?.value?.trim();
+
+  let html = '<div class="smap-title">Query Structure';
+  if (isCrossEvent) html += ' <span class="smap-warn" style="display:inline; border:0; padding:0; margin:0;">-- cross-event</span>';
+  html += '</div>';
+
+  if (afterH || beforeH) {
+    if (afterH) html += `<div class="smap-height">tx.height &gt; ${afterH}</div>`;
+    if (beforeH) html += `<div class="smap-height">tx.height &lt; ${beforeH}</div>`;
+  }
+
+  eventTypes.forEach((et, idx) => {
+    const catalog = EVENT_CATALOG[et];
+    const activeAttrs = conditionsByEvent[et];
+    const activeKeys = new Set(activeAttrs.map(a => a.attribute));
+    const allAttrs = catalog ? Object.keys(catalog.attributes) : [];
+
+    html += `<div class="smap-event">`;
+    if (isCrossEvent) html += `<span class="smap-query-label">Query ${idx + 1}</span>`;
+    html += `${catalog?.label || et} <span style="color:var(--text-muted);font-weight:400">(${et})</span></div>`;
+
+    // Active filters
+    for (const ac of activeAttrs) {
+      let display = ac.attribute;
+      if (ac.operator === 'EXISTS') {
+        display += ' <span class="smap-val">EXISTS</span>';
+      } else if (ac.value) {
+        const opStr = ac.operator === 'CONTAINS' ? ' CONTAINS ' : ac.operator;
+        const truncVal = ac.value.length > 20 ? ac.value.slice(0, 18) + '..' : ac.value;
+        display += `${opStr}<span class="smap-val">'${truncVal}'</span>`;
+      }
+      html += `<div class="smap-attr smap-active">${display}</div>`;
+    }
+
+    // Available refinements (only from same event type = valid AND)
+    for (const attr of allAttrs) {
+      if (activeKeys.has(attr)) continue;
+      html += `<div class="smap-attr"><span style="color:var(--text-muted)">${attr}</span> <span class="smap-add" onclick="addFilterFromMap('${et}','${attr}')">+ add</span></div>`;
+    }
+  });
+
+  if (isCrossEvent) {
+    html += `<div class="smap-warn">Runs ${eventTypes.length} separate queries, intersects results by tx hash</div>`;
+  }
+
+  mapEl.innerHTML = html;
+}
+
+function addFilterFromMap(eventType, attribute) {
+  addCondition(eventType, attribute, '');
 }
 
 // -- State --
@@ -1572,7 +1687,7 @@ function init() {
     }
   }
 
-  buildPresetUI();
+  buildQuickFillUI();
   addCondition();
 
   // Height filter inputs update query preview
@@ -1615,9 +1730,15 @@ function switchTab(tabId) {
 }
 
 // -- CORS proxy helper --
-function proxiedFetch(url, opts = {}) {
+async function proxiedFetch(url, opts = {}) {
   const proxyUrl = `/api/proxy?url=${encodeURIComponent(url)}`;
-  return fetch(proxyUrl, opts);
+  try {
+    const resp = await fetch(proxyUrl, opts);
+    if (resp.status === 404) throw new Error('proxy not available');
+    return resp;
+  } catch {
+    return fetch(url, opts);
+  }
 }
 
 // -- Endpoint checks --
@@ -1646,7 +1767,7 @@ async function checkLcdEndpoint() {
 }
 
 // -- Condition management (Event Search tab) --
-function addCondition(eventType, attribute, value) {
+function addCondition(eventType, attribute, value, operator) {
   const id = conditionId++;
   const container = document.getElementById('conditions');
 
@@ -1723,6 +1844,38 @@ function addCondition(eventType, attribute, value) {
   attrCustom.addEventListener('input', updateQueryPreview);
   attrDiv.appendChild(attrCustom);
 
+  // Operator dropdown
+  const opDiv = document.createElement('div');
+  opDiv.className = 'operator';
+  const opLabel = document.createElement('label');
+  opLabel.textContent = 'Operator';
+  const opSelect = document.createElement('select');
+  opSelect.id = `op-${id}`;
+  opSelect.innerHTML = `
+    <option value="=">=</option>
+    <option value="CONTAINS">CONTAINS</option>
+    <option value="EXISTS">EXISTS</option>
+    <option value=">">></option>
+    <option value=">=">>=</option>
+    <option value="<"><</option>
+    <option value="<="><=</option>
+  `;
+  opSelect.addEventListener('change', () => {
+    const valDiv = document.getElementById(`val-${id}`)?.parentElement;
+    const valInput = document.getElementById(`val-${id}`);
+    if (opSelect.value === 'EXISTS') {
+      valInput.value = '';
+      valInput.disabled = true;
+      valInput.placeholder = '(no value needed)';
+    } else {
+      valInput.disabled = false;
+      updateValuePlaceholder(id);
+    }
+    updateQueryPreview();
+  });
+  opDiv.appendChild(opLabel);
+  opDiv.appendChild(opSelect);
+
   // Value input with datalist suggestions
   const valDiv = document.createElement('div');
   valDiv.className = 'value';
@@ -1750,6 +1903,7 @@ function addCondition(eventType, attribute, value) {
 
   row.appendChild(etDiv);
   row.appendChild(attrDiv);
+  row.appendChild(opDiv);
   row.appendChild(valDiv);
   row.appendChild(removeBtn);
   container.appendChild(row);
@@ -1761,6 +1915,13 @@ function addCondition(eventType, attribute, value) {
       attrSelect.value = attribute;
       updateValuePlaceholder(id);
       updateValueSuggestions(id);
+    }
+    if (operator) {
+      opSelect.value = operator;
+      if (operator === 'EXISTS') {
+        valInput.disabled = true;
+        valInput.placeholder = '(no value needed)';
+      }
     }
     if (value) valInput.value = value;
   }
@@ -1910,16 +2071,22 @@ function updateQueryPreview() {
   const conditions = getConditions();
   const preview = document.getElementById('queryPreview');
 
+  const wrap = document.getElementById('queryPreviewWrap');
+  updateStructureMap();
   if (conditions.length === 0 || !conditions.some(c => c.eventType && c.attribute)) {
-    preview.classList.remove('visible');
+    wrap.classList.remove('visible');
     return;
   }
 
   const parts = conditions
     .filter(c => c.eventType && c.attribute)
     .map(c => {
+      const tag = `<span class="qkey">${c.eventType}.${c.attribute}</span>`;
+      const op = c.operator || '=';
+      if (op === 'EXISTS') return `${tag} <span class="qop">EXISTS</span>`;
+      if (op === 'CONTAINS') return `${tag} <span class="qop">CONTAINS</span> <span class="qval">'${c.value || '...'}'</span>`;
       const val = c.value || '...';
-      return `<span class="qkey">${c.eventType}.${c.attribute}</span>=<span class="qval">'${val}'</span>`;
+      return `${tag}<span class="qop">${op}</span><span class="qval">'${val}'</span>`;
     });
 
   // Append height range if present
@@ -1929,7 +2096,48 @@ function updateQueryPreview() {
   if (beforeH) parts.push(`<span class="qkey">tx.height</span>&lt;<span class="qval">${beforeH}</span>`);
 
   preview.innerHTML = parts.join(` <span class="qop">AND</span> `);
-  preview.classList.add('visible');
+  wrap.classList.add('visible');
+  updateStructureMap();
+}
+
+/** @returns {string} The raw CometBFT query string from current conditions */
+function buildRawQuery() {
+  const conditions = getConditions();
+  const parts = conditions
+    .filter(c => c.eventType && c.attribute)
+    .map(c => {
+      const tag = `${c.eventType}.${c.attribute}`;
+      const op = c.operator || '=';
+      if (op === 'EXISTS') return `${tag} EXISTS`;
+      if (op === 'CONTAINS') return `${tag} CONTAINS '${c.value}'`;
+      if (['>', '>=', '<', '<='].includes(op)) return `${tag}${op}${c.value}`;
+      return `${tag}='${c.value}'`;
+    });
+
+  const afterH = document.getElementById('afterHeight')?.value?.trim();
+  const beforeH = document.getElementById('beforeHeight')?.value?.trim();
+  if (afterH) parts.push(`tx.height>${afterH}`);
+  if (beforeH) parts.push(`tx.height<${beforeH}`);
+
+  return parts.join(' AND ');
+}
+
+function copyQuery() {
+  const q = buildRawQuery();
+  navigator.clipboard.writeText(q).then(() => {
+    setStatus('Query copied to clipboard');
+  });
+}
+
+function copyCurl() {
+  const rpcUrl = document.getElementById('rpcUrl').value.replace(/\/+$/, '');
+  const perPage = document.getElementById('perPage').value;
+  const orderBy = document.getElementById('orderBy').value;
+  const q = buildRawQuery();
+  const curl = `curl '${rpcUrl}/tx_search?query="${encodeURIComponent(q)}"&per_page=${perPage}&page=1&order_by="${orderBy}"'`;
+  navigator.clipboard.writeText(curl).then(() => {
+    setStatus('curl command copied to clipboard');
+  });
 }
 
 function getConditions() {
@@ -1944,15 +2152,21 @@ function getConditions() {
     const attrSelect = document.getElementById(`attr-${id}`);
     const attrCustom = document.getElementById(`attr-custom-${id}`);
     const valInput = document.getElementById(`val-${id}`);
+    const opSelect = document.getElementById(`op-${id}`);
 
     if (!etSelect) continue;
 
     const eventType = etSelect.value === '__custom__' ? etCustom.value.trim() : etSelect.value;
     const attribute = attrSelect.value === '__custom__' ? attrCustom.value.trim() : attrSelect.value;
+    const operator = opSelect?.value || '=';
     const value = valInput.value.trim();
 
-    if (eventType && attribute && value) {
-      conditions.push({ eventType, attribute, value });
+    if (operator === 'EXISTS') {
+      if (eventType && attribute) {
+        conditions.push({ eventType, attribute, operator, value: '' });
+      }
+    } else if (eventType && attribute && value) {
+      conditions.push({ eventType, attribute, operator, value });
     }
   }
 
@@ -2447,7 +2661,7 @@ async function doRestQuery() {
         if (!events) throw new Error('Events query is required');
         const order = document.getElementById('restOrder')?.value || 'ORDER_BY_DESC';
         const params = new URLSearchParams({
-          events: events,
+          query: events,
           order_by: order,
           'pagination.limit': '50',
         });
@@ -2945,7 +3159,14 @@ async function doSearch(page) {
   }
 
   let query = conditions
-    .map(c => `${c.eventType}.${c.attribute}='${c.value}'`)
+    .map(c => {
+      const tag = `${c.eventType}.${c.attribute}`;
+      const op = c.operator || '=';
+      if (op === 'EXISTS') return `${tag} EXISTS`;
+      if (op === 'CONTAINS') return `${tag} CONTAINS '${c.value}'`;
+      if (['>', '>=', '<', '<='].includes(op)) return `${tag}${op}${c.value}`;
+      return `${tag}='${c.value}'`;
+    })
     .join(' AND ');
 
   // Append height range filters
