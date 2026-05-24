@@ -68,10 +68,10 @@ node whale-watcher.js [--once] [--hours <n>] [--token <symbol>]
 
 ### Explorer UI
 
-Browser-based interactive event query builder with dropdown-based query construction, preset queries, paginated results, and JSON export. Queries RPC directly (CORS open on most public nodes).
+Browser-based interactive event query builder with dropdown-based query construction, preset queries, paginated results, and JSON export. Event Search and RPC Queries use the RPC URL field; REST Queries use the REST URL field. Selecting **Custom URL** clears the field so the next query runs against the endpoint you enter.
 
 ```bash
-yarn explorer  # http://127.0.0.1:8420/explorer.html
+yarn explorer  # http://127.0.0.1:8420/
 ```
 
 ### Test Transaction Broadcaster
@@ -93,7 +93,7 @@ node send-cosmos-txs.js
 | `parse-tx-json.js` | `TxParser` class for offline JSON file parsing, error categorization |
 | `whale-watcher.js` | `WhaleWatcher` class -- large transfer monitoring, configurable thresholds, continuous watch loop |
 | `send-cosmos-txs.js` | CosmJS transaction broadcaster for devnet testing |
-| `explorer.html` | Single-file browser UI for interactive event queries |
+| `index.html` | Single-file browser UI for interactive event queries |
 | `generate-test-txs.js` | Test fixture generator (CommonJS) |
 
 ## Query Strategies
