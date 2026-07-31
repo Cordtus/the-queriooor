@@ -50,6 +50,16 @@ Scan blocks to find all historical transactions for an address. Auto-stops at fi
 node find-address-txs.js <address> [start-height]
 ```
 
+### Mintscan Distribution Audit
+
+Query Mintscan's account history, fetch each transaction detail, and total outbound base-denom transfers for an address. Handles `MsgSend`, `MsgMultiSend`, and nested `MsgExec`, with transfer events as a fallback when message decoding does not expose the bank send directly.
+
+```bash
+set -x MINT_TOKEN ...
+node mintscan-distributions.js osmo1f3w7ved2murkx4rg9qw8fyk5mfk2285hzzsxh5
+node mintscan-distributions.js osmo1... --from "2026-01-01" --to "2026-02-01 23:59:59" --json
+```
+
 ### Offline TX Parsing
 
 Parse transaction JSON from file. Handles multiple JSON structures and error categorization.
@@ -74,14 +84,6 @@ Browser-based interactive event query builder with dropdown-based query construc
 yarn explorer  # http://127.0.0.1:8420/
 ```
 
-### Test Transaction Broadcaster
-
-Broadcasts transactions (including intentional failures) to devnet using CosmJS.
-
-```bash
-node send-cosmos-txs.js
-```
-
 ## Modules
 
 | Module | Role |
@@ -90,23 +92,21 @@ node send-cosmos-txs.js
 | `rpc-event-query.js` | `RpcEventQuery` class -- Tendermint RPC `/tx_search`, base64 auto-detection, `EVENT_CATALOG` with all known event types |
 | `query-txs.js` | Block-level backward scanning, checks all message address fields and events |
 | `find-address-txs.js` | Historical address search via block scanning, auto-stop, JSON output |
+| `mintscan-distributions.js` | Mintscan-backed account-history audit for outbound denom distributions |
 | `parse-tx-json.js` | `TxParser` class for offline JSON file parsing, error categorization |
 | `whale-watcher.js` | `WhaleWatcher` class -- large transfer monitoring, configurable thresholds, continuous watch loop |
-| `send-cosmos-txs.js` | CosmJS transaction broadcaster for devnet testing |
 | `index.html` | Single-file browser UI for interactive event queries |
-| `generate-test-txs.js` | Test fixture generator (CommonJS) |
 
 ## Query Strategies
 
 - **LCD event queries** (`cosmos-event-parser.js`) -- filtered search via `/cosmos/tx/v1beta1/txs` with `events=` parameter. Best for targeted queries on nodes with working LCD search.
 - **Tendermint RPC** (`rpc-event-query.js`) -- `/tx_search` endpoint. Works with archive nodes and supports the full Tendermint query syntax. Required for Osmosis (LCD tx search is broken).
 - **Block scanning** (`query-txs.js`, `find-address-txs.js`) -- linear walk through blocks. Exhaustive but slow. Use when event indexing is unavailable or incomplete.
+- **Mintscan historical API** (`mintscan-distributions.js`) -- account-centric history with `searchAfter` pagination and tx-detail fetches. Best when you need transaction classification for one address and have a valid Mintscan API token.
 
-## Dependencies
+## Runtime
 
-- `@cosmjs/amino`, `@cosmjs/proto-signing`, `@cosmjs/stargate` -- wallet/signing/broadcasting (only used by `send-cosmos-txs.js`)
-
-Uses Node.js native `fetch` (requires Node 18+).
+Uses Node.js native `fetch` (requires Node 18+). The toolkit is intentionally read-only and does not connect wallets, sign, or broadcast transactions. The deployed CORS proxy accepts GET requests only, limits responses to 1 MiB, and forwards only to the explorer's preset public endpoints. Custom endpoints remain available directly when they permit browser CORS.
 
 ## License
 
