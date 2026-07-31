@@ -2001,7 +2001,7 @@ async function proxiedFetch(url, opts = {}) {
   const proxyUrl = `/api/proxy?url=${encodeURIComponent(url)}`;
   try {
     const resp = await fetch(proxyUrl, opts);
-    if (resp.status === 404) throw new Error('proxy not available');
+    if (resp.status === 403 || resp.status === 404) throw new Error('proxy not available for this endpoint');
     return resp;
   } catch {
     return fetch(url, opts);

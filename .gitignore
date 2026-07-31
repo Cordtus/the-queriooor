@@ -17,3 +17,8 @@ PROJECT_BLUEPRINT.md
 Thumbs.db
 .vercel
 QUERY_CAPABILITIES.md
+
+# Local agent and browser verification artifacts
+.codex
+.playwright-mcp/
+current-live-*.png
