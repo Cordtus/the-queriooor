@@ -106,7 +106,7 @@ yarn explorer  # http://127.0.0.1:8420/
 
 ## Runtime
 
-Uses Node.js native `fetch` (requires Node 18+). The toolkit is intentionally read-only and does not connect wallets, sign, or broadcast transactions. The deployed CORS proxy accepts GET requests only, limits responses to 1 MiB, and forwards only to the explorer's preset public endpoints. Custom endpoints remain available directly when they permit browser CORS.
+Uses Node.js native `fetch` (requires Node 18+). The toolkit is intentionally read-only and does not connect wallets, sign, or broadcast transactions. The CORS proxy (`api/proxy.js`) accepts GET requests only, limits responses to 1 MiB, and forwards only to read-only Cosmos/Tendermint paths — preset public endpoints plus any custom HTTPS endpoint whose path is a read-only query. Locally, `node dev-server.js` serves the explorer and the same proxy, so custom endpoints work in-browser without a Vercel deploy; against a custom endpoint that does not permit browser CORS, the proxy is required.
 
 ## License
 
