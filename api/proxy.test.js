@@ -122,6 +122,64 @@ test('forwards bounded JSON responses from a preset endpoint', async () => {
 	assert.equal(response.body, '{"result":{"syncing":false}}');
 });
 
+test('forwards read-only requests to a custom non-preset RPC endpoint', async () => {
+	const response = createResponse();
+	let requestedUrl = null;
+
+	await withFetch(async url => {
+		requestedUrl = url;
+		return new Response('{"jsonrpc":"2.0","result":{"height":"1"}}', {
+			status: 200,
+			headers: { 'content-type': 'application/json' },
+		});
+	}, async () => {
+		await handler({
+			method: 'GET',
+			query: { url: 'https://rpc.nomic.basementnodes.ca/block_results?height=33137470' },
+		}, response);
+	});
+
+	assert.equal(requestedUrl, 'https://rpc.nomic.basementnodes.ca/block_results?height=33137470');
+	assert.equal(response.statusCode, 200);
+	assert.equal(response.body, '{"jsonrpc":"2.0","result":{"height":"1"}}');
+});
+
+test('forwards read-only requests to a custom non-preset REST endpoint', async () => {
+	const response = createResponse();
+
+	await withFetch(async () => new Response('{"balances":[]}', {
+		status: 200,
+		headers: { 'content-type': 'application/json' },
+	}), async () => {
+		await handler({
+			method: 'GET',
+			query: { url: 'https://custom-rest.example/cosmos/bank/v1beta1/balances/osmo1abc' },
+		}, response);
+	});
+
+	assert.equal(response.statusCode, 200);
+	assert.equal(response.body, '{"balances":[]}');
+});
+
+test('rejects a non-read-only path on a custom endpoint', async () => {
+	let fetchCalls = 0;
+	const response = createResponse();
+
+	await withFetch(async () => {
+		fetchCalls += 1;
+		return new Response('{}');
+	}, async () => {
+		await handler({
+			method: 'GET',
+			query: { url: 'https://rpc.nomic.basementnodes.ca/broadcast_tx_sync?tx=unsafe' },
+		}, response);
+	});
+
+	assert.equal(response.statusCode, 403);
+	assert.deepEqual(response.body, { error: 'Target endpoint is not allowed' });
+	assert.equal(fetchCalls, 0);
+});
+
 test('rejects an upstream response that exceeds the proxy limit', async () => {
 	const response = createResponse();
 

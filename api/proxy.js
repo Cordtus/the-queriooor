@@ -54,6 +54,31 @@ function findEndpointPreset(parsed) {
 		.sort((left, right) => right.basePath.length - left.basePath.length)[0] || null;
 }
 
+/**
+ * Classify any HTTPS target as an allowed read-only endpoint.
+ * Known presets keep their strict basePath handling; unknown origins are
+ * allowed only when the path is a read-only Cosmos/Tendermint shape, so
+ * custom endpoints entered in the explorer work without turning this into
+ * a general-purpose open proxy.
+ * Returns null when the target is not allowed.
+ */
+function classifyEndpoint(parsed) {
+	const preset = findEndpointPreset(parsed);
+	if (preset) {
+		return preset;
+	}
+	const path = parsed.pathname;
+	if (path.startsWith('/cosmos/') || path.startsWith('/ibc/')) {
+		return { kind: 'rest', origin: parsed.origin, basePath: '' };
+	}
+	const lastSegment = `/${path.split('/').filter(Boolean).pop() || ''}`;
+	if (READ_ONLY_RPC_PATHS.has(lastSegment)) {
+		const basePath = path.slice(0, path.length - lastSegment.length).replace(/\/$/, '');
+		return { kind: 'rpc', origin: parsed.origin, basePath };
+	}
+	return null;
+}
+
 function isReadOnlyPath(parsed, preset) {
 	const relativePath = parsed.pathname.slice(preset.basePath.length) || '/';
 	if (preset.kind === 'rpc') {
@@ -134,7 +159,7 @@ export default async function handler(req, res) {
 		res.status(400).json({ error: 'Only credential-free HTTPS URLs are allowed' });
 		return;
 	}
-	const preset = findEndpointPreset(parsed);
+	const preset = classifyEndpoint(parsed);
 	if (!preset) {
 		res.status(403).json({ error: 'Target endpoint is not allowed' });
 		return;

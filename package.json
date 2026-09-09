@@ -8,7 +8,7 @@
     "test": "node --test",
     "test:live": "node cosmos-event-parser.js",
     "parse": "node parse-tx-json.js",
-    "explorer": "python3 -m http.server 8420 -b 127.0.0.1",
+    "explorer": "node dev-server.js",
     "rpc-query": "node rpc-event-query.js",
     "mintscan-distributions": "node mintscan-distributions.js"
   }
