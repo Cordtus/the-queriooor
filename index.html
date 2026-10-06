@@ -46,6 +46,34 @@ body {
   padding: 28px 20px 64px;
 }
 
+.promo-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 9px 14px;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.promo-banner:hover { border-color: var(--accent); }
+.promo-banner .promo-tag {
+  flex: 0 0 auto;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--accent-dim);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.promo-banner strong { color: var(--text); }
+.promo-banner .promo-arrow { flex: 0 0 auto; margin-left: auto; color: var(--accent); font-weight: 700; }
+
 header {
   display: flex;
   align-items: center;
@@ -1034,6 +1062,11 @@ button:focus-visible {
 <body>
 
 <div class="container">
+  <a class="promo-banner" href="https://grpcwebexplorer.vercel.app" target="_blank" rel="noopener noreferrer">
+    <span class="promo-tag">Promo</span>
+    <span>Looking for a richer experience? <strong>GRPC Web Explorer</strong> offers a more intuitive Cosmos UI that covers everything here and more.</span>
+    <span class="promo-arrow" aria-hidden="true">&nearr;</span>
+  </a>
   <header>
     <div class="logo-mark" aria-hidden="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -1765,17 +1798,159 @@ function getSuggestions(eventAttrKey) {
 }
 
 // -- Endpoints --
+// Every chain with a cosmos.directory aggregate endpoint (rpc./rest.cosmos.directory/<slug>).
+// Generated from https://chains.cosmos.directory/ proxy_status on 2026-10-05; regenerate by
+// filtering status === 'live' and proxy_status.rpc / proxy_status.rest.
+// ponytail: static list; swap for a fetch of chains.cosmos.directory if churn becomes a problem.
+const COSMOS_DIRECTORY_CHAINS = [
+  { slug: 'agoric', label: 'Agoric' },
+  { slug: 'aioz', label: 'AIOZ Network' },
+  { slug: 'akash', label: 'Akash' },
+  { slug: 'allora', label: 'Allora' },
+  { slug: 'althea', label: 'Althea' },
+  { slug: 'amitis', label: 'Amitis Network' },
+  { slug: 'andromeda', label: 'Andromeda' },
+  { slug: 'archway', label: 'Archway' },
+  { slug: 'arkeo', label: 'Arkeo' },
+  { slug: 'atomone', label: 'AtomOne' },
+  { slug: 'aura', label: 'Aura Network' },
+  { slug: 'axelar', label: 'Axelar' },
+  { slug: 'axiome', label: 'Axiome' },
+  { slug: 'axone', label: 'Axone' },
+  { slug: 'babylon', label: 'Babylon Genesis' },
+  { slug: 'bandchain', label: 'Band Protocol' },
+  { slug: 'beezee', label: 'BeeZee' },
+  { slug: 'bitbadges', label: 'BitBadges' },
+  { slug: 'bitcanna', label: 'BitCanna' },
+  { slug: 'bitsong', label: 'BitSong' },
+  { slug: 'blg24', label: 'BLG24' },
+  { slug: 'chain4energy', label: 'C4E' },
+  { slug: 'celestia', label: 'Celestia' },
+  { slug: 'cheqd', label: 'Cheqd' },
+  { slug: 'chihuahua', label: 'Chihuahua' },
+  { slug: 'cifer', label: 'Cifer' },
+  { slug: 'cnhostables', label: 'CNHO Stables' },
+  { slug: 'commercionetwork', label: 'Commercio.network' },
+  { slug: 'cosmoshub', label: 'Cosmos Hub' },
+  { slug: 'cronos', label: 'Cronos' },
+  { slug: 'cryptoorgchain', label: 'Cronos POS Chain' },
+  { slug: 'cysic', label: 'Cysic' },
+  { slug: 'decentr', label: 'Decentr' },
+  { slug: 'desmos', label: 'Desmos' },
+  { slug: 'divine', label: 'Divine' },
+  { slug: 'doravota', label: 'Dora Vota' },
+  { slug: 'dungeon', label: 'Dungeon Chain' },
+  { slug: 'dydx', label: 'dYdX Protocol' },
+  { slug: 'dymension', label: 'Dymension Hub' },
+  { slug: 'empowerchain', label: 'EmpowerChain' },
+  { slug: 'epix', label: 'Epix' },
+  { slug: 'fetchhub', label: 'Fetch.ai' },
+  { slug: 'firmachain', label: 'FIRMACHAIN' },
+  { slug: 'genesisl1', label: 'GenesisL1' },
+  { slug: 'ggezchain', label: 'GGEZ1 Chain' },
+  { slug: 'gitopia', label: 'Gitopia' },
+  { slug: 'gnodi', label: 'Gnodi' },
+  { slug: 'gonka', label: 'Gonka' },
+  { slug: 'gravitybridge', label: 'Gravity Bridge' },
+  { slug: 'hazinachain', label: 'HazinaChain' },
+  { slug: 'hipercapital', label: 'Hipercapital Finance' },
+  { slug: 'hippoprotocol', label: 'Hippo Protocol' },
+  { slug: 'humans', label: 'Humans.ai' },
+  { slug: 'hyve', label: 'HyveChain' },
+  { slug: 'impacthub', label: 'Impact Hub' },
+  { slug: 'initia', label: 'Initia' },
+  { slug: 'injective', label: 'Injective' },
+  { slug: 'jackal', label: 'Jackal' },
+  { slug: 'juno', label: 'Juno' },
+  { slug: 'kava', label: 'Kava' },
+  { slug: 'kiichain', label: 'KiiChain' },
+  { slug: 'kyve', label: 'KYVE' },
+  { slug: 'lava', label: 'Lava' },
+  { slug: 'likecoin', label: 'LikeCoin' },
+  { slug: 'loyal', label: 'Loyal' },
+  { slug: 'lumen', label: 'Lumen' },
+  { slug: 'lumera', label: 'Lumera' },
+  { slug: 'lumiwaveprotocol', label: 'LumiWave Protocol' },
+  { slug: 'mantrachain', label: 'MANTRA' },
+  { slug: 'mayachain', label: 'Maya Protocol' },
+  { slug: 'medasdigital', label: 'Medas Digital Network' },
+  { slug: 'panacea', label: 'Medibloc' },
+  { slug: 'mirage', label: 'Mirage' },
+  { slug: 'mtgbp', label: 'mtgbp' },
+  { slug: 'mucoin', label: 'MuCoin' },
+  { slug: 'neutaro', label: 'Neutaro' },
+  { slug: 'neutron', label: 'Neutron' },
+  { slug: 'nibiru', label: 'Nibiru' },
+  { slug: 'noble', label: 'Noble' },
+  { slug: 'nolus', label: 'Nolus' },
+  { slug: 'nvnmchain', label: 'NVNM Chain' },
+  { slug: 'nyx', label: 'Nym' },
+  { slug: 'okexchain', label: 'OKExChain', rest: false },
+  { slug: 'optio', label: 'Optio' },
+  { slug: 'oraichain', label: 'Oraichain' },
+  { slug: 'osmosis', label: 'Osmosis' },
+  { slug: 'passage', label: 'Passage' },
+  { slug: 'paxi', label: 'Paxi' },
+  { slug: 'persistence', label: 'Persistence' },
+  { slug: 'pocket', label: 'Pocket Network' },
+  { slug: 'provenance', label: 'Provenance' },
+  { slug: 'pundix', label: 'Pundi X Chain' },
+  { slug: 'qie', label: 'QIE' },
+  { slug: 'qorechain', label: 'QoreChain' },
+  { slug: 'qfs', label: 'Quantum Financial Systems' },
+  { slug: 'realio', label: 'Realio Network' },
+  { slug: 'regen', label: 'Regen' },
+  { slug: 'ritbit', label: 'Rubin' },
+  { slug: 'safrochain', label: 'Safrochain' },
+  { slug: 'saga', label: 'Saga' },
+  { slug: 'seda', label: 'SEDA' },
+  { slug: 'sei', label: 'Sei', rpc: false },
+  { slug: 'sentinel', label: 'Sentinel' },
+  { slug: 'shentu', label: 'Shentu' },
+  { slug: 'shido', label: 'Shido' },
+  { slug: 'six', label: 'SIX Protocol' },
+  { slug: 'sommelier', label: 'Sommelier' },
+  { slug: 'sovr', label: 'Sovren' },
+  { slug: 'stride', label: 'Stride' },
+  { slug: 'tac', label: 'TAC' },
+  { slug: 'taketitan', label: 'TakeTitan' },
+  { slug: 'terra2', label: 'Terra' },
+  { slug: 'terra', label: 'Terra Classic' },
+  { slug: 'thejaynetwork', label: 'The Jay Network' },
+  { slug: 'thorchain', label: 'THORChain' },
+  { slug: 'turkchain', label: 'Turkchain' },
+  { slug: 'coreum', label: 'TX' },
+  { slug: 'unification', label: 'Unification' },
+  { slug: 'union', label: 'Union' },
+  { slug: 'uptick', label: 'Uptick' },
+  { slug: 'xion', label: 'Verona' },
+  { slug: 'wardenprotocol', label: 'Warden' },
+  { slug: 'wolochain', label: 'WoloChain' },
+  { slug: 'gateway', label: 'Wormhole Gateway' },
+  { slug: 'xpla', label: 'XPLA' },
+  { slug: 'xrplevm', label: 'XRPL EVM' },
+  { slug: 'zerone', label: 'Zerone', rest: false },
+  { slug: 'zetachain', label: 'ZetaChain' },
+  { slug: 'zigchain', label: 'ZIGChain' },
+];
+
+const DIRECTORY_RPC_ENDPOINTS = COSMOS_DIRECTORY_CHAINS
+  .filter(chain => chain.rpc !== false)
+  .map(chain => ({ label: `${chain.label} (cosmos.directory)`, url: `https://rpc.cosmos.directory/${chain.slug}` }));
+
+const DIRECTORY_LCD_ENDPOINTS = COSMOS_DIRECTORY_CHAINS
+  .filter(chain => chain.rest !== false)
+  .map(chain => ({ label: `${chain.label} (cosmos.directory)`, url: `https://rest.cosmos.directory/${chain.slug}` }));
+
 const KNOWN_ENDPOINTS = [
   { label: 'Osmosis Archive', url: 'https://rpc.archive.osmosis.zone' },
   { label: 'Osmosis (Polkachu)', url: 'https://osmosis-rpc.polkachu.com' },
   { label: 'Osmosis (Lavender.Five)', url: 'https://rpc.lavenderfive.com:443/osmosis' },
   { label: 'Cosmos Hub (Polkachu)', url: 'https://cosmos-rpc.polkachu.com' },
   { label: 'Cosmos Hub Archive', url: 'https://rpc-cosmoshub.ecostake.com' },
-  { label: 'Cosmos Hub (cosmos.directory)', url: 'https://rpc.cosmos.directory/cosmoshub' },
   { label: 'Cosmos Hub (Lavender.Five)', url: 'https://rpc.lavenderfive.com:443/cosmoshub' },
   { label: 'Stargaze', url: 'https://rpc.stargaze-apis.com' },
-  { label: 'Juno', url: 'https://rpc.cosmos.directory/juno' },
-  { label: 'Neutron', url: 'https://rpc.cosmos.directory/neutron' },
+  ...DIRECTORY_RPC_ENDPOINTS,
 ];
 
 const LCD_ENDPOINTS = [
@@ -1784,11 +1959,9 @@ const LCD_ENDPOINTS = [
   { label: 'Osmosis (Lavender.Five)', url: 'https://rest.lavenderfive.com:443/osmosis' },
   { label: 'Cosmos Hub (Polkachu)', url: 'https://cosmos-api.polkachu.com' },
   { label: 'Cosmos Hub (ecostake)', url: 'https://rest-cosmoshub.ecostake.com' },
-  { label: 'Cosmos Hub (cosmos.directory)', url: 'https://rest.cosmos.directory/cosmoshub' },
   { label: 'Cosmos Hub (Lavender.Five)', url: 'https://rest.lavenderfive.com:443/cosmoshub' },
   { label: 'Stargaze', url: 'https://rest.stargaze-apis.com' },
-  { label: 'Juno', url: 'https://rest.cosmos.directory/juno' },
-  { label: 'Neutron', url: 'https://rest.cosmos.directory/neutron' },
+  ...DIRECTORY_LCD_ENDPOINTS,
 ];
 
 function normalizeEndpointUrl(value) {

@@ -71,6 +71,13 @@ function classifyEndpoint(parsed) {
 	if (path.startsWith('/cosmos/') || path.startsWith('/ibc/')) {
 		return { kind: 'rest', origin: parsed.origin, basePath: '' };
 	}
+	// cosmos.directory aggregate REST: rest.cosmos.directory/<chain>/cosmos|ibc/...
+	if (parsed.origin === 'https://rest.cosmos.directory') {
+		const [chain, root] = path.split('/').filter(Boolean);
+		if (chain && (root === 'cosmos' || root === 'ibc')) {
+			return { kind: 'rest', origin: parsed.origin, basePath: `/${chain}` };
+		}
+	}
 	const lastSegment = `/${path.split('/').filter(Boolean).pop() || ''}`;
 	if (READ_ONLY_RPC_PATHS.has(lastSegment)) {
 		const basePath = path.slice(0, path.length - lastSegment.length).replace(/\/$/, '');

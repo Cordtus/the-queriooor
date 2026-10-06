@@ -161,6 +161,46 @@ test('forwards read-only requests to a custom non-preset REST endpoint', async (
 	assert.equal(response.body, '{"balances":[]}');
 });
 
+test('forwards read-only requests to a cosmos.directory aggregate REST endpoint', async () => {
+	const response = createResponse();
+	let requestedUrl = null;
+
+	await withFetch(async url => {
+		requestedUrl = url;
+		return new Response('{"balances":[]}', {
+			status: 200,
+			headers: { 'content-type': 'application/json' },
+		});
+	}, async () => {
+		await handler({
+			method: 'GET',
+			query: { url: 'https://rest.cosmos.directory/sei/cosmos/bank/v1beta1/balances/sei1abc' },
+		}, response);
+	});
+
+	assert.equal(requestedUrl, 'https://rest.cosmos.directory/sei/cosmos/bank/v1beta1/balances/sei1abc');
+	assert.equal(response.statusCode, 200);
+	assert.equal(response.body, '{"balances":[]}');
+});
+
+test('rejects a non-read-only path on a cosmos.directory aggregate endpoint', async () => {
+	let fetchCalls = 0;
+	const response = createResponse();
+
+	await withFetch(async () => {
+		fetchCalls += 1;
+		return new Response('{}');
+	}, async () => {
+		await handler({
+			method: 'GET',
+			query: { url: 'https://rest.cosmos.directory/sei/private' },
+		}, response);
+	});
+
+	assert.equal(response.statusCode, 403);
+	assert.equal(fetchCalls, 0);
+});
+
 test('rejects a non-read-only path on a custom endpoint', async () => {
 	let fetchCalls = 0;
 	const response = createResponse();

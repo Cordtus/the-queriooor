@@ -155,6 +155,12 @@ Open `http://127.0.0.1:8420` and select **Osmosis (Polkachu)** as the endpoint.
 | `delegate` | `validator` | `osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy` |
 | `message` | `module` | `bank` |
 
+Also verify the expanded preset menus:
+
+- The RPC and REST preset dropdowns list the curated nodes followed by every live cosmos.directory network, each labeled `<Name> (cosmos.directory)`.
+- Selecting a directory preset (e.g. **Sei (cosmos.directory)** under REST) and running a balance query succeeds through `/api/proxy`; the aggregate REST path `rest.cosmos.directory/<chain>/cosmos/...` is allowed.
+- The promo banner at the top links to `https://grpcwebexplorer.vercel.app`.
+
 ---
 
 ## Expected Behavior

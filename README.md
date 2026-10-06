@@ -92,7 +92,7 @@ node whale-watcher.js [--once] [--hours <n>] [--token <symbol>]
 
 ### Explorer UI
 
-Browser-based interactive event query builder with dropdown-based query construction, preset queries, paginated results, and JSON export. Event Search and RPC Queries use the RPC URL field; REST Queries use the REST URL field. Selecting **Custom URL** clears the field so the next query runs against the endpoint you enter.
+Browser-based interactive event query builder with dropdown-based query construction, preset queries, paginated results, and JSON export. Event Search and RPC Queries use the RPC URL field; REST Queries use the REST URL field. Selecting **Custom URL** clears the field so the next query runs against the endpoint you enter. The preset dropdowns combine a short list of curated public nodes with every live network that exposes a cosmos.directory aggregate endpoint (`rpc.cosmos.directory/<chain>` / `rest.cosmos.directory/<chain>`); a banner links to GRPC Web Explorer as an alternative UI.
 
 ```bash
 yarn explorer  # http://127.0.0.1:8420/
