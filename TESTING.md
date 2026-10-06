@@ -158,6 +158,7 @@ Open `http://127.0.0.1:8420` and select **Osmosis (Polkachu)** as the endpoint.
 Also verify the expanded preset menus:
 
 - The RPC and REST preset dropdowns list the curated nodes followed by every live cosmos.directory network, each labeled `<Name> (cosmos.directory)`.
+- On first load (empty cache) the page renders from the bundled seed, then refreshes the list from `https://chains.cosmos.directory/` and writes `cosmos-explorer-directory-chains` to `localStorage`. Reloading within 24h uses the cache and makes no directory request (check the network tab). Clear the key to force a refresh.
 - Selecting a directory preset (e.g. **Sei (cosmos.directory)** under REST) and running a balance query succeeds through `/api/proxy`; the aggregate REST path `rest.cosmos.directory/<chain>/cosmos/...` is allowed.
 - The promo banner at the top links to `https://grpcwebexplorer.vercel.app`.
 

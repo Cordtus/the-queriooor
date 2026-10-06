@@ -1798,10 +1798,9 @@ function getSuggestions(eventAttrKey) {
 }
 
 // -- Endpoints --
-// Every chain with a cosmos.directory aggregate endpoint (rpc./rest.cosmos.directory/<slug>).
-// Generated from https://chains.cosmos.directory/ proxy_status on 2026-10-05; regenerate by
-// filtering status === 'live' and proxy_status.rpc / proxy_status.rest.
-// ponytail: static list; swap for a fetch of chains.cosmos.directory if churn becomes a problem.
+// Chains with a cosmos.directory aggregate endpoint (rpc./rest.cosmos.directory/<slug>).
+// This seed is the offline fallback; refreshDirectoryChains() self-updates the list from
+// https://chains.cosmos.directory/ and caches it in localStorage for DIRECTORY_CACHE_TTL_MS.
 const COSMOS_DIRECTORY_CHAINS = [
   { slug: 'agoric', label: 'Agoric' },
   { slug: 'aioz', label: 'AIOZ Network' },
@@ -1934,15 +1933,10 @@ const COSMOS_DIRECTORY_CHAINS = [
   { slug: 'zigchain', label: 'ZIGChain' },
 ];
 
-const DIRECTORY_RPC_ENDPOINTS = COSMOS_DIRECTORY_CHAINS
-  .filter(chain => chain.rpc !== false)
-  .map(chain => ({ label: `${chain.label} (cosmos.directory)`, url: `https://rpc.cosmos.directory/${chain.slug}` }));
+const DIRECTORY_CACHE_KEY = 'cosmos-explorer-directory-chains';
+const DIRECTORY_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
-const DIRECTORY_LCD_ENDPOINTS = COSMOS_DIRECTORY_CHAINS
-  .filter(chain => chain.rest !== false)
-  .map(chain => ({ label: `${chain.label} (cosmos.directory)`, url: `https://rest.cosmos.directory/${chain.slug}` }));
-
-const KNOWN_ENDPOINTS = [
+const CURATED_RPC_ENDPOINTS = [
   { label: 'Osmosis Archive', url: 'https://rpc.archive.osmosis.zone' },
   { label: 'Osmosis (Polkachu)', url: 'https://osmosis-rpc.polkachu.com' },
   { label: 'Osmosis (Lavender.Five)', url: 'https://rpc.lavenderfive.com:443/osmosis' },
@@ -1950,10 +1944,9 @@ const KNOWN_ENDPOINTS = [
   { label: 'Cosmos Hub Archive', url: 'https://rpc-cosmoshub.ecostake.com' },
   { label: 'Cosmos Hub (Lavender.Five)', url: 'https://rpc.lavenderfive.com:443/cosmoshub' },
   { label: 'Stargaze', url: 'https://rpc.stargaze-apis.com' },
-  ...DIRECTORY_RPC_ENDPOINTS,
 ];
 
-const LCD_ENDPOINTS = [
+const CURATED_LCD_ENDPOINTS = [
   { label: 'Osmosis', url: 'https://lcd.osmosis.zone' },
   { label: 'Osmosis (Polkachu)', url: 'https://osmosis-api.polkachu.com' },
   { label: 'Osmosis (Lavender.Five)', url: 'https://rest.lavenderfive.com:443/osmosis' },
@@ -1961,8 +1954,87 @@ const LCD_ENDPOINTS = [
   { label: 'Cosmos Hub (ecostake)', url: 'https://rest-cosmoshub.ecostake.com' },
   { label: 'Cosmos Hub (Lavender.Five)', url: 'https://rest.lavenderfive.com:443/cosmoshub' },
   { label: 'Stargaze', url: 'https://rest.stargaze-apis.com' },
-  ...DIRECTORY_LCD_ENDPOINTS,
 ];
+
+// Map the cosmos.directory registry payload to the compact list we cache.
+function directoryChainsFromRegistry(chains) {
+  return chains
+    .filter(chain => chain.status === 'live' && chain.proxy_status && (chain.proxy_status.rpc || chain.proxy_status.rest))
+    .map(chain => {
+      const entry = { slug: chain.name, label: chain.pretty_name };
+      if (!chain.proxy_status.rpc) entry.rpc = false;
+      if (!chain.proxy_status.rest) entry.rest = false;
+      return entry;
+    })
+    .sort((a, b) => a.label.localeCompare(b.label));
+}
+
+function readDirectoryCache() {
+  try {
+    const cached = JSON.parse(localStorage.getItem(DIRECTORY_CACHE_KEY) || 'null');
+    if (cached && Array.isArray(cached.chains) && cached.chains.length && Number.isFinite(cached.ts)) {
+      return cached;
+    }
+  } catch { /* ignore malformed cache */ }
+  return null;
+}
+
+function isDirectoryCacheFresh(cached) {
+  return Date.now() - cached.ts < DIRECTORY_CACHE_TTL_MS;
+}
+
+function buildEndpointLists(chains) {
+  const directory = (flag, host) => chains
+    .filter(chain => chain[flag] !== false)
+    .map(chain => ({ label: `${chain.label} (cosmos.directory)`, url: `https://${host}.cosmos.directory/${chain.slug}` }));
+  return {
+    rpc: [...CURATED_RPC_ENDPOINTS, ...directory('rpc', 'rpc')],
+    lcd: [...CURATED_LCD_ENDPOINTS, ...directory('rest', 'rest')],
+  };
+}
+
+const cachedDirectory = readDirectoryCache();
+const initialLists = buildEndpointLists(cachedDirectory ? cachedDirectory.chains : COSMOS_DIRECTORY_CHAINS);
+let KNOWN_ENDPOINTS = initialLists.rpc;
+let LCD_ENDPOINTS = initialLists.lcd;
+
+function populateEndpointSelect(select, endpoints) {
+  const previous = select.value;
+  select.innerHTML = '';
+  const custom = document.createElement('option');
+  custom.value = '';
+  custom.textContent = 'Custom URL';
+  select.appendChild(custom);
+  for (const ep of endpoints) {
+    const opt = document.createElement('option');
+    opt.value = ep.url;
+    opt.textContent = ep.label;
+    select.appendChild(opt);
+  }
+  select.value = previous && endpoints.some(ep => ep.url === previous) ? previous : '';
+}
+
+// Refresh at most once per TTL; runs after first paint so it never blocks the page.
+async function refreshDirectoryChains() {
+  const cached = readDirectoryCache();
+  if (cached && isDirectoryCacheFresh(cached)) return;
+  try {
+    const resp = await fetch('https://chains.cosmos.directory/', { signal: AbortSignal.timeout(10000) });
+    if (!resp.ok) return;
+    const chains = directoryChainsFromRegistry((await resp.json()).chains || []);
+    if (!chains.length) return;
+    const lists = buildEndpointLists(chains);
+    KNOWN_ENDPOINTS = lists.rpc;
+    LCD_ENDPOINTS = lists.lcd;
+    populateEndpointSelect(document.getElementById('endpointPreset'), KNOWN_ENDPOINTS);
+    populateEndpointSelect(document.getElementById('lcdPreset'), LCD_ENDPOINTS);
+    updateEndpointNotes();
+    // ponytail: cache write is best-effort; a storage failure must not discard the fresh list
+    try {
+      localStorage.setItem(DIRECTORY_CACHE_KEY, JSON.stringify({ ts: Date.now(), chains }));
+    } catch { /* storage disabled or full */ }
+  } catch { /* offline: keep seed/cache */ }
+}
 
 function normalizeEndpointUrl(value) {
   return (value || '').trim().replace(/\/+$/, '');
@@ -2262,16 +2334,7 @@ function init() {
   // RPC presets
   const presetSel = document.getElementById('endpointPreset');
   const rpcInput = document.getElementById('rpcUrl');
-  const opt0 = document.createElement('option');
-  opt0.value = '';
-  opt0.textContent = 'Custom URL';
-  presetSel.appendChild(opt0);
-  for (const ep of KNOWN_ENDPOINTS) {
-    const opt = document.createElement('option');
-    opt.value = ep.url;
-    opt.textContent = ep.label;
-    presetSel.appendChild(opt);
-  }
+  populateEndpointSelect(presetSel, KNOWN_ENDPOINTS);
   presetSel.value = KNOWN_ENDPOINTS[0].url;
   rpcInput.value = KNOWN_ENDPOINTS[0].url;
 
@@ -2299,16 +2362,7 @@ function init() {
   // LCD presets
   const lcdSel = document.getElementById('lcdPreset');
   const lcdInput = document.getElementById('lcdUrl');
-  const lcdOpt0 = document.createElement('option');
-  lcdOpt0.value = '';
-  lcdOpt0.textContent = 'Custom URL';
-  lcdSel.appendChild(lcdOpt0);
-  for (const ep of LCD_ENDPOINTS) {
-    const opt = document.createElement('option');
-    opt.value = ep.url;
-    opt.textContent = ep.label;
-    lcdSel.appendChild(opt);
-  }
+  populateEndpointSelect(lcdSel, LCD_ENDPOINTS);
   lcdSel.value = LCD_ENDPOINTS[0].url;
   lcdInput.value = LCD_ENDPOINTS[0].url;
 
@@ -2371,6 +2425,9 @@ function init() {
       else if (activeTab === 'rest-queries') doRestQuery();
     }
   });
+
+  // Self-update the directory chain list (cached, so this is a no-op on most loads).
+  refreshDirectoryChains();
 }
 
 // -- Tab switching --
