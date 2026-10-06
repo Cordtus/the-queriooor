@@ -42,6 +42,20 @@ node query-txs.js --tx <hash>
 node query-txs.js --account <address>
 ```
 
+### Block Fee Totals (RPC)
+
+Total transaction fees for a block, height range, or UTC time range, read from RPC `/block_results` fee events. Failed transactions are included because they still pay fees; no off-chain indexer is needed.
+
+```bash
+node fees.js                          # latest block
+node fees.js 71443001                 # single block
+node fees.js 71443001-71443100        # inclusive height range
+node fees.js --from 2026-09-27T17:32:00Z --to 2026-09-27T17:33:00Z
+node fees.js --rpc https://rpc.archive.osmosis.zone 71443001
+```
+
+Time ranges binary-search heights via `/block` header timestamps, so the RPC node must serve blocks for the requested range. Supports Osmosis-style `tx.fee` events and the older Cosmos Hub-style `fee_pay` event.
+
 ### Historical Address Search
 
 Scan blocks to find all historical transactions for an address. Auto-stops at first tx (sequence 0). Saves results to timestamped JSON.
@@ -91,6 +105,7 @@ yarn explorer  # http://127.0.0.1:8420/
 | `cosmos-event-parser.js` | `CosmosEventParser` class -- LCD event queries, paginated fetch with retry, tx parsing, transfer filtering, address activity aggregation |
 | `rpc-event-query.js` | `RpcEventQuery` class -- Tendermint RPC `/tx_search`, base64 auto-detection, `EVENT_CATALOG` with all known event types |
 | `query-txs.js` | Block-level backward scanning, checks all message address fields and events |
+| `fees.js` | RPC `/block_results` fee totals per block, height range, or UTC time range; failed txs included |
 | `find-address-txs.js` | Historical address search via block scanning, auto-stop, JSON output |
 | `mintscan-distributions.js` | Mintscan-backed account-history audit for outbound denom distributions |
 | `parse-tx-json.js` | `TxParser` class for offline JSON file parsing, error categorization |
@@ -102,6 +117,7 @@ yarn explorer  # http://127.0.0.1:8420/
 - **LCD event queries** (`cosmos-event-parser.js`) -- filtered search via `/cosmos/tx/v1beta1/txs` with `events=` parameter. Best for targeted queries on nodes with working LCD search.
 - **Tendermint RPC** (`rpc-event-query.js`) -- `/tx_search` endpoint. Works with archive nodes and supports the full Tendermint query syntax. Required for Osmosis (LCD tx search is broken).
 - **Block scanning** (`query-txs.js`, `find-address-txs.js`) -- linear walk through blocks. Exhaustive but slow. Use when event indexing is unavailable or incomplete.
+- **RPC block results** (`fees.js`) -- one `/block_results` call per block for fee totals; includes failed txs and avoids LCD pagination limits.
 - **Mintscan historical API** (`mintscan-distributions.js`) -- account-centric history with `searchAfter` pagination and tx-detail fetches. Best when you need transaction classification for one address and have a valid Mintscan API token.
 
 ## Runtime

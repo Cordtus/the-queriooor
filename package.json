@@ -10,6 +10,7 @@
     "parse": "node parse-tx-json.js",
     "explorer": "node dev-server.js",
     "rpc-query": "node rpc-event-query.js",
+    "fees": "node fees.js",
     "mintscan-distributions": "node mintscan-distributions.js"
   }
 }

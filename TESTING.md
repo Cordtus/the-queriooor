@@ -119,6 +119,26 @@ node whale-watcher.js --threshold OSMO 50000 --once
 
 ---
 
+## Block Fee Totals (fees.js)
+
+Deterministic fee, time, and argument parsing is covered by `yarn test`. Live checks below use fixed heights, so the RPC node must retain that history (archive nodes).
+
+```bash
+node fees.js 71443001
+node fees.js 71443001-71443010
+node fees.js --from 2026-09-27T17:32:00Z --to 2026-09-27T17:33:00Z
+node fees.js --rpc https://cosmos-rpc.polkachu.com 33154001
+```
+
+Expected behavior:
+
+- Block `71443001` reports `11236 uosmo` from a failed tx (code 11), proving failed txs are included
+- Range `71443001-71443010` reports 12 transactions (4 failed) and `428724 uosmo`
+- The time range resolves to blocks `71442963-71443010` and reports 28 transactions (9 failed), `2541 ibc/D189335C...` plus `1057468 uosmo`
+- Cosmos Hub block `33154001` reports `381 uatom` via the older `fee_pay` event
+
+---
+
 ## Explorer UI (index.html)
 
 ```bash
