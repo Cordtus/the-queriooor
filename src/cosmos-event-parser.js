@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { resolveLcd } from './cli-args.js';
 
 export class CosmosEventParser {
 	constructor(options = {}) {
@@ -297,10 +298,13 @@ Examples:
 		process.exit(0);
 	}
 
-	const lcdIndex = args.indexOf('--lcd');
-	const baseUrl = lcdIndex !== -1 && args[lcdIndex + 1]
-		? args.splice(lcdIndex, 2)[1]
-		: (process.env.COSMOS_LCD || undefined);
+	let baseUrl;
+	try {
+		baseUrl = resolveLcd(args);
+	} catch (error) {
+		console.error(`Error: ${error.message}`);
+		process.exit(1);
+	}
 
 	const parser = new CosmosEventParser({
 		baseUrl,

@@ -2,7 +2,7 @@
 
 ## What this is
 
-A flat, no-build JavaScript (ES Modules, Node 18+) toolkit for querying Cosmos
+A no-build JavaScript (ES Modules, Node 18+) toolkit for querying Cosmos
 LCD/REST and Tendermint/CometBFT RPC endpoints, parsing transactions and events,
 and exploring chains in a browser. Read the short orientation in `README.md`
 first; the deep query reference (grammar, limits, verified behaviours, and when
@@ -25,7 +25,6 @@ to use which strategy) is `docs/query-capabilities.md`.
 
 - `yarn install` — installs declared dependencies (see `package.json`).
 - `yarn test` — deterministic Node test runner suite (`node --test`).
-- `yarn test:live` — network-dependent smoke run of `src/cosmos-event-parser.js`.
 - `yarn explorer` — serves the explorer + `/api/proxy` at `http://127.0.0.1:8420`.
 - `yarn rpc-query -- --event transfer --attr recipient --value osmo1...` — RPC query.
 - `node src/<tool>.js --help` — every CLI prints its own usage.
@@ -68,8 +67,11 @@ without explicit project-direction approval.
 - **Cross-event `AND` never matches.** Tendermint indexes `eventType.attr/value`
   keys, so `message.action='X' AND transfer.recipient='Y'` returns nothing.
   Intersect separate queries client-side instead — see `docs/query-capabilities.md`.
-- **Osmosis LCD tx search is disabled.** Use RPC `/tx_search` (`src/rpc-event-query.js`)
-  there; LCD event queries only work on chains that expose `/cosmos/tx/v1beta1/txs`.
+- **LCD event search is a legacy fallback.** Osmosis disables it entirely, and
+  current SDK (v0.50+) only reads the `query=` param while
+  `src/cosmos-event-parser.js` sends the older `events=`. Prefer RPC `/tx_search`
+  (`src/rpc-event-query.js`); use the LCD parser only on chains that still accept
+  the legacy `events=` form.
 - **Always scope broad queries with `tx.height`,** or they time out; max query
   length is 512 chars and `per_page` is capped at 100.
 - **CometBFT < 0.38 base64-encodes event attributes.** Decode defensively

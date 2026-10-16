@@ -3,8 +3,10 @@
 
 import fs from 'fs/promises';
 
-// Cosmos LCD/REST endpoint; override with --lcd or the COSMOS_LCD environment variable.
-let LCD_BASE = (process.env.COSMOS_LCD || 'https://lcd.osmosis.zone').replace(/\/+$/, '');
+import { resolveLcd } from './cli-args.js';
+
+// Cosmos LCD/REST endpoint; resolved from --lcd / COSMOS_LCD at the CLI entry.
+let LCD_BASE = 'https://lcd.osmosis.zone';
 
 async function queryLatestBlock() {
 	const url = `${LCD_BASE}/cosmos/base/tendermint/v1beta1/blocks/latest`;
@@ -233,9 +235,11 @@ Examples:
 	process.exit(0);
 }
 
-const lcdIndex = args.indexOf('--lcd');
-if (lcdIndex !== -1 && args[lcdIndex + 1]) {
-	LCD_BASE = args.splice(lcdIndex, 2)[1].replace(/\/+$/, '');
+try {
+	LCD_BASE = resolveLcd(args);
+} catch (error) {
+	console.error(`Error: ${error.message}`);
+	process.exit(1);
 }
 
 async function main() {

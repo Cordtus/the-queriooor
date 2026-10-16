@@ -5,9 +5,11 @@
   "description": "Cosmos/Tendermint query and transaction-parsing toolkit (RPC, LCD, block scan)",
   "license": "MIT",
   "main": "src/cosmos-event-parser.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "test": "node --test",
-    "test:live": "node src/cosmos-event-parser.js",
     "parse": "node src/parse-tx-json.js",
     "explorer": "node dev-server.js",
     "rpc-query": "node src/rpc-event-query.js",
