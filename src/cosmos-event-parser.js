@@ -3,8 +3,8 @@
 
 export class CosmosEventParser {
 	constructor(options = {}) {
-		this.baseUrl = options.baseUrl || 'https://devnet-1-lcd.ib.skip.build';
-		this.chain = options.chain || 'devnet';
+		this.baseUrl = (options.baseUrl || 'https://lcd.osmosis.zone').replace(/\/+$/, '');
+		this.chain = options.chain || 'osmosis';
 		this.rateLimitDelay = options.rateLimitDelay || 1000;
 		this.pageLimit = options.pageLimit || 100;
 		this.maxPages = options.maxPages || null;
@@ -277,8 +277,8 @@ export class CosmosEventParser {
 // CLI interface
 if (import.meta.url === `file://${process.argv[1]}`) {
 	const args = process.argv.slice(2);
-	
-	if (args.length === 0) {
+
+	if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
 		console.log(`
 Usage:
   cosmos-event-parser.js <address>                    - Get all activity for an address
@@ -286,15 +286,24 @@ Usage:
   cosmos-event-parser.js --sent <address>             - Find all transfers sent by address
   cosmos-event-parser.js --failed <address>           - Find failed transactions from address
 
+Options:
+  --lcd <url>    Cosmos LCD/REST endpoint (default: https://lcd.osmosis.zone,
+                 or the COSMOS_LCD environment variable)
+
 Examples:
-  cosmos-event-parser.js cosmos1cff2uvc2zgep5xlha939vjk08g07rlw6d7sjvw
-  cosmos-event-parser.js --received cosmos1cff2uvc2zgep5xlha939vjk08g07rlw6d7sjvw
+  cosmos-event-parser.js osmo1...
+  cosmos-event-parser.js --lcd https://lcd.osmosis.zone --received osmo1...
 		`);
 		process.exit(0);
 	}
-	
+
+	const lcdIndex = args.indexOf('--lcd');
+	const baseUrl = lcdIndex !== -1 && args[lcdIndex + 1]
+		? args.splice(lcdIndex, 2)[1]
+		: (process.env.COSMOS_LCD || undefined);
+
 	const parser = new CosmosEventParser({
-		baseUrl: 'https://devnet-1-lcd.ib.skip.build',
+		baseUrl,
 		rateLimitDelay: 1000,
 		pageLimit: 50,
 		maxPages: 10

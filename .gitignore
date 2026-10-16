@@ -1,13 +1,9 @@
+# Dependencies
 node_modules/
 
-# Claude Code / Serena internals
-.claude/
-.serena/
-CLAUDE.md
-PROJECT_BLUEPRINT.md
-
-# Output files from find-address-txs.js
-*-txs-*.json
+# Generated CLI output
+transactions-*.json
+filtered-txs-*.json
 
 # Vercel
 .vercel/
@@ -15,10 +11,3 @@ PROJECT_BLUEPRINT.md
 # OS
 .DS_Store
 Thumbs.db
-.vercel
-QUERY_CAPABILITIES.md
-
-# Local agent and browser verification artifacts
-.codex
-.playwright-mcp/
-current-live-*.png

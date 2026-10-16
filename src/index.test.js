@@ -4,7 +4,7 @@ import test from 'node:test';
 
 // The explorer is a single HTML file with no build step, so the pure endpoint
 // helpers are exercised by evaluating just that section with stubbed globals.
-const html = readFileSync(new URL('./index.html', import.meta.url), 'utf8');
+const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const START = 'const COSMOS_DIRECTORY_CHAINS = [';
 const END = 'function normalizeEndpointUrl';
 const start = html.indexOf(START);

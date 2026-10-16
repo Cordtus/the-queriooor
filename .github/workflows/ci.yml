@@ -1,11 +1,14 @@
 name: CI
 on: [push, pull_request]
 jobs:
-  build:
-    runs-on: [self-hosted, linux, x64, runner-class-cac]
+  test:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Install
         run: yarn install --frozen-lockfile --non-interactive
-      - name: Syntax check
-        run: node --check cosmos-event-parser.js && node --check find-address-txs.js
+      - name: Test
+        run: yarn test

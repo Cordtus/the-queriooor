@@ -3,8 +3,11 @@
 
 import fs from 'fs/promises';
 
+// Cosmos LCD/REST endpoint; override with --lcd or the COSMOS_LCD environment variable.
+let LCD_BASE = (process.env.COSMOS_LCD || 'https://lcd.osmosis.zone').replace(/\/+$/, '');
+
 async function queryLatestBlock() {
-	const url = 'https://devnet-1-lcd.ib.skip.build/cosmos/base/tendermint/v1beta1/blocks/latest';
+	const url = `${LCD_BASE}/cosmos/base/tendermint/v1beta1/blocks/latest`;
 	try {
 		const response = await fetch(url);
 		if (!response.ok) {
@@ -19,7 +22,7 @@ async function queryLatestBlock() {
 }
 
 async function queryBlockByHeight(height) {
-	const url = `https://devnet-1-lcd.ib.skip.build/cosmos/base/tendermint/v1beta1/blocks/${height}`;
+	const url = `${LCD_BASE}/cosmos/base/tendermint/v1beta1/blocks/${height}`;
 	try {
 		const response = await fetch(url);
 		if (!response.ok) {
@@ -34,7 +37,7 @@ async function queryBlockByHeight(height) {
 }
 
 async function queryTransactionByHash(hash) {
-	const url = `https://devnet-1-lcd.ib.skip.build/cosmos/tx/v1beta1/txs/${hash}`;
+	const url = `${LCD_BASE}/cosmos/tx/v1beta1/txs/${hash}`;
 	try {
 		const response = await fetch(url);
 		if (!response.ok) {
@@ -206,24 +209,33 @@ async function saveTransactions(transactions, address) {
 // CLI
 const args = process.argv.slice(2);
 
-if (args.length === 0) {
+if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
 	console.log(`
 Usage:
-  find-address-txs.js <address>                    - Find all transactions for an address
-  find-address-txs.js <address> <start-height>     - Start from specific height
+  find-address-txs.js <address> [start-height] [--lcd <url>]
 
-The script will:
+Searches an LCD/REST endpoint for every transaction involving <address>:
+
   1. Start from the latest block (or specified height)
   2. Count DOWN through blocks
   3. Find all transactions involving the address
   4. Stop when it finds a transaction with sequence 0 (first tx)
   5. Save all found transactions to a JSON file
 
+Options:
+  --lcd <url>    Cosmos LCD/REST endpoint (default: https://lcd.osmosis.zone,
+                 or the COSMOS_LCD environment variable)
+
 Examples:
-  find-address-txs.js cosmos1cff2uvc2zgep5xlha939vjk08g07rlw6d7sjvw
-  find-address-txs.js cosmos1cff2uvc2zgep5xlha939vjk08g07rlw6d7sjvw 500000
+  find-address-txs.js osmo1...
+  find-address-txs.js osmo1... 500000
 	`);
 	process.exit(0);
+}
+
+const lcdIndex = args.indexOf('--lcd');
+if (lcdIndex !== -1 && args[lcdIndex + 1]) {
+	LCD_BASE = args.splice(lcdIndex, 2)[1].replace(/\/+$/, '');
 }
 
 async function main() {

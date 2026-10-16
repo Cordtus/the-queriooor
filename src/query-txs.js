@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
 
+// Cosmos LCD/REST endpoint; override with --lcd or the COSMOS_LCD environment variable.
+let LCD_BASE = (process.env.COSMOS_LCD || 'https://lcd.osmosis.zone').replace(/\/+$/, '');
+
 async function queryTransactionByHash(hash) {
-	const url = `https://devnet-1-lcd.ib.skip.build/cosmos/tx/v1beta1/txs/${hash}`;
+	const url = `${LCD_BASE}/cosmos/tx/v1beta1/txs/${hash}`;
 	try {
 		const response = await fetch(url);
 		if (!response.ok) {
@@ -16,7 +19,7 @@ async function queryTransactionByHash(hash) {
 }
 
 async function queryLatestBlock() {
-	const url = 'https://devnet-1-lcd.ib.skip.build/cosmos/base/tendermint/v1beta1/blocks/latest';
+	const url = `${LCD_BASE}/cosmos/base/tendermint/v1beta1/blocks/latest`;
 	try {
 		const response = await fetch(url);
 		if (!response.ok) {
@@ -31,7 +34,7 @@ async function queryLatestBlock() {
 }
 
 async function queryBlockByHeight(height) {
-	const url = `https://devnet-1-lcd.ib.skip.build/cosmos/base/tendermint/v1beta1/blocks/${height}`;
+	const url = `${LCD_BASE}/cosmos/base/tendermint/v1beta1/blocks/${height}`;
 	try {
 		const response = await fetch(url);
 		if (!response.ok) {
@@ -220,7 +223,7 @@ async function searchForFirstTransaction() {
 
 // Alternative: Query account information
 async function queryAccount(address) {
-	const url = `https://devnet-1-lcd.ib.skip.build/cosmos/auth/v1beta1/accounts/${address}`;
+	const url = `${LCD_BASE}/cosmos/auth/v1beta1/accounts/${address}`;
 	try {
 		const response = await fetch(url);
 		if (!response.ok) {
@@ -237,7 +240,7 @@ async function queryAccount(address) {
 // CLI
 const args = process.argv.slice(2);
 
-if (args.length === 0) {
+if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
 	console.log(`
 Usage:
   query-txs.js <address>              - Search recent blocks for address activity
@@ -245,14 +248,24 @@ Usage:
   query-txs.js --account <address>    - Query account information
   query-txs.js --latest               - Show latest block info
   query-txs.js --first                - Find the first transaction (sequence 0)
+  query-txs.js --lcd <url>            - Cosmos LCD/REST endpoint
+
+Options:
+  --lcd <url>    Cosmos LCD/REST endpoint (default: https://lcd.osmosis.zone,
+                 or the COSMOS_LCD environment variable)
 
 Examples:
-  query-txs.js cosmos1cff2uvc2zgep5xlha939vjk08g07rlw6d7sjvw
+  query-txs.js osmo1...
   query-txs.js --tx 1A2B3C4D...
-  query-txs.js --account cosmos1cff2uvc2zgep5xlha939vjk08g07rlw6d7sjvw
-  query-txs.js --first
+  query-txs.js --account osmo1...
+  query-txs.js --lcd https://lcd.osmosis.zone --latest
 	`);
 	process.exit(0);
+}
+
+const lcdIndex = args.indexOf('--lcd');
+if (lcdIndex !== -1 && args[lcdIndex + 1]) {
+	LCD_BASE = args.splice(lcdIndex, 2)[1].replace(/\/+$/, '');
 }
 
 async function main() {

@@ -1,16 +1,17 @@
 {
-  "name": "cosmos-event-parser",
+  "name": "the-queriooor",
   "version": "1.0.0",
   "type": "module",
-  "description": "Comprehensive Cosmos blockchain event parser with receiver filtering",
-  "main": "cosmos-event-parser.js",
+  "description": "Cosmos/Tendermint query and transaction-parsing toolkit (RPC, LCD, block scan)",
+  "license": "MIT",
+  "main": "src/cosmos-event-parser.js",
   "scripts": {
     "test": "node --test",
-    "test:live": "node cosmos-event-parser.js",
-    "parse": "node parse-tx-json.js",
+    "test:live": "node src/cosmos-event-parser.js",
+    "parse": "node src/parse-tx-json.js",
     "explorer": "node dev-server.js",
-    "rpc-query": "node rpc-event-query.js",
-    "fees": "node fees.js",
-    "mintscan-distributions": "node mintscan-distributions.js"
+    "rpc-query": "node src/rpc-event-query.js",
+    "fees": "node src/fees.js",
+    "mintscan-distributions": "node src/mintscan-distributions.js"
   }
 }

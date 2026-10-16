@@ -1,8 +1,11 @@
 # Testing Procedure
 
-Verified live data as of 2026-03-30. All examples use Osmosis endpoints which are the most reliable.
+Verified live data as of 2026-03-30. All examples use Osmosis endpoints, which
+are the most reliable public ones.
 
-Run `yarn test` first for deterministic parsing and accounting checks. The scenarios below are bounded live checks and may fail when public endpoints are unavailable or their indexed history changes.
+Run `yarn test` first for the deterministic parsing and accounting checks. The
+scenarios below are bounded live checks and may fail when public endpoints are
+unavailable or their indexed history changes.
 
 ## Endpoints
 
@@ -12,7 +15,7 @@ Run `yarn test` first for deterministic parsing and accounting checks. The scena
 | Osmosis Archive | `https://rpc.archive.osmosis.zone` | Reliable, slower |
 | Cosmos Hub (Polkachu) | `https://cosmos-rpc.polkachu.com` | Flaky/timeouts |
 
-## Known Addresses and Values
+## Known addresses and values
 
 | Type | Value | Notes |
 |---|---|---|
@@ -29,12 +32,12 @@ Run `yarn test` first for deterministic parsing and accounting checks. The scena
 
 ---
 
-## RPC Event Query (rpc-event-query.js)
+## RPC Event Query (src/rpc-event-query.js)
 
 ### 1. Bank transfer by sender
 
 ```bash
-node rpc-event-query.js \
+node src/rpc-event-query.js \
   --rpc https://osmosis-rpc.polkachu.com \
   --event message --attr sender \
   --value osmo13pet0rwjjzgz7f3058xklc2y05eg5cjneaad94
@@ -43,7 +46,7 @@ node rpc-event-query.js \
 ### 2. Transfer by recipient
 
 ```bash
-node rpc-event-query.js \
+node src/rpc-event-query.js \
   --rpc https://osmosis-rpc.polkachu.com \
   --event transfer --attr recipient \
   --value osmo10p7dg5nh8kwjhfucq0uxjppg6wkevzmg67c4hx
@@ -52,7 +55,7 @@ node rpc-event-query.js \
 ### 3. Staking delegation by validator
 
 ```bash
-node rpc-event-query.js \
+node src/rpc-event-query.js \
   --rpc https://osmosis-rpc.polkachu.com \
   --event delegate --attr validator \
   --value osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy
@@ -61,7 +64,7 @@ node rpc-event-query.js \
 ### 4. IBC send packets (Osmosis -> Cosmos Hub)
 
 ```bash
-node rpc-event-query.js \
+node src/rpc-event-query.js \
   --rpc https://osmosis-rpc.polkachu.com \
   --event send_packet --attr packet_src_channel \
   --value channel-0 --per-page 5
@@ -70,7 +73,7 @@ node rpc-event-query.js \
 ### 5. Token swap on pool 1 (OSMO/ATOM)
 
 ```bash
-node rpc-event-query.js \
+node src/rpc-event-query.js \
   --rpc https://osmosis-rpc.polkachu.com \
   --event token_swapped --attr pool_id \
   --value 1 --per-page 5
@@ -79,7 +82,7 @@ node rpc-event-query.js \
 ### 6. Raw query string
 
 ```bash
-node rpc-event-query.js \
+node src/rpc-event-query.js \
   --rpc https://osmosis-rpc.polkachu.com \
   --query "message.action='/cosmos.staking.v1beta1.MsgDelegate'" \
   --per-page 3
@@ -88,7 +91,7 @@ node rpc-event-query.js \
 ### 7. JSON output mode
 
 ```bash
-node rpc-event-query.js \
+node src/rpc-event-query.js \
   --rpc https://osmosis-rpc.polkachu.com \
   --event message --attr module --value bank \
   --per-page 1 --json
@@ -96,38 +99,43 @@ node rpc-event-query.js \
 
 ---
 
-## LCD Parser (cosmos-event-parser.js)
+## LCD Parser (src/cosmos-event-parser.js)
 
-Hardcoded to Skip devnet LCD. To test against a live chain, modify baseUrl in the constructor call.
+Defaults to the public Osmosis LCD (`https://lcd.osmosis.zone`). Override the
+endpoint with `--lcd <url>` or the `COSMOS_LCD` environment variable. Note that
+LCD event search is disabled on Osmosis, so these calls only return results on
+chains that expose `/cosmos/tx/v1beta1/txs`.
 
 ```bash
-node cosmos-event-parser.js osmo13pet0rwjjzgz7f3058xklc2y05eg5cjneaad94
-node cosmos-event-parser.js --received osmo10p7dg5nh8kwjhfucq0uxjppg6wkevzmg67c4hx
-node cosmos-event-parser.js --sent osmo13pet0rwjjzgz7f3058xklc2y05eg5cjneaad94
+node src/cosmos-event-parser.js --lcd https://lcd.osmosis.zone osmo13pet0rwjjzgz7f3058xklc2y05eg5cjneaad94
+node src/cosmos-event-parser.js --lcd https://lcd.osmosis.zone --received osmo10p7dg5nh8kwjhfucq0uxjppg6wkevzmg67c4hx
+node src/cosmos-event-parser.js --lcd https://lcd.osmosis.zone --sent osmo13pet0rwjjzgz7f3058xklc2y05eg5cjneaad94
 ```
 
 ---
 
-## Whale Watcher (whale-watcher.js)
+## Whale Watcher (src/whale-watcher.js)
 
 ```bash
-node whale-watcher.js --once
-node whale-watcher.js --hours 6
-node whale-watcher.js --token ATOM --once
-node whale-watcher.js --threshold OSMO 50000 --once
+node src/whale-watcher.js --once
+node src/whale-watcher.js --hours 6
+node src/whale-watcher.js --token ATOM --once
+node src/whale-watcher.js --threshold OSMO 50000 --once
 ```
 
 ---
 
-## Block Fee Totals (fees.js)
+## Block Fee Totals (src/fees.js)
 
-Deterministic fee, time, and argument parsing is covered by `yarn test`. Live checks below use fixed heights, so the RPC node must retain that history (archive nodes).
+Deterministic fee, time, and argument parsing is covered by `yarn test`. Live
+checks below use fixed heights, so the RPC node must retain that history
+(archive nodes).
 
 ```bash
-node fees.js 71443001
-node fees.js 71443001-71443010
-node fees.js --from 2026-09-27T17:32:00Z --to 2026-09-27T17:33:00Z
-node fees.js --rpc https://cosmos-rpc.polkachu.com 33154001
+node src/fees.js 71443001
+node src/fees.js 71443001-71443010
+node src/fees.js --from 2026-09-27T17:32:00Z --to 2026-09-27T17:33:00Z
+node src/fees.js --rpc https://cosmos-rpc.polkachu.com 33154001
 ```
 
 Expected behavior:
@@ -160,11 +168,10 @@ Also verify the expanded preset menus:
 - The RPC and REST preset dropdowns list the curated nodes followed by every live cosmos.directory network, each labeled `<Name> (cosmos.directory)`.
 - On first load (empty cache) the page renders from the bundled seed, then refreshes the list from `https://chains.cosmos.directory/` and writes `cosmos-explorer-directory-chains` to `localStorage`. Reloading within 24h uses the cache and makes no directory request (check the network tab). Clear the key to force a refresh.
 - Selecting a directory preset (e.g. **Sei (cosmos.directory)** under REST) and running a balance query succeeds through `/api/proxy`; the aggregate REST path `rest.cosmos.directory/<chain>/cosmos/...` is allowed.
-- The promo banner at the top links to `https://grpcwebexplorer.vercel.app`.
 
 ---
 
-## Expected Behavior
+## Expected behavior
 
 - RPC queries should return parsed tx objects with `hash`, `height`, `code`, `success`, `events`
 - Events should have decoded (not base64) attribute keys and values
@@ -175,15 +182,15 @@ Also verify the expanded preset menus:
 
 ---
 
-## Mintscan Distribution Audit (mintscan-distributions.js)
+## Mintscan Distribution Audit (src/mintscan-distributions.js)
 
 Requires a valid Mintscan bearer token in `MINT_TOKEN` or `MINTSCAN_API_KEY`.
 
 ```bash
-node mintscan-distributions.js --help
-set -x MINT_TOKEN ...
-node mintscan-distributions.js osmo1f3w7ved2murkx4rg9qw8fyk5mfk2285hzzsxh5
-node mintscan-distributions.js osmo1f3w7ved2murkx4rg9qw8fyk5mfk2285hzzsxh5 --json
+node src/mintscan-distributions.js --help
+export MINT_TOKEN=...
+node src/mintscan-distributions.js osmo1...
+node src/mintscan-distributions.js osmo1... --json
 ```
 
 Expected behavior:

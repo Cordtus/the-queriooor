@@ -58,7 +58,7 @@ const IBC_TOKENS = {
 class WhaleWatcher {
 	constructor(options = {}) {
 		this.parser = new CosmosEventParser({
-			baseUrl: options.baseUrl || 'https://rest.lavenderfive.com:443',
+			baseUrl: options.baseUrl || 'https://rest.lavenderfive.com',
 			chain: 'osmosis',
 			rateLimitDelay: options.rateLimitDelay || 2000,
 			pageLimit: options.pageLimit || 100,

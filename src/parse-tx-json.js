@@ -113,8 +113,8 @@ Usage:
 Examples:
   parse-tx-json.js transactions.json
   parse-tx-json.js transactions.json --failed
-  parse-tx-json.js transactions.json --sender cosmos1cff2uvc2zgep5xlha939vjk08g07rlw6d7sjvw
-  parse-tx-json.js transactions.json --failed --sender cosmos1cff2uvc2zgep5xlha939vjk08g07rlw6d7sjvw
+  parse-tx-json.js transactions.json --sender osmo1...
+  parse-tx-json.js transactions.json --failed --sender osmo1...
 		`);
 		process.exit(0);
 	}

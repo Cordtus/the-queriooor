@@ -29,7 +29,7 @@ Environment:
   Set one of ${FALLBACK_ENV_VARS.join(', ')} with a Mintscan bearer token.
 
 Examples:
-  mintscan-distributions.js osmo1f3w7ved2murkx4rg9qw8fyk5mfk2285hzzsxh5
+  mintscan-distributions.js osmo1...
   mintscan-distributions.js osmo1... --from "2026-01-01" --to "2026-02-01 23:59:59"
 	`);
 }
