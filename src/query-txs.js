@@ -1,53 +1,7 @@
 #!/usr/bin/env node
 
 import { resolveLcd } from './cli-args.js';
-
-// Cosmos LCD/REST endpoint; resolved from --lcd / COSMOS_LCD at the CLI entry.
-let LCD_BASE = 'https://lcd.osmosis.zone';
-
-async function queryTransactionByHash(hash) {
-	const url = `${LCD_BASE}/cosmos/tx/v1beta1/txs/${hash}`;
-	try {
-		const response = await fetch(url);
-		if (!response.ok) {
-			throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-		}
-		return await response.json();
-	} catch (error) {
-		console.error(`Failed to fetch tx ${hash}:`, error.message);
-		return null;
-	}
-}
-
-async function queryLatestBlock() {
-	const url = `${LCD_BASE}/cosmos/base/tendermint/v1beta1/blocks/latest`;
-	try {
-		const response = await fetch(url);
-		if (!response.ok) {
-			throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-		}
-		const data = await response.json();
-		return data.block;
-	} catch (error) {
-		console.error('Failed to fetch latest block:', error.message);
-		return null;
-	}
-}
-
-async function queryBlockByHeight(height) {
-	const url = `${LCD_BASE}/cosmos/base/tendermint/v1beta1/blocks/${height}`;
-	try {
-		const response = await fetch(url);
-		if (!response.ok) {
-			throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-		}
-		const data = await response.json();
-		return data.block;
-	} catch (error) {
-		console.error(`Failed to fetch block ${height}:`, error.message);
-		return null;
-	}
-}
+import { setLcdBase, queryAccount, queryLatestBlock, queryBlockByHeight, queryTransactionByHash } from './lcd-client.js';
 
 async function searchTransactionsByAddress(address, maxBlocks = 999999) {
 	console.log(`Searching for transactions involving: ${address}`);
@@ -222,22 +176,6 @@ async function searchForFirstTransaction() {
 	return null;
 }
 
-// Alternative: Query account information
-async function queryAccount(address) {
-	const url = `${LCD_BASE}/cosmos/auth/v1beta1/accounts/${address}`;
-	try {
-		const response = await fetch(url);
-		if (!response.ok) {
-			throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-		}
-		const data = await response.json();
-		return data.account;
-	} catch (error) {
-		console.error('Failed to fetch account:', error.message);
-		return null;
-	}
-}
-
 // CLI
 const args = process.argv.slice(2);
 
@@ -265,7 +203,7 @@ Examples:
 }
 
 try {
-	LCD_BASE = resolveLcd(args);
+	setLcdBase(resolveLcd(args));
 } catch (error) {
 	console.error(`Error: ${error.message}`);
 	process.exit(1);

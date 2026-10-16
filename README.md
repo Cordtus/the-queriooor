@@ -77,10 +77,11 @@ node src/rpc-event-query.js --rpc https://rpc.archive.osmosis.zone \
 
 Cosmos LCD event queries with pagination, retry, and rate limiting.
 
-> **Legacy fallback.** This path sends the deprecated `events=` parameter. Current
-> SDK chains (v0.50+) only read `query=`, and Osmosis disables LCD tx search
-> altogether. Prefer RPC `/tx_search` (`src/rpc-event-query.js`) unless you know
-> your chain still accepts `events=`.
+> **Fallback path.** Queries the SDK `/cosmos/tx/v1beta1/txs` endpoint with the
+> current `query=` parameter. Osmosis disables LCD tx search entirely, and
+> pre-v0.47 chains expect the older `events=` form instead — prefer RPC
+> `/tx_search` (`src/rpc-event-query.js`) unless you know your chain still
+> supports LCD event queries.
 
 ```bash
 node src/cosmos-event-parser.js <address>

@@ -67,11 +67,10 @@ without explicit project-direction approval.
 - **Cross-event `AND` never matches.** Tendermint indexes `eventType.attr/value`
   keys, so `message.action='X' AND transfer.recipient='Y'` returns nothing.
   Intersect separate queries client-side instead — see `docs/query-capabilities.md`.
-- **LCD event search is a legacy fallback.** Osmosis disables it entirely, and
-  current SDK (v0.50+) only reads the `query=` param while
-  `src/cosmos-event-parser.js` sends the older `events=`. Prefer RPC `/tx_search`
-  (`src/rpc-event-query.js`); use the LCD parser only on chains that still accept
-  the legacy `events=` form.
+- **LCD event search is a fallback.** Osmosis disables it entirely, and the
+  parser targets the current SDK `query=` param (pre-v0.47 chains want the older
+  `events=`). Prefer RPC `/tx_search` (`src/rpc-event-query.js`); use the LCD
+  parser only on chains that still support LCD event queries.
 - **Always scope broad queries with `tx.height`,** or they time out; max query
   length is 512 chars and `per_page` is capped at 100.
 - **CometBFT < 0.38 base64-encodes event attributes.** Decode defensively

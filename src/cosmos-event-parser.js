@@ -15,42 +15,48 @@ export class CosmosEventParser {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
 
+	/**
+	 * Builds a CometBFT query string from filter params, joined with AND.
+	 * Cross-event AND never matches (see docs/query-capabilities.md), so keep
+	 * conditions on a single event type.
+	 * @returns {string}
+	 */
 	buildEventQuery(params) {
-		const events = [];
+		const conditions = [];
 		
 		if (params.sender) {
-			events.push(`message.sender='${params.sender}'`);
+			conditions.push(`message.sender='${params.sender}'`);
 		}
 		if (params.action) {
-			events.push(`message.action='${params.action}'`);
+			conditions.push(`message.action='${params.action}'`);
 		}
 		if (params.module) {
-			events.push(`message.module='${params.module}'`);
+			conditions.push(`message.module='${params.module}'`);
 		}
 		if (params.recipient) {
-			events.push(`transfer.recipient='${params.recipient}'`);
+			conditions.push(`transfer.recipient='${params.recipient}'`);
 		}
 		if (params.amount) {
-			events.push(`transfer.amount='${params.amount}'`);
+			conditions.push(`transfer.amount='${params.amount}'`);
 		}
 		if (params.denom) {
-			events.push(`coin_spent.denom='${params.denom}'`);
+			conditions.push(`coin_spent.denom='${params.denom}'`);
 		}
 		if (params.sourceChannel) {
-			events.push(`send_packet.packet_src_channel='${params.sourceChannel}'`);
+			conditions.push(`send_packet.packet_src_channel='${params.sourceChannel}'`);
 		}
 		if (params.destChannel) {
-			events.push(`send_packet.packet_dst_channel='${params.destChannel}'`);
+			conditions.push(`send_packet.packet_dst_channel='${params.destChannel}'`);
 		}
 		
 		// Add custom events
 		if (params.customEvents) {
 			Object.entries(params.customEvents).forEach(([key, value]) => {
-				events.push(`${key}='${value}'`);
+				conditions.push(`${key}='${value}'`);
 			});
 		}
 		
-		return events.join('&events=');
+		return conditions.join(' AND ');
 	}
 
 	async fetchWithRetry(url, retries = 3) {
@@ -78,8 +84,13 @@ export class CosmosEventParser {
 		let hasMore = true;
 		
 		while (hasMore && (!this.maxPages || page <= this.maxPages)) {
-			const eventQuery = this.buildEventQuery(params);
-			const url = `${this.baseUrl}/cosmos/tx/v1beta1/txs?${eventQuery ? 'events=' + eventQuery + '&' : ''}pagination.limit=${this.pageLimit}&pagination.page=${page}&order_by=ORDER_BY_DESC`;
+			const query = this.buildEventQuery(params);
+			const url = new URL(`${this.baseUrl}/cosmos/tx/v1beta1/txs`);
+			// ponytail: `query` is the current SDK param (v0.50+); pre-v0.47 chains used `events=`
+			if (query) url.searchParams.set('query', query);
+			url.searchParams.set('pagination.limit', String(this.pageLimit));
+			url.searchParams.set('pagination.page', String(page));
+			url.searchParams.set('order_by', 'ORDER_BY_DESC');
 			
 			console.log(`Fetching page ${page}...`);
 			
