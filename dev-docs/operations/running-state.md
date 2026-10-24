@@ -1,17 +1,21 @@
 # Running state
 
-Last verified: 2026-10-24 (before the explorer network-selection release).
+Last verified: 2026-10-24, after the explorer network-selection release.
 
 | Question | Answer |
 |---|---|
-| Status | **live**, production, since at least 2026-10-06 |
+| Status | **live**, production |
 | Platform | Vercel, project `craw/the-queriooor`, region `iad1` for the function |
 | Public URL | <https://the-queriooor.vercel.app> |
 | Other aliases | `the-queriooor-craw.vercel.app`, `the-queriooor-git-main-craw.vercel.app` |
 | Source | `github.com/Cordtus/the-queriooor`, branch `main` |
 | Deployed by | Vercel Git integration; deployments are created by `vercel[bot]` on push |
-| Last production deployment | 2026-10-16, commit `bb845f3` (pre network-selector release) |
+| Last application release | 2026-10-24, commit `6a653e0`, deployment `dpl_Ca4t1crypLQ4CzkJGKXqh2paBgGR` |
 | Canonical runbook | [`docs/deployment.md`](../../docs/deployment.md) |
+
+Every push to `main` creates a production deployment, including docs-only
+commits. This record names the last **application** release; use
+`vercel ls the-queriooor` for the newest deployment.
 
 ## Topology
 
