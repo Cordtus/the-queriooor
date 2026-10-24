@@ -13,6 +13,7 @@ client may request.
 | `https://rpc.cosmos.directory/<chain>` | Explorer RPC (Event Search, RPC Queries) | CometBFT JSON-RPC, load-balanced public nodes |
 | `https://rest.cosmos.directory/<chain>` | Explorer REST (balances, tx lookup, tx search) | Cosmos SDK REST over HTTPS |
 | `https://chains.cosmos.directory/` | Explorer chain catalogue refresh | Registry JSON with `chains[]`; needs browser CORS; cached 24 h |
+| `https://chains.cosmos.directory/<chain>` | Explorer RPC fallback | Single-chain JSON fetched **browser-direct (needs CORS; failure is silent)**; `chain.best_apis.rpc` (else `chain.apis.rpc`) supplies alternative nodes for the indexing-disabled retry |
 | Arbitrary public RPC/LCD | CLI tools and **Custom endpoints** override | Credential-free HTTPS; read-only paths only through the proxy |
 
 Changing the explorer's chain catalogue only requires the seed in `index.html`

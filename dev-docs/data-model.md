@@ -55,6 +55,17 @@ The explorer does not import these modules; see
 The cache is only trusted when `chains` is a non-empty array and `ts` is finite.
 A failed write is ignored; the in-memory list from the fetch is still used.
 
+## In-memory session state
+
+| State | Value | Lifetime |
+|---|---|---|
+| `FALLBACK_RPC_CACHE` | `Map<chainSlug, rpcUrl[]>` from `chain.best_apis.rpc` / `chain.apis.rpc` | Current page load; filled only when an indexing-disabled failure needs a retry. A 404/empty list is cached as empty; network errors are not cached |
+| `PREFERRED_RPC` | `Map<chainSlug, rpcUrl>` — the retry node that served a successful page | Until the network selection changes; keeps pagination on one node |
+
+Fallback candidates are filtered to credential-free HTTPS URLs that are not the
+current node and not another `*.cosmos.directory` aggregate, then one is chosen
+with `Math.random()`.
+
 ## Event catalogue
 
 `EVENT_CATALOG` in `index.html` and the catalogue in

@@ -2001,6 +2001,105 @@ function networkForPair(networks, rpcUrl, lcdUrl) {
   return networks.find(n => n.rpcUrl === rpcUrl && n.restUrl === lcdUrl) || null;
 }
 
+// -- RPC fallback for nodes without a transaction index --
+const FALLBACK_RPC_CACHE = new Map();
+const PREFERRED_RPC = new Map();
+const TX_INDEX_DISABLED_RE = /transaction indexing is disabled|tx indexer is not enabled/i;
+
+function isTxIndexDisabled(payload) {
+  return TX_INDEX_DISABLED_RE.test(JSON.stringify(payload?.error ?? ''));
+}
+
+function pickAlternativeRpc(candidates, currentUrl, random = Math.random) {
+  const current = (currentUrl || '').trim().replace(/\/+$/, '');
+  const usable = candidates
+    .map(url => (typeof url === 'string' ? url.trim().replace(/\/+$/, '') : ''))
+    .filter(url => {
+      if (!url) return false;
+      try {
+        const parsed = new URL(url);
+        return parsed.protocol === 'https:'
+          && !parsed.username
+          && !parsed.password
+          && !/(^|\.)cosmos\.directory$/.test(parsed.hostname)
+          && url !== current;
+      } catch {
+        return false;
+      }
+    });
+  return usable.length ? usable[Math.floor(random() * usable.length)] : '';
+}
+
+function selectedChainSlug() {
+  const selected = document.getElementById('networkSelect').value;
+  if (selected) return selected;
+  const match = /^https:\/\/rpc\.cosmos\.directory\/([^/]+)$/.exec(getRpcUrl());
+  return match ? match[1] : '';
+}
+
+// Uses the chain's directory endpoint list to pick a random different node.
+async function alternativeRpcEndpoint(slug, currentUrl) {
+  if (!slug) return '';
+  let candidates = FALLBACK_RPC_CACHE.get(slug);
+  if (!candidates) {
+    try {
+      const resp = await fetch(`https://chains.cosmos.directory/${encodeURIComponent(slug)}`, { signal: AbortSignal.timeout(10000) });
+      if (!resp.ok) {
+        FALLBACK_RPC_CACHE.set(slug, []);
+        return '';
+      }
+      const chain = (await resp.json()).chain || {};
+      const listed = (chain.best_apis?.rpc?.length ? chain.best_apis.rpc : chain.apis?.rpc) || [];
+      candidates = listed.map(entry => (entry.address || '').trim().replace(/\/+$/, '')).filter(Boolean);
+      FALLBACK_RPC_CACHE.set(slug, candidates);
+    } catch {
+      return '';
+    }
+  }
+  return pickAlternativeRpc(candidates, currentUrl);
+}
+
+// /tx_search, retrying once through a different node when the active one has no tx index.
+// A node that works is reused for later pages of the same network.
+async function searchTxs(rpcUrl, params) {
+  const request = async (base) => {
+    const resp = await proxiedFetch(`${base}/tx_search?${params}`);
+    let payload = null;
+    try { payload = await resp.json(); } catch { /* non-JSON error body */ }
+    return { resp, payload, base };
+  };
+  const hostOf = url => { try { return new URL(url).host; } catch { return url; } };
+  const slug = selectedChainSlug();
+  const preferred = slug ? PREFERRED_RPC.get(slug) : '';
+  const first = preferred || rpcUrl;
+  let result = await request(first);
+  let retriedFrom = '';
+
+  if (isTxIndexDisabled(result.payload)) {
+    if (slug) PREFERRED_RPC.delete(slug);
+    const fallback = await alternativeRpcEndpoint(slug, first);
+    if (fallback) {
+      retriedFrom = hostOf(first);
+      try {
+        result = await request(fallback);
+      } catch (err) {
+        throw new Error(`Transaction indexing is disabled on ${hostOf(first)}; retry via ${hostOf(fallback)} failed: ${err.message}`);
+      }
+    }
+  }
+
+  if (isTxIndexDisabled(result.payload)) {
+    throw new Error(`Transaction indexing is disabled on the selected RPC node${retriedFrom ? ' and on the retry node' : ''}; choose another network or RPC endpoint.`);
+  }
+  if (!result.resp.ok) {
+    throw new Error(`HTTP ${result.resp.status}: ${result.resp.statusText}${retriedFrom ? ` (retried after indexing was disabled on ${retriedFrom})` : ''}`);
+  }
+  if (!result.payload) throw new Error(`Invalid JSON response from ${result.base}`);
+  if (result.payload.error) throw new Error(result.payload.error.message || JSON.stringify(result.payload.error));
+  if (slug && result.base !== rpcUrl) PREFERRED_RPC.set(slug, result.base);
+  return { payload: result.payload, base: result.base, retriedFrom };
+}
+
 // Refresh at most once per TTL; runs after first paint so it never blocks the page.
 async function refreshDirectoryChains() {
   const cached = readDirectoryCache();
@@ -2330,6 +2429,7 @@ function init() {
   applyNetwork(defaultNetwork.slug);
 
   networkSel.addEventListener('change', () => {
+    PREFERRED_RPC.clear();
     if (networkSel.value) {
       applyNetwork(networkSel.value);
       checkRpcEndpoint();
@@ -3930,11 +4030,7 @@ async function doSearch(page) {
       order_by: `"${orderBy}"`,
     });
 
-    const resp = await proxiedFetch(`${rpcUrl}/tx_search?${params}`);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
-
-    const data = await resp.json();
-    if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+    const { payload: data, base: usedUrl, retriedFrom } = await searchTxs(rpcUrl, params);
 
     const result = data.result || {};
     const totalCount = parseInt(result.total_count || '0', 10);
@@ -3945,7 +4041,8 @@ async function doSearch(page) {
     lastRawResult = result;
 
     renderResults(txs, totalCount, page, perPage);
-    setStatus(`Page ${page} loaded from ${rpcUrl} -- ${totalCount} total transactions`);
+    const retryNote = retriedFrom ? ` (indexing was disabled on ${retriedFrom})` : '';
+    setStatus(`Page ${page} loaded from ${usedUrl}${retryNote} -- ${totalCount} total transactions`);
 
     // Persist custom values from successful queries
     if (totalCount > 0) {

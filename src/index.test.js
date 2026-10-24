@@ -19,15 +19,24 @@ function memoryStorage(initial = {}) {
 	};
 }
 
-function loadEndpointHelpers(localStorage) {
-	const documentStub = { createElement: () => ({ value: '', textContent: '' }) };
+function loadEndpointHelpers(localStorage, options = {}) {
+	const documentStub = {
+		createElement: () => ({ value: '', textContent: '' }),
+		getElementById: id => ({
+			value: id === 'networkSelect'
+				? (options.network ?? '')
+				: id === 'rpcUrl' ? (options.rpcUrl ?? '') : '',
+		}),
+	};
+	const proxiedFetch = options.proxiedFetch || (async () => { throw new Error('unexpected proxiedFetch call'); });
 	const factory = new Function(
 		'document',
 		'localStorage',
+		'proxiedFetch',
 		`${html.slice(start, end)}
-		return { directoryChainsFromRegistry, readDirectoryCache, isDirectoryCacheFresh, chainsToNetworks, populateNetworkSelect, networkForPair, COSMOS_DIRECTORY_CHAINS, DIRECTORY_CACHE_TTL_MS };`,
+		return { directoryChainsFromRegistry, readDirectoryCache, isDirectoryCacheFresh, chainsToNetworks, populateNetworkSelect, networkForPair, pickAlternativeRpc, isTxIndexDisabled, searchTxs, FALLBACK_RPC_CACHE, PREFERRED_RPC, COSMOS_DIRECTORY_CHAINS, DIRECTORY_CACHE_TTL_MS };`,
 	);
-	return factory(documentStub, localStorage);
+	return factory(documentStub, localStorage, proxiedFetch);
 }
 
 function fakeSelect(value = '') {
@@ -136,4 +145,105 @@ test('networkForPair matches only the exact chain pair', () => {
 	assert.equal(networkForPair(networks, networks[2].rpcUrl, '')?.slug, 'okex');
 	assert.equal(networkForPair(networks, networks[0].rpcUrl, networks[1].restUrl), null);
 	assert.equal(networkForPair(networks, 'https://custom.example', 'https://rest.cosmos.directory/osmosis'), null);
+});
+
+test('pickAlternativeRpc skips the current node, insecure URLs, and directory hosts', () => {
+	const { pickAlternativeRpc } = loadEndpointHelpers(memoryStorage());
+	const candidates = [
+		'https://rpc.cosmos.directory/osmosis',
+		'http://insecure.example',
+		'https://same.example',
+		'https://a.example',
+		'https://b.example',
+	];
+
+	assert.equal(pickAlternativeRpc(candidates, 'https://same.example', () => 0), 'https://a.example');
+	assert.equal(pickAlternativeRpc(candidates, 'https://same.example', () => 0.999), 'https://b.example');
+	assert.equal(pickAlternativeRpc([], 'https://same.example'), '');
+	assert.equal(pickAlternativeRpc(['https://same.example'], 'https://same.example/'), '');
+});
+
+test('isTxIndexDisabled recognizes the missing-index error payload', () => {
+	const { isTxIndexDisabled } = loadEndpointHelpers(memoryStorage());
+
+	assert.equal(isTxIndexDisabled({ error: { code: -32603, message: 'Internal error', data: 'transaction indexing is disabled' } }), true);
+	assert.equal(isTxIndexDisabled({ error: { message: 'Transaction indexing is disabled' } }), true);
+	assert.equal(isTxIndexDisabled({ error: 'tx indexer is not enabled' }), true);
+	assert.equal(isTxIndexDisabled({ error: { message: 'Internal error' } }), false);
+	assert.equal(isTxIndexDisabled({ result: { txs: [] } }), false);
+	assert.equal(isTxIndexDisabled(null), false);
+});
+
+const INDEX_ERROR = {
+	error: { code: -32603, message: 'Internal error', data: 'transaction indexing is disabled' },
+};
+const SUCCESS = { result: { total_count: '0', txs: [] } };
+
+function stubResponse({ status = 200, statusText = 'OK', payload }) {
+	return {
+		ok: status >= 200 && status < 300,
+		status,
+		statusText,
+		json: async () => payload,
+	};
+}
+
+test('searchTxs retries once through a different node and reuses it for later pages', async () => {
+	const calls = [];
+	const helpers = loadEndpointHelpers(memoryStorage(), {
+		network: 'osmosis',
+		proxiedFetch: async url => {
+			calls.push(url);
+			if (url.startsWith('https://rpc.cosmos.directory/osmosis/tx_search')) {
+				return stubResponse({ status: 500, statusText: 'Internal error', payload: INDEX_ERROR });
+			}
+			if (/^https:\/\/node-[ab]\.example\/tx_search/.test(url)) {
+				return stubResponse({ payload: SUCCESS });
+			}
+			throw new Error(`unexpected URL ${url}`);
+		},
+	});
+	helpers.FALLBACK_RPC_CACHE.set('osmosis', ['https://node-a.example', 'https://node-b.example']);
+
+	const result = await helpers.searchTxs('https://rpc.cosmos.directory/osmosis', 'per_page=1');
+	assert.equal(calls.length, 2);
+	assert.match(calls[1], /^https:\/\/node-[ab]\.example\/tx_search\?per_page=1$/);
+	assert.equal(calls[1], `${result.base}/tx_search?per_page=1`);
+	assert.equal(result.retriedFrom, 'rpc.cosmos.directory');
+	assert.equal(helpers.PREFERRED_RPC.get('osmosis'), result.base);
+
+	await helpers.searchTxs('https://rpc.cosmos.directory/osmosis', 'per_page=1');
+	assert.equal(calls.length, 3);
+	assert.equal(calls[2], `${result.base}/tx_search?per_page=1`);
+});
+
+test('searchTxs does not retry a non-indexing failure', async () => {
+	const calls = [];
+	const helpers = loadEndpointHelpers(memoryStorage(), {
+		network: 'osmosis',
+		proxiedFetch: async url => {
+			calls.push(url);
+			return stubResponse({ status: 502, statusText: 'Bad Gateway', payload: { error: { message: 'upstream down' } } });
+		},
+	});
+	helpers.FALLBACK_RPC_CACHE.set('osmosis', ['https://node-a.example']);
+
+	await assert.rejects(
+		helpers.searchTxs('https://rpc.cosmos.directory/osmosis', 'per_page=1'),
+		/HTTP 502: Bad Gateway/,
+	);
+	assert.equal(calls.length, 1);
+});
+
+test('searchTxs explains when no fallback node is available', async () => {
+	const helpers = loadEndpointHelpers(memoryStorage(), {
+		network: 'osmosis',
+		proxiedFetch: async () => stubResponse({ status: 500, statusText: 'Internal error', payload: INDEX_ERROR }),
+	});
+	helpers.FALLBACK_RPC_CACHE.set('osmosis', []);
+
+	await assert.rejects(
+		helpers.searchTxs('https://rpc.cosmos.directory/osmosis', 'per_page=1'),
+		/Transaction indexing is disabled on the selected RPC node/,
+	);
 });

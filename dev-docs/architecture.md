@@ -87,7 +87,10 @@ them here.
   advisory reachability check, not a correctness guarantee. Some load-balanced
   nodes have transaction indexing disabled: `rpc.cosmos.directory/osmosis`
   intermittently returned `transaction indexing is disabled` during the
-  2026-10-24 release check. Retry or use a Custom RPC endpoint.
+  2026-10-24 release check. The explorer detects that payload, fetches the
+  chain's directory endpoint list, and retries once through a randomly chosen
+  different node; the node that works is reused for later pages. If no fallback
+  works, the error asks for another network or RPC endpoint.
 - **The directory registry fetch is browser-direct.** It requires CORS on
   `chains.cosmos.directory`; failures are swallowed and the bundled seed remains.
 - **Proxy 403/404 triggers a direct retry.** In local or function-less hosting a

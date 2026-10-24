@@ -172,6 +172,7 @@ Also verify network selection and result rows:
 - Editing either URL switches the selector to **Custom endpoints**.
 - On first load (empty cache) the page renders from the bundled seed, then refreshes the chain list from `https://chains.cosmos.directory/` and writes `cosmos-explorer-directory-chains` to `localStorage`. Reloading within 24h uses the cache and makes no directory request (check the network tab). Clear the key to force a refresh.
 - A transaction row shows a **Copy** button beside its hash while collapsed; clicking it copies the hash, shows `Copied`, and does not expand the row.
+- If an RPC query hits a node with transaction indexing disabled, it retries once through a different node from `chains.cosmos.directory/<chain>` and the status says which node served the page. The condition is intermittent and cannot be forced from the UI; to reproduce, point the RPC field at a node known to have indexing disabled or rewrite the `/tx_search` response in DevTools to return `{"error":{"data":"transaction indexing is disabled"}}`.
 - Running a query on a REST-only chain's REST side (e.g. Sei balances) succeeds through `/api/proxy`; the aggregate REST path `rest.cosmos.directory/<chain>/cosmos/...` is allowed.
 
 ---
