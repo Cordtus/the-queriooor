@@ -2,24 +2,43 @@
 
 ## What this is
 
-A no-build JavaScript (ES Modules, Node 18+) toolkit for querying Cosmos
-LCD/REST and Tendermint/CometBFT RPC endpoints, parsing transactions and events,
-and exploring chains in a browser. Read the short orientation in `README.md`
-first; the deep query reference (grammar, limits, verified behaviours, and when
-to use which strategy) is `docs/query-capabilities.md`.
+A no-build JavaScript (ES Modules, Node 18+) toolkit for querying Cosmos LCD/REST
+and Tendermint/CometBFT RPC endpoints, parsing transactions and events, plus a
+single-file browser explorer. Read [`README.md`](README.md) for usage,
+[`docs/query-capabilities.md`](docs/query-capabilities.md) for the query
+reference, and the engineering index in [`dev-docs/README.md`](dev-docs/README.md).
 
-## Layout
+## Project map
 
-- `src/*.js` — the CLI tools and importable modules. Every file is both: the
-  class/function exports are the API, and an `import.meta.url === ...process.argv[1]`
-  guard runs the CLI. Tests live next to their module as `*.test.js`.
-- `index.html` — the single-file browser explorer (no build step).
-- `api/proxy.js` — Vercel/serverless CORS proxy for the explorer, restricted to
-  read-only Cosmos/Tendermint paths. Must stay at `api/` for Vercel routing.
-- `dev-server.js` — local server that serves `index.html` and reuses
-  `api/proxy.js`, so custom endpoints work in the browser without a deploy.
-- `docs/testing.md` — bounded live-verification scenarios and known values.
-- `docs/query-capabilities.md` — Cosmos/Tendermint query reference.
+| Area | Function | Docs | Running state |
+|---|---|---|---|
+| CLI/library (`src/*.js`) | Read-only query, parse, fee, and audit tools; most source files are both a module and a CLI | [`dev-docs/architecture.md`](dev-docs/architecture.md), module table in `README.md` | Not deployed; run locally |
+| Explorer (`index.html`) | Browser query builder, network selection, results, JSON export | [`dev-docs/architecture.md`](dev-docs/architecture.md), [`dev-docs/data-model.md`](dev-docs/data-model.md) | Live on Vercel |
+| Proxy (`api/proxy.js`) | Read-only CORS proxy, same code locally and in production | [`dev-docs/integration.md`](dev-docs/integration.md) | Live on Vercel |
+| Dev server (`dev-server.js`) | Serves the explorer and mounts the proxy locally | [`dev-docs/architecture.md`](dev-docs/architecture.md) | Local only |
+| Delivery (`vercel.json`, `.github/`) | Vercel static+function deploy from `main`; GitHub Actions test job | [`dev-docs/operations/running-state.md`](dev-docs/operations/running-state.md), [`docs/deployment.md`](docs/deployment.md) | Live: <https://the-queriooor.vercel.app> |
+
+### How it fits together
+
+The explorer runs entirely in the browser and sends read-only requests through
+`/api/proxy` (same origin locally and on Vercel); the proxy validates the target
+and path before forwarding to public Cosmos infrastructure. The CLI tools call
+those endpoints directly from Node, never through the proxy. The explorer
+refreshes its chain catalogue from `chains.cosmos.directory` and caches it for
+24 hours. Pushing to `main` deploys production through the Vercel Git
+integration.
+
+## Where to work
+
+- Query grammar, operators, or limits → `src/` plus
+  [`docs/query-capabilities.md`](docs/query-capabilities.md).
+- Explorer UI or endpoint selection → `index.html`, then
+  [`dev-docs/architecture.md`](dev-docs/architecture.md).
+- Proxy validation or allowed paths → `api/proxy.js` and
+  `api/proxy.test.js`, then [`dev-docs/integration.md`](dev-docs/integration.md).
+- Live verification values → [`docs/testing.md`](docs/testing.md).
+- Release or rollback → [`docs/deployment.md`](docs/deployment.md); record a
+  state change in [`dev-docs/operations/running-state.md`](dev-docs/operations/running-state.md).
 
 ## Build, test, development commands
 
@@ -44,7 +63,7 @@ useful error context when extending flags.
 The deterministic suite uses Node's built-in test runner; no coverage threshold.
 Add deterministic fixtures for parsing logic instead of relying on live
 services. Keep network-dependent checks bounded with small page sizes, and
-follow the scenarios in `docs/testing.md`.
+follow the scenarios in [`docs/testing.md`](docs/testing.md).
 
 ## Commit & pull request guidelines
 
@@ -62,18 +81,16 @@ override with CLI flags (`--rpc`, `--lcd`) or `COSMOS_LCD`. Keep the toolkit
 read-only: do not add wallet connection, signing, simulation, or broadcast paths
 without explicit project-direction approval.
 
-## Things that bite
+## Known hazards
 
-- **Cross-event `AND` never matches.** Tendermint indexes `eventType.attr/value`
-  keys, so `message.action='X' AND transfer.recipient='Y'` returns nothing.
-  Intersect separate queries client-side instead — see `docs/query-capabilities.md`.
-- **LCD event search is a fallback.** Osmosis disables it entirely, and the
-  parser targets the current SDK `query=` param (pre-v0.47 chains want the older
-  `events=`). Prefer RPC `/tx_search` (`src/rpc-event-query.js`); use the LCD
-  parser only on chains that still support LCD event queries.
-- **Always scope broad queries with `tx.height`,** or they time out; max query
-  length is 512 chars and `per_page` is capped at 100.
-- **CometBFT < 0.38 base64-encodes event attributes.** Decode defensively
-  (`RpcEventQuery.tryDecodeBase64Node`) rather than assuming plaintext.
-- The proxy only allows read-only Cosmos/Tendermint paths and credential-free
-  HTTPS; do not widen it into a general open proxy.
+Endpoint, proxy, and cross-surface parsing hazards are owned by
+[`dev-docs/architecture.md`](dev-docs/architecture.md#known-hazards) and
+[`dev-docs/integration.md`](dev-docs/integration.md). Query pitfalls (cross-event
+`AND`, height scoping, LCD search availability) are owned by
+[`docs/query-capabilities.md`](docs/query-capabilities.md).
+
+## Documentation
+
+Consult the relevant `dev-docs/` page before planning a change and update it
+after verification, adding a dated entry to [`dev-docs/logs/`](dev-docs/logs/).
+A behaviour change without the matching docs is not complete.

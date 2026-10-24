@@ -205,7 +205,6 @@ select { cursor: pointer; }
 
 .endpoint-bar:last-child { margin-bottom: 0; }
 
-.endpoint-bar .preset { flex: 0 0 220px; }
 .endpoint-bar .url { flex: 1; }
 .endpoint-bar .status-dot {
   flex: 0 0 auto;
@@ -238,15 +237,6 @@ select { cursor: pointer; }
   margin-top: -4px;
   font-size: 12px;
   color: var(--text-muted);
-}
-
-.endpoint-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 /* -- Tabs -- */
@@ -611,6 +601,7 @@ button:focus-visible {
 
 .tx-summary .hash {
   flex: 1;
+  min-width: 0;
   font-family: var(--mono);
   font-size: 12px;
   color: var(--accent);
@@ -618,6 +609,21 @@ button:focus-visible {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.tx-summary .copy-hash {
+  flex: 0 0 auto;
+  padding: 1px 7px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.tx-summary .copy-hash:hover { border-color: var(--accent); color: var(--accent); }
+.tx-summary .copy-hash.copied { border-color: var(--success); color: var(--success); }
 
 .tx-summary .status-badge {
   flex: 0 0 auto;
@@ -1050,9 +1056,9 @@ button:focus-visible {
   .condition-row .attribute { flex: 1 1 45%; }
   .condition-row .operator { flex: 0 0 110px; }
   .condition-row .value { flex: 1 1 100%; }
-  .endpoint-bar .preset { flex: 1 1 100%; }
   .tx-summary { flex-wrap: wrap; }
   .tx-summary .hash { flex: 1 1 100%; order: 10; }
+  .tx-summary .copy-hash { order: 11; }
   .query-form .form-row { flex-wrap: wrap; }
   .query-form .form-row .query-type-select { flex: 1 1 100%; }
   .query-form .dynamic-fields { flex-wrap: wrap; }
@@ -1079,33 +1085,29 @@ button:focus-visible {
     <span class="tag" id="headerTag">RPC tx_search</span>
   </header>
 
-  <!-- Endpoints -->
+  <!-- Network -->
   <div class="panel">
-    <div class="panel-title">Endpoints</div>
-    <div class="endpoint-label">RPC</div>
+    <div class="panel-title">Network</div>
     <div class="endpoint-bar">
-      <div class="preset">
-        <label for="endpointPreset">Preset</label>
-        <select id="endpointPreset"></select>
-      </div>
       <div class="url">
-        <label for="rpcUrl">RPC URL used for Event Search and RPC Queries</label>
-        <input type="text" id="rpcUrl" placeholder="Enter RPC endpoint URL">
+        <label for="networkSelect">Chain (sets both endpoints below)</label>
+        <select id="networkSelect"></select>
+      </div>
+    </div>
+    <div class="endpoint-bar">
+      <div class="url">
+        <label for="rpcUrl">RPC endpoint (Event Search and RPC Queries)</label>
+        <input type="text" id="rpcUrl" placeholder="https://rpc.cosmos.directory/osmosis">
       </div>
       <div class="status-dot" id="endpointStatus" title="RPC endpoint status"></div>
       <div class="endpoint-note" id="rpcEndpointNote"></div>
     </div>
-    <div class="endpoint-label" style="margin-top: 10px;">REST / LCD</div>
     <div class="endpoint-bar">
-      <div class="preset">
-        <label for="lcdPreset">Preset</label>
-        <select id="lcdPreset"></select>
-      </div>
       <div class="url">
-        <label for="lcdUrl">REST URL used for REST Queries</label>
-        <input type="text" id="lcdUrl" placeholder="Enter REST endpoint URL">
+        <label for="lcdUrl">REST endpoint (REST Queries)</label>
+        <input type="text" id="lcdUrl" placeholder="https://rest.cosmos.directory/osmosis">
       </div>
-      <div class="status-dot" id="lcdStatus" title="LCD endpoint status"></div>
+      <div class="status-dot" id="lcdStatus" title="REST endpoint status"></div>
       <div class="endpoint-note" id="lcdEndpointNote"></div>
     </div>
   </div>
@@ -1936,26 +1938,6 @@ const COSMOS_DIRECTORY_CHAINS = [
 const DIRECTORY_CACHE_KEY = 'cosmos-explorer-directory-chains';
 const DIRECTORY_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
-const CURATED_RPC_ENDPOINTS = [
-  { label: 'Osmosis Archive', url: 'https://rpc.archive.osmosis.zone' },
-  { label: 'Osmosis (Polkachu)', url: 'https://osmosis-rpc.polkachu.com' },
-  { label: 'Osmosis (Lavender.Five)', url: 'https://rpc.lavenderfive.com:443/osmosis' },
-  { label: 'Cosmos Hub (Polkachu)', url: 'https://cosmos-rpc.polkachu.com' },
-  { label: 'Cosmos Hub Archive', url: 'https://rpc-cosmoshub.ecostake.com' },
-  { label: 'Cosmos Hub (Lavender.Five)', url: 'https://rpc.lavenderfive.com:443/cosmoshub' },
-  { label: 'Stargaze', url: 'https://rpc.stargaze-apis.com' },
-];
-
-const CURATED_LCD_ENDPOINTS = [
-  { label: 'Osmosis', url: 'https://lcd.osmosis.zone' },
-  { label: 'Osmosis (Polkachu)', url: 'https://osmosis-api.polkachu.com' },
-  { label: 'Osmosis (Lavender.Five)', url: 'https://rest.lavenderfive.com:443/osmosis' },
-  { label: 'Cosmos Hub (Polkachu)', url: 'https://cosmos-api.polkachu.com' },
-  { label: 'Cosmos Hub (ecostake)', url: 'https://rest-cosmoshub.ecostake.com' },
-  { label: 'Cosmos Hub (Lavender.Five)', url: 'https://rest.lavenderfive.com:443/cosmoshub' },
-  { label: 'Stargaze', url: 'https://rest.stargaze-apis.com' },
-];
-
 // Map the cosmos.directory registry payload to the compact list we cache.
 function directoryChainsFromRegistry(chains) {
   return chains
@@ -1983,35 +1965,40 @@ function isDirectoryCacheFresh(cached) {
   return Date.now() - cached.ts < DIRECTORY_CACHE_TTL_MS;
 }
 
-function buildEndpointLists(chains) {
-  const directory = (flag, host) => chains
-    .filter(chain => chain[flag] !== false)
-    .map(chain => ({ label: `${chain.label} (cosmos.directory)`, url: `https://${host}.cosmos.directory/${chain.slug}` }));
-  return {
-    rpc: [...CURATED_RPC_ENDPOINTS, ...directory('rpc', 'rpc')],
-    lcd: [...CURATED_LCD_ENDPOINTS, ...directory('rest', 'rest')],
-  };
+// One entry per chain: the RPC and REST endpoints always come from the same network.
+function chainsToNetworks(chains) {
+  return chains.map(chain => ({
+    slug: chain.slug,
+    label: chain.label,
+    rpcUrl: chain.rpc === false ? '' : `https://rpc.cosmos.directory/${chain.slug}`,
+    restUrl: chain.rest === false ? '' : `https://rest.cosmos.directory/${chain.slug}`,
+  }));
 }
 
 const cachedDirectory = readDirectoryCache();
-const initialLists = buildEndpointLists(cachedDirectory ? cachedDirectory.chains : COSMOS_DIRECTORY_CHAINS);
-let KNOWN_ENDPOINTS = initialLists.rpc;
-let LCD_ENDPOINTS = initialLists.lcd;
+let NETWORKS = chainsToNetworks(cachedDirectory ? cachedDirectory.chains : COSMOS_DIRECTORY_CHAINS);
 
-function populateEndpointSelect(select, endpoints) {
+function populateNetworkSelect(select, networks) {
   const previous = select.value;
   select.innerHTML = '';
   const custom = document.createElement('option');
   custom.value = '';
-  custom.textContent = 'Custom URL';
+  custom.textContent = 'Custom endpoints';
   select.appendChild(custom);
-  for (const ep of endpoints) {
+  for (const network of networks) {
     const opt = document.createElement('option');
-    opt.value = ep.url;
-    opt.textContent = ep.label;
+    opt.value = network.slug;
+    opt.textContent = network.rpcUrl && network.restUrl
+      ? network.label
+      : `${network.label} (${network.rpcUrl ? 'RPC' : 'REST'} only)`;
     select.appendChild(opt);
   }
-  select.value = previous && endpoints.some(ep => ep.url === previous) ? previous : '';
+  select.value = networks.some(n => n.slug === previous) ? previous : '';
+}
+
+// Match an RPC/REST pair back to a chain; mixed pairs intentionally match nothing.
+function networkForPair(networks, rpcUrl, lcdUrl) {
+  return networks.find(n => n.rpcUrl === rpcUrl && n.restUrl === lcdUrl) || null;
 }
 
 // Refresh at most once per TTL; runs after first paint so it never blocks the page.
@@ -2023,11 +2010,9 @@ async function refreshDirectoryChains() {
     if (!resp.ok) return;
     const chains = directoryChainsFromRegistry((await resp.json()).chains || []);
     if (!chains.length) return;
-    const lists = buildEndpointLists(chains);
-    KNOWN_ENDPOINTS = lists.rpc;
-    LCD_ENDPOINTS = lists.lcd;
-    populateEndpointSelect(document.getElementById('endpointPreset'), KNOWN_ENDPOINTS);
-    populateEndpointSelect(document.getElementById('lcdPreset'), LCD_ENDPOINTS);
+    NETWORKS = chainsToNetworks(chains);
+    populateNetworkSelect(document.getElementById('networkSelect'), NETWORKS);
+    syncNetworkFromUrls();
     updateEndpointNotes();
     // ponytail: cache write is best-effort; a storage failure must not discard the fresh list
     try {
@@ -2040,14 +2025,17 @@ function normalizeEndpointUrl(value) {
   return (value || '').trim().replace(/\/+$/, '');
 }
 
-function findEndpointPreset(endpoints, url) {
-  const normalized = normalizeEndpointUrl(url);
-  return endpoints.find(ep => ep.url === normalized);
+function applyNetwork(slug) {
+  const network = NETWORKS.find(n => n.slug === slug);
+  if (!network) return;
+  document.getElementById('rpcUrl').value = network.rpcUrl;
+  document.getElementById('lcdUrl').value = network.restUrl;
+  updateEndpointNotes();
 }
 
-function syncPresetFromUrl(select, endpoints, url) {
-  const preset = findEndpointPreset(endpoints, url);
-  select.value = preset ? preset.url : '';
+function syncNetworkFromUrls() {
+  const match = networkForPair(NETWORKS, getRpcUrl(), getLcdUrl());
+  document.getElementById('networkSelect').value = match ? match.slug : '';
 }
 
 function resetEndpointStatus(dotId, title) {
@@ -2066,27 +2054,28 @@ function getLcdUrl() {
 
 function requireRpcUrl() {
   const url = getRpcUrl();
-  if (!url) throw new Error('RPC URL is required. Select a preset or enter a custom RPC endpoint.');
+  if (!url) throw new Error('RPC URL is required. Select a network or enter a custom RPC endpoint.');
   return url;
 }
 
 function requireLcdUrl() {
   const url = getLcdUrl();
-  if (!url) throw new Error('REST URL is required. Select a preset or enter a custom REST endpoint.');
+  if (!url) throw new Error('REST URL is required. Select a network or enter a custom REST endpoint.');
   return url;
 }
 
 function updateEndpointNotes() {
   const rpcUrl = getRpcUrl();
   const lcdUrl = getLcdUrl();
-  const rpcPreset = findEndpointPreset(KNOWN_ENDPOINTS, rpcUrl);
-  const lcdPreset = findEndpointPreset(LCD_ENDPOINTS, lcdUrl);
+  const network = NETWORKS.find(n => n.slug === document.getElementById('networkSelect').value);
+  const source = network ? network.label : 'custom endpoints';
+  const hint = network ? '' : ' (must allow browser CORS requests or run via the Vercel proxy)';
   document.getElementById('rpcEndpointNote').textContent = rpcUrl
-    ? `Event Search and RPC Queries use ${rpcPreset ? `${rpcPreset.label} preset` : 'this custom RPC URL'}: ${rpcUrl}${rpcPreset ? '' : ' (must allow browser CORS requests or run via the Vercel proxy)'}`
-    : 'Enter an RPC URL before running Event Search or RPC Queries.';
+    ? `Event Search and RPC Queries use ${source}: ${rpcUrl}${hint}`
+    : `No RPC endpoint for ${source}; RPC queries are unavailable.`;
   document.getElementById('lcdEndpointNote').textContent = lcdUrl
-    ? `REST Queries use ${lcdPreset ? `${lcdPreset.label} preset` : 'this custom REST URL'}: ${lcdUrl}${lcdPreset ? '' : ' (must allow browser CORS requests or run via the Vercel proxy)'}`
-    : 'Enter a REST URL before running REST Queries.';
+    ? `REST Queries use ${source}: ${lcdUrl}${hint}`
+    : `No REST endpoint for ${source}; REST queries are unavailable.`;
 }
 
 // -- Quick Fill presets --
@@ -2331,61 +2320,44 @@ let activeTab = 'event-search';
 
 // -- Init --
 function init() {
-  // RPC presets
-  const presetSel = document.getElementById('endpointPreset');
+  // Network selection drives both endpoints: a chain's RPC and REST never mix.
+  const networkSel = document.getElementById('networkSelect');
   const rpcInput = document.getElementById('rpcUrl');
-  populateEndpointSelect(presetSel, KNOWN_ENDPOINTS);
-  presetSel.value = KNOWN_ENDPOINTS[0].url;
-  rpcInput.value = KNOWN_ENDPOINTS[0].url;
+  const lcdInput = document.getElementById('lcdUrl');
+  populateNetworkSelect(networkSel, NETWORKS);
+  const defaultNetwork = NETWORKS.find(n => n.slug === 'osmosis') || NETWORKS[0];
+  networkSel.value = defaultNetwork.slug;
+  applyNetwork(defaultNetwork.slug);
 
-  presetSel.addEventListener('change', () => {
-    rpcInput.value = presetSel.value || '';
-    updateEndpointNotes();
-    if (presetSel.value) {
+  networkSel.addEventListener('change', () => {
+    if (networkSel.value) {
+      applyNetwork(networkSel.value);
       checkRpcEndpoint();
+      checkLcdEndpoint();
     } else {
+      rpcInput.value = '';
+      lcdInput.value = '';
+      updateEndpointNotes();
       resetEndpointStatus('endpointStatus', 'Enter a custom RPC endpoint');
+      resetEndpointStatus('lcdStatus', 'Enter a custom REST endpoint');
       rpcInput.focus();
     }
   });
-  rpcInput.addEventListener('input', () => {
-    syncPresetFromUrl(presetSel, KNOWN_ENDPOINTS, rpcInput.value);
-    updateEndpointNotes();
-    resetEndpointStatus('endpointStatus', 'RPC endpoint status');
-  });
-  rpcInput.addEventListener('change', () => {
-    syncPresetFromUrl(presetSel, KNOWN_ENDPOINTS, rpcInput.value);
-    updateEndpointNotes();
-    checkRpcEndpoint();
-  });
 
-  // LCD presets
-  const lcdSel = document.getElementById('lcdPreset');
-  const lcdInput = document.getElementById('lcdUrl');
-  populateEndpointSelect(lcdSel, LCD_ENDPOINTS);
-  lcdSel.value = LCD_ENDPOINTS[0].url;
-  lcdInput.value = LCD_ENDPOINTS[0].url;
-
-  lcdSel.addEventListener('change', () => {
-    lcdInput.value = lcdSel.value || '';
-    updateEndpointNotes();
-    if (lcdSel.value) {
-      checkLcdEndpoint();
-    } else {
-      resetEndpointStatus('lcdStatus', 'Enter a custom REST endpoint');
-      lcdInput.focus();
-    }
-  });
-  lcdInput.addEventListener('input', () => {
-    syncPresetFromUrl(lcdSel, LCD_ENDPOINTS, lcdInput.value);
-    updateEndpointNotes();
-    resetEndpointStatus('lcdStatus', 'REST endpoint status');
-  });
-  lcdInput.addEventListener('change', () => {
-    syncPresetFromUrl(lcdSel, LCD_ENDPOINTS, lcdInput.value);
-    updateEndpointNotes();
-    checkLcdEndpoint();
-  });
+  const bindEndpointInput = (input, dotId, check) => {
+    input.addEventListener('input', () => {
+      syncNetworkFromUrls();
+      updateEndpointNotes();
+      resetEndpointStatus(dotId, dotId === 'endpointStatus' ? 'RPC endpoint status' : 'REST endpoint status');
+    });
+    input.addEventListener('change', () => {
+      syncNetworkFromUrls();
+      updateEndpointNotes();
+      check();
+    });
+  };
+  bindEndpointInput(rpcInput, 'endpointStatus', checkRpcEndpoint);
+  bindEndpointInput(lcdInput, 'lcdStatus', checkLcdEndpoint);
 
   // Load persisted custom values into EVENT_CATALOG
   const persistedCustom = loadCustomValues();
@@ -3864,6 +3836,7 @@ function renderRestTxSearch(container, countEl, data) {
       <span class="status-badge ${code === 0 ? 'ok' : 'fail'}">${code === 0 ? 'OK' : 'ERR ' + code}</span>
       <span class="expand-icon">&#9654;</span>
     `;
+    if (txr.txhash) summary.querySelector('.hash').after(buildCopyHashButton(txr.txhash));
 
     const detail = document.createElement('div');
     detail.className = 'tx-detail';
@@ -4040,6 +4013,31 @@ function parseTxBrowser(tx) {
   };
 }
 
+// Copy button for a tx hash in a collapsed result row; stops the click from expanding the card.
+function buildCopyHashButton(hash) {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'copy-hash';
+  btn.textContent = 'Copy';
+  btn.title = `Copy tx hash ${hash}`;
+  btn.onclick = async (event) => {
+    event.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(hash);
+    } catch {
+      setStatus('Clipboard unavailable — select the hash and copy it manually', true);
+      return;
+    }
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 1200);
+  };
+  return btn;
+}
+
 // -- Rendering (Event Search) --
 function renderResults(txs, totalCount, page, perPage) {
   const area = document.getElementById('resultsArea');
@@ -4090,10 +4088,11 @@ function renderResults(txs, totalCount, page, perPage) {
     summary.innerHTML = `
       <span class="idx">${startIdx + i + 1}</span>
       <span class="height">${tx.height.toLocaleString()}</span>
-      <span class="hash" title="${tx.hash}">${tx.hash}</span>
+      <span class="hash" title="${escapeHtml(tx.hash)}">${escapeHtml(tx.hash)}</span>
       <span class="status-badge ${tx.success ? 'ok' : 'fail'}">${tx.success ? 'OK' : 'ERR ' + tx.code}</span>
       <span class="expand-icon">&#9654;</span>
     `;
+    if (tx.hash) summary.querySelector('.hash').after(buildCopyHashButton(tx.hash));
 
     const detail = document.createElement('div');
     detail.className = 'tx-detail';

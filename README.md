@@ -163,15 +163,19 @@ node src/whale-watcher.js [--once] [--hours <n>] [--token <symbol>]
 ## Explorer UI
 
 Browser-based interactive query builder with dropdown-based query construction,
-preset queries, paginated results, and JSON export. Event Search and RPC Queries
-use the RPC URL field; REST Queries use the REST URL field. Selecting **Custom
-URL** clears the field so the next query runs against the endpoint you enter.
+preset queries, paginated results, and JSON export. Pick a **chain** in the
+Network panel and both endpoints are set together from that network's
+cosmos.directory aggregates: `rpc.cosmos.directory/<chain>` for Event Search and
+RPC Queries, and `rest.cosmos.directory/<chain>` for REST Queries. A chain's RPC
+and REST sides are selected as a pair, so normal selection cannot mix networks;
+editing either URL by hand switches the selector to **Custom endpoints**.
 
-The preset dropdowns combine a curated list of public nodes with every live
-network that exposes a cosmos.directory aggregate endpoint
-(`rpc.cosmos.directory/<chain>` / `rest.cosmos.directory/<chain>`). That list is
-refreshed from `https://chains.cosmos.directory/` in the background and cached in
-`localStorage` for 24 hours, with a bundled seed as the offline fallback.
+The chain list is refreshed from `https://chains.cosmos.directory/` in the
+background and cached in `localStorage` for 24 hours, with a bundled seed as the
+offline fallback.
+
+Each transaction in the results list has a **Copy** button beside its hash, so
+the hash can be copied without expanding the row.
 
 ```bash
 yarn explorer  # http://127.0.0.1:8420/
@@ -180,6 +184,14 @@ yarn explorer  # http://127.0.0.1:8420/
 `api/proxy.js` is the CORS proxy used both in-browser and on Vercel. It accepts
 GET only, limits responses to 1 MiB, and forwards only to read-only
 Cosmos/Tendermint paths on public or custom HTTPS endpoints.
+
+## Deployment
+
+Production is live at <https://the-queriooor.vercel.app> (Vercel project
+`craw/the-queriooor`, auto-deployed from `main`). Release, verification, and
+rollback steps are in [`docs/deployment.md`](docs/deployment.md). Engineering
+notes — architecture, data shapes, integrations, running state — start at
+[`dev-docs/README.md`](dev-docs/README.md).
 
 ## Modules
 

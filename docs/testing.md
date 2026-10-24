@@ -153,7 +153,9 @@ Expected behavior:
 yarn explorer
 ```
 
-Open `http://127.0.0.1:8420` and select **Osmosis (Polkachu)** as the endpoint.
+Open `http://127.0.0.1:8420`; the Network panel defaults to **Osmosis**, which
+sets the RPC endpoint to `https://rpc.cosmos.directory/osmosis` and the REST
+endpoint to `https://rest.cosmos.directory/osmosis`.
 
 | Event | Attribute | Value |
 |---|---|---|
@@ -163,11 +165,14 @@ Open `http://127.0.0.1:8420` and select **Osmosis (Polkachu)** as the endpoint.
 | `delegate` | `validator` | `osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy` |
 | `message` | `module` | `bank` |
 
-Also verify the expanded preset menus:
+Also verify network selection and result rows:
 
-- The RPC and REST preset dropdowns list the curated nodes followed by every live cosmos.directory network, each labeled `<Name> (cosmos.directory)`.
-- On first load (empty cache) the page renders from the bundled seed, then refreshes the list from `https://chains.cosmos.directory/` and writes `cosmos-explorer-directory-chains` to `localStorage`. Reloading within 24h uses the cache and makes no directory request (check the network tab). Clear the key to force a refresh.
-- Selecting a directory preset (e.g. **Sei (cosmos.directory)** under REST) and running a balance query succeeds through `/api/proxy`; the aggregate REST path `rest.cosmos.directory/<chain>/cosmos/...` is allowed.
+- Choosing another chain updates both URL fields to that chain's `rpc.`/`rest.cosmos.directory` pair in one step.
+- A chain with only one aggregate side (e.g. **Sei**, REST only) leaves the missing field empty and its note says those queries are unavailable.
+- Editing either URL switches the selector to **Custom endpoints**.
+- On first load (empty cache) the page renders from the bundled seed, then refreshes the chain list from `https://chains.cosmos.directory/` and writes `cosmos-explorer-directory-chains` to `localStorage`. Reloading within 24h uses the cache and makes no directory request (check the network tab). Clear the key to force a refresh.
+- A transaction row shows a **Copy** button beside its hash while collapsed; clicking it copies the hash, shows `Copied`, and does not expand the row.
+- Running a query on a REST-only chain's REST side (e.g. Sei balances) succeeds through `/api/proxy`; the aggregate REST path `rest.cosmos.directory/<chain>/cosmos/...` is allowed.
 
 ---
 
