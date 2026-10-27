@@ -10,7 +10,7 @@ Last verified: 2026-10-24, after the explorer network-selection release.
 | Other aliases | `the-queriooor-craw.vercel.app`, `the-queriooor-git-main-craw.vercel.app` |
 | Source | `github.com/Cordtus/the-queriooor`, branch `main` |
 | Deployed by | Vercel Git integration; deployments are created by `vercel[bot]` on push |
-| Last application release | 2026-10-24, commit `da3f6f6`, deployment `dpl_5pBZJdg4K1v3bfZHSgTVADnEwpvW` |
+| Last application release | 2026-10-27, commit `e06a72e`, deployment `dpl_GWGfnUishoWEDsuD7uhhYiDBrFDV` |
 | Canonical runbook | [`docs/deployment.md`](../../docs/deployment.md) |
 
 Every push to `main` creates a production deployment, including docs-only
