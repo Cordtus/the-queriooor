@@ -37,6 +37,9 @@ curl -sS 'https://the-queriooor.vercel.app/api/proxy?url=https%3A%2F%2Frpc.cosmo
   | head -c 120
 ```
 
+The `x-cosmos-require-index` forwarding is covered by `api/proxy.test.js`, not by
+this live smoke check (a live tx query can fail for unrelated upstream reasons).
+
 Then open the deployment URL and run one query against the default network.
 
 ## Manual deploy (Git integration unavailable)

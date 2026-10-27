@@ -10,7 +10,8 @@ client may request.
 
 | Upstream | Used by | Contract |
 |---|---|---|
-| `https://rpc.cosmos.directory/<chain>` | Explorer RPC (Event Search, RPC Queries) | CometBFT JSON-RPC, load-balanced public nodes |
+| `https://rpc.cosmos.directory/<chain>` | Explorer RPC (Event Search, RPC Queries) | CometBFT JSON-RPC, load-balanced public nodes. `/tx_search` carries `x-cosmos-require-index: 1` so the aggregate prefers nodes last recorded with `txIndex: true` |
+| `https://status.cosmos.directory/<chain>` | Reference only | Per-chain node health; `rpc.current[url].txIndex` reports each node's tx-index state and `txIndexCheckedAt` its freshness. The explorer does not poll it |
 | `https://rest.cosmos.directory/<chain>` | Explorer REST (balances, tx lookup, tx search) | Cosmos SDK REST over HTTPS |
 | `https://chains.cosmos.directory/` | Explorer chain catalogue refresh | Registry JSON with `chains[]`; needs browser CORS; cached 24 h |
 | `https://chains.cosmos.directory/<chain>` | Explorer RPC fallback | Single-chain JSON fetched **browser-direct (needs CORS; failure is silent)**; `chain.best_apis.rpc` (else `chain.apis.rpc`) supplies alternative nodes for the indexing-disabled retry |
@@ -37,7 +38,12 @@ specification; the invariants are:
   only when the path matches the rules above. `rest.cosmos.directory` has an
   explicit `<chain>/cosmos|ibc/...` aggregate exception.
 - Responses are capped at 1 MiB (413 above that); upstream failures return 502.
-- CORS is `*` for `/api/*` in `vercel.json`; the function repeats the headers.
+- `x-cosmos-require-index: 1` is forwarded upstream only when the caller sets
+  exactly that value **and** the target is the `rpc.cosmos.directory` aggregate's
+  `/tx_search` path. Other values and targets drop it. This asks the aggregate to
+  prefer nodes last recorded with a tx index.
+- CORS is `*` for `/api/*` in `vercel.json` (including the require-index header
+  in `Access-Control-Allow-Headers`); the function repeats the headers.
 
 Do not widen these rules into a general open proxy. The CLI tools intentionally
 do not use the proxy; they call endpoints directly from Node.

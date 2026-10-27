@@ -172,7 +172,9 @@ editing either URL by hand switches the selector to **Custom endpoints**.
 
 The chain list is refreshed from `https://chains.cosmos.directory/` in the
 background and cached in `localStorage` for 24 hours, with a bundled seed as the
-offline fallback.
+offline fallback. RPC transaction searches ask the aggregate to prefer nodes with
+a transaction index (`x-cosmos-require-index: 1`); a payload check and retry cover
+nodes whose recorded status is stale.
 
 Each transaction in the results list has a **Copy** button beside its hash, so
 the hash can be copied without expanding the row.

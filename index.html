@@ -2037,6 +2037,14 @@ function selectedChainSlug() {
   return match ? match[1] : '';
 }
 
+function isDirectoryRpcAggregate(url) {
+  try {
+    return new URL(url).origin === 'https://rpc.cosmos.directory';
+  } catch {
+    return false;
+  }
+}
+
 // Uses the chain's directory endpoint list to pick a random different node.
 async function alternativeRpcEndpoint(slug, currentUrl) {
   if (!slug) return '';
@@ -2059,11 +2067,15 @@ async function alternativeRpcEndpoint(slug, currentUrl) {
   return pickAlternativeRpc(candidates, currentUrl);
 }
 
-// /tx_search, retrying once through a different node when the active one has no tx index.
-// A node that works is reused for later pages of the same network.
+// /tx_search, asking the aggregate for indexed nodes and retrying once through a
+// different node when the active one still has no tx index. A node that works is
+// reused for later pages of the same network.
 async function searchTxs(rpcUrl, params) {
   const request = async (base) => {
-    const resp = await proxiedFetch(`${base}/tx_search?${params}`);
+    const indexHint = isDirectoryRpcAggregate(base)
+      ? { headers: { 'x-cosmos-require-index': '1' } }
+      : undefined;
+    const resp = await proxiedFetch(`${base}/tx_search?${params}`, indexHint);
     let payload = null;
     try { payload = await resp.json(); } catch { /* non-JSON error body */ }
     return { resp, payload, base };
@@ -2967,7 +2979,8 @@ function copyCurl() {
     page: '1',
     order_by: `"${orderBy}"`,
   });
-  const curl = `curl ${shellQuote(`${rpcUrl}/tx_search?${params}`)}`;
+  const indexHint = isDirectoryRpcAggregate(rpcUrl) ? `-H ${shellQuote('x-cosmos-require-index: 1')} ` : '';
+  const curl = `curl ${indexHint}${shellQuote(`${rpcUrl}/tx_search?${params}`)}`;
   navigator.clipboard.writeText(curl).then(() => {
     setStatus('curl command copied to clipboard');
   });

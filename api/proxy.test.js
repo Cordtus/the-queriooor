@@ -144,6 +144,45 @@ test('forwards read-only requests to a custom non-preset RPC endpoint', async ()
 	assert.equal(response.body, '{"jsonrpc":"2.0","result":{"height":"1"}}');
 });
 
+test('forwards the require-index hint only for the aggregate tx search and value 1', async () => {
+	const upstreamHeaders = [];
+
+	await withFetch(async (url, options) => {
+		upstreamHeaders.push(options.headers);
+		return new Response('{"jsonrpc":"2.0","result":{}}', {
+			status: 200,
+			headers: { 'content-type': 'application/json' },
+		});
+	}, async () => {
+		const request = (url, headers) => ({ method: 'GET', headers, query: { url } });
+		const aggregate = 'https://rpc.cosmos.directory/osmosis/tx_search?query=%22tx.height%3E1%22';
+		await handler(request(aggregate, { 'x-cosmos-require-index': '1' }), createResponse());
+		await handler(request(aggregate, { 'x-cosmos-require-index': '0' }), createResponse());
+		await handler(request('https://rpc.nomic.basementnodes.ca/tx_search?query=%22tx.height%3E1%22', { 'x-cosmos-require-index': '1' }), createResponse());
+	});
+
+	assert.equal(upstreamHeaders[0].Accept, 'application/json');
+	assert.equal(upstreamHeaders[0]['x-cosmos-require-index'], '1');
+	assert.equal(upstreamHeaders[1]['x-cosmos-require-index'], undefined);
+	assert.equal(upstreamHeaders[2]['x-cosmos-require-index'], undefined);
+});
+
+test('advertises the require-index header on CORS preflight', async () => {
+	const response = createResponse();
+	let fetchCalls = 0;
+
+	await withFetch(async () => {
+		fetchCalls += 1;
+		return new Response('{}');
+	}, async () => {
+		await handler({ method: 'OPTIONS', headers: {} }, response);
+	});
+
+	assert.equal(response.statusCode, 204);
+	assert.match(response.headers['Access-Control-Allow-Headers'], /x-cosmos-require-index/);
+	assert.equal(fetchCalls, 0);
+});
+
 test('forwards read-only requests to a custom non-preset REST endpoint', async () => {
 	const response = createResponse();
 

@@ -40,7 +40,7 @@ const server = http.createServer(async (req, res) => {
   if (url.pathname.startsWith('/api/proxy')) {
     const query = Object.fromEntries(url.searchParams);
     const shim = shimRes(res);
-    await proxyHandler({ method: req.method, query }, shim);
+    await proxyHandler({ method: req.method, query, headers: req.headers }, shim);
     res.writeHead(shim._status, shim._headers);
     res.end(shim._body ?? '');
     return;

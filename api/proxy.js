@@ -6,6 +6,8 @@
  * @param {import('@vercel/node').VercelResponse} res
  */
 const MAX_RESPONSE_BYTES = 1024 * 1024;
+// Ask a cosmos.directory RPC aggregate to route only to nodes with a tx index.
+const REQUIRE_INDEX_HEADER = 'x-cosmos-require-index';
 
 const ENDPOINT_PRESETS = [
 	['rpc', 'https://rpc.archive.osmosis.zone'],
@@ -132,7 +134,7 @@ export default async function handler(req, res) {
 	const corsHeaders = {
 		'Access-Control-Allow-Origin': '*',
 		'Access-Control-Allow-Methods': 'GET, OPTIONS',
-		'Access-Control-Allow-Headers': 'Content-Type',
+		'Access-Control-Allow-Headers': `Content-Type, ${REQUIRE_INDEX_HEADER}`,
 	};
 	for (const [key, value] of Object.entries(corsHeaders)) {
 		res.setHeader(key, value);
@@ -177,9 +179,18 @@ export default async function handler(req, res) {
 	}
 
 	try {
+		const upstreamHeaders = { 'Accept': 'application/json' };
+		// The hint only applies to the cosmos.directory RPC aggregate's tx search.
+		const wantsIndexHint = req.headers?.[REQUIRE_INDEX_HEADER] === '1'
+			&& preset.kind === 'rpc'
+			&& parsed.origin === 'https://rpc.cosmos.directory'
+			&& parsed.pathname.endsWith('/tx_search');
+		if (wantsIndexHint) {
+			upstreamHeaders[REQUIRE_INDEX_HEADER] = '1';
+		}
 		const upstream = await fetch(parsed.href, {
 			method: 'GET',
-			headers: { 'Accept': 'application/json' },
+			headers: upstreamHeaders,
 			redirect: 'manual',
 			signal: AbortSignal.timeout(30000),
 		});

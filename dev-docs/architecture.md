@@ -85,12 +85,14 @@ them here.
 - **Aggregate nodes are shared public infrastructure.** They can be pruned
   (historical `/tx_search` fails), rate-limited, or offline. The status dot is an
   advisory reachability check, not a correctness guarantee. Some load-balanced
-  nodes have transaction indexing disabled: `rpc.cosmos.directory/osmosis`
-  intermittently returned `transaction indexing is disabled` during the
-  2026-10-24 release check. The explorer detects that payload, fetches the
-  chain's directory endpoint list, and retries once through a randomly chosen
-  different node; the node that works is reused for later pages. If no fallback
-  works, the error asks for another network or RPC endpoint.
+  nodes have transaction indexing disabled. `/tx_search` requests to the aggregate
+  send `x-cosmos-require-index: 1`, which routes to nodes last recorded with
+  `txIndex` enabled; `https://status.cosmos.directory/<chain>` exposes each node's
+  `rpc.current[*].txIndex` and `txIndexCheckedAt` (the explorer does not poll it).
+  A stale check can still route to an unindexed node, so the explorer also detects
+  the missing-index payload, fetches the chain's directory endpoint list, and
+  retries once through a randomly chosen different node; the node that works is
+  reused for later pages.
 - **The directory registry fetch is browser-direct.** It requires CORS on
   `chains.cosmos.directory`; failures are swallowed and the bundled seed remains.
 - **Proxy 403/404 triggers a direct retry.** In local or function-less hosting a

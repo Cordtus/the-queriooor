@@ -190,10 +190,12 @@ function stubResponse({ status = 200, statusText = 'OK', payload }) {
 
 test('searchTxs retries once through a different node and reuses it for later pages', async () => {
 	const calls = [];
+	const headers = [];
 	const helpers = loadEndpointHelpers(memoryStorage(), {
 		network: 'osmosis',
-		proxiedFetch: async url => {
+		proxiedFetch: async (url, opts) => {
 			calls.push(url);
+			headers.push(opts?.headers || {});
 			if (url.startsWith('https://rpc.cosmos.directory/osmosis/tx_search')) {
 				return stubResponse({ status: 500, statusText: 'Internal error', payload: INDEX_ERROR });
 			}
@@ -211,10 +213,13 @@ test('searchTxs retries once through a different node and reuses it for later pa
 	assert.equal(calls[1], `${result.base}/tx_search?per_page=1`);
 	assert.equal(result.retriedFrom, 'rpc.cosmos.directory');
 	assert.equal(helpers.PREFERRED_RPC.get('osmosis'), result.base);
+	assert.deepEqual(headers[0], { 'x-cosmos-require-index': '1' });
+	assert.deepEqual(headers[1], {});
 
 	await helpers.searchTxs('https://rpc.cosmos.directory/osmosis', 'per_page=1');
 	assert.equal(calls.length, 3);
 	assert.equal(calls[2], `${result.base}/tx_search?per_page=1`);
+	assert.deepEqual(headers[2], {});
 });
 
 test('searchTxs does not retry a non-indexing failure', async () => {
